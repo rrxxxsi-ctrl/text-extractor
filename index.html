@@ -10,10 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Cairo', sans-serif;
-    }
+    * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
 
     body {
       margin: 0;
@@ -75,9 +72,7 @@
       margin-bottom: 10px;
     }
 
-    .card h2 span {
-      color: #6da8ff;
-    }
+    .card h2 span { color: #6da8ff; }
 
     .card p {
       font-size: 15px;
@@ -97,9 +92,7 @@
       background: rgba(138,92,246,0.05);
     }
 
-    input[type=file] {
-      display: none;
-    }
+    input[type=file] { display: none; }
 
     .btn {
       display: inline-flex;
@@ -198,10 +191,10 @@
     <span class="badge">المطور والمالك</span>
   </div>
 
-  <!-- Main -->
+  <!-- Main Card -->
   <div class="card">
     <h2>حوّل صورك <span>إلى نصوص</span></h2>
-    <p>استخراج النصوص العربية بدقة عالية باستخدام الذكاء الاصطناعي</p>
+    <p>استخراج النصوص العربية باستخدام الذكاء الاصطناعي</p>
 
     <div class="upload-box">
       <label for="file" class="btn btn-secondary">
@@ -210,15 +203,15 @@
       </label>
       <input type="file" id="file" accept="image/*">
 
-      <br>
+      <br><br>
 
-      <button class="btn btn-primary">
+      <button class="btn btn-primary" id="extract">
         <i class="fa-solid fa-wand-magic-sparkles"></i>
         استخراج النص
       </button>
     </div>
 
-    <textarea placeholder="سيظهر النص هنا..."></textarea>
+    <textarea id="output" placeholder="سيظهر النص هنا..."></textarea>
   </div>
 
   <!-- Footer -->
@@ -230,5 +223,32 @@
     <p>© جميع الحقوق محفوظة — عبد الإله فلاته</p>
   </footer>
 
+  <!-- OCR Script -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+  <script>
+    const fileInput = document.getElementById("file");
+    const extractBtn = document.getElementById("extract");
+    const output = document.getElementById("output");
+
+    extractBtn.addEventListener("click", () => {
+      if (!fileInput.files.length) {
+        alert("رجاءً اختر صورة أولاً");
+        return;
+      }
+
+      output.value = "⏳ جاري استخراج النص...";
+
+      Tesseract.recognize(
+        fileInput.files[0],
+        "ara"
+      ).then(({ data: { text } }) => {
+        output.value = text || "لم يتم العثور على نص";
+      }).catch(() => {
+        output.value = "حدث خطأ أثناء استخراج النص";
+      });
+    });
+  </script>
+
 </body>
-</html>
+          </html>
