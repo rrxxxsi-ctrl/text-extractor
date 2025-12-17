@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>استخراج النصوص</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Tahoma, Arial, sans-serif;
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(18px);
+      border-radius: 20px;
+      padding: 28px;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 8px;
+      font-size: 22px;
+    }
+    p {
+      font-size: 14px;
+      opacity: .85;
+    }
+    input[type=file] {
+      display: none;
+    }
+    label {
+      display: block;
+      margin: 18px 0;
+      padding: 14px;
+      border-radius: 14px;
+      background: linear-gradient(135deg,#6366f1,#8b5cf6);
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      background: #22c55e;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    pre {
+      margin-top: 16px;
+      background: rgba(0,0,0,.4);
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      white-space: pre-wrap;
+      text-align: right;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>📄 استخراج النص من الصورة</h1>
+    <p>اختر صورة وسيتم استخراج النص منها مباشرة</p>
+
+    <label for="imageInput">📤 رفع صورة</label>
+    <input id="imageInput" type="file" accept="image/*"/>
+
+    <button onclick="extractText()">استخراج النص</button>
+
+    <pre id="result">سيظهر النص هنا…</pre>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script>
+    async function extractText() {
+      const file = document.getElementById("imageInput").files[0];
+      if (!file) {
+        alert("اختر صورة أولاً");
+        return;
+      }
+      document.getElementById("result").textContent = "⏳ جاري المعالجة...";
+      const { data: { text } } = await Tesseract.recognize(
+        file,
+        'ara+eng'
+      );
+      document.getElementById("result").textContent = text || "لم يتم العثور على نص";
+    }
+  </script>
+</body>
+</html>
