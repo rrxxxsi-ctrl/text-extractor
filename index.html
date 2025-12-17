@@ -1,237 +1,234 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تحويل الصور إلى نصوص</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تحويل الصور إلى نصوص</title>
 
-<!-- خط -->
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<!-- Tesseract -->
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
 
-<style>
-* {
-  box-sizing: border-box;
-  font-family: 'Cairo', sans-serif;
-}
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #1b1b2f, #0f0f1a);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-body {
-  margin: 0;
-  background: radial-gradient(circle at top, #1a1a1a, #000);
-  color: #fff;
-  min-height: 100vh;
-}
+    /* ===== Profile ===== */
+    .profile {
+      margin-top: 50px;
+      text-align: center;
+      animation: fadeDown 1.2s ease;
+    }
 
-/* الهيدر */
-.header {
-  text-align: center;
-  padding: 40px 20px 10px;
-}
+    .avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid #8a5cf6;
+      box-shadow: 0 0 25px #8a5cf6;
+      animation: pulse 3s infinite;
+    }
 
-.avatar {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  border: 3px solid #8b5cf6;
-  box-shadow: 0 0 30px rgba(139,92,246,0.6);
-  object-fit: cover;
-}
+    .profile h1 {
+      margin: 18px 0 6px;
+      font-size: 26px;
+      font-weight: 800;
+    }
 
-.name {
-  margin-top: 12px;
-  font-size: 20px;
-  font-weight: 800;
-}
+    .badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 30px;
+      border: 1px solid #8a5cf6;
+      color: #c7b6ff;
+      font-size: 14px;
+    }
 
-.badge {
-  display: inline-block;
-  margin-top: 6px;
-  padding: 4px 12px;
-  font-size: 13px;
-  color: #c4b5fd;
-  border: 1px solid #8b5cf6;
-  border-radius: 20px;
-}
+    /* ===== Card ===== */
+    .card {
+      margin-top: 60px;
+      width: 90%;
+      max-width: 520px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 28px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      animation: fadeUp 1.4s ease;
+    }
 
-/* العنوان */
-.hero {
-  text-align: center;
-  padding: 30px 20px;
-}
+    .card h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
 
-.hero h1 {
-  font-size: 30px;
-  margin-bottom: 10px;
-}
+    .card h2 span {
+      color: #6da8ff;
+    }
 
-.hero h1 span {
-  background: linear-gradient(90deg,#60a5fa,#a78bfa);
-  -webkit-background-clip: text;
-  color: transparent;
-}
+    .card p {
+      font-size: 15px;
+      color: #cfcfe6;
+      margin-bottom: 28px;
+    }
 
-.hero p {
-  color: #aaa;
-  font-size: 15px;
-}
+    .upload-box {
+      border: 2px dashed rgba(255,255,255,0.25);
+      border-radius: 18px;
+      padding: 30px 16px;
+      transition: 0.4s;
+    }
 
-/* البطاقة */
-.card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 20px;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 25px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-}
+    .upload-box:hover {
+      border-color: #8a5cf6;
+      background: rgba(138,92,246,0.05);
+    }
 
-/* رفع الصورة */
-.upload {
-  border: 2px dashed #444;
-  border-radius: 16px;
-  padding: 40px 20px;
-  text-align: center;
-  color: #888;
-  margin-bottom: 20px;
-}
+    input[type=file] {
+      display: none;
+    }
 
-.upload input {
-  display: none;
-}
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 26px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.35s;
+    }
 
-/* الأزرار */
-.buttons {
-  display: flex;
-  gap: 10px;
-}
+    .btn-primary {
+      background: linear-gradient(135deg, #8a5cf6, #5f8cff);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(138,92,246,0.4);
+    }
 
-button {
-  flex: 1;
-  padding: 14px;
-  font-size: 15px;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 15px 40px rgba(138,92,246,0.7);
+    }
 
-.btn-primary {
-  background: linear-gradient(135deg,#8b5cf6,#6366f1);
-  color: #fff;
-}
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #555;
+      color: #ddd;
+      margin-bottom: 14px;
+    }
 
-.btn-secondary {
-  background: #1f1f1f;
-  color: #fff;
-  border: 1px solid #333;
-}
+    .btn-secondary:hover {
+      border-color: #8a5cf6;
+      color: #fff;
+    }
 
-button:hover {
-  transform: translateY(-2px);
-}
+    textarea {
+      width: 100%;
+      min-height: 160px;
+      margin-top: 20px;
+      background: rgba(0,0,0,0.4);
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      color: #fff;
+      resize: none;
+    }
 
-/* النتيجة */
-textarea {
-  width: 100%;
-  margin-top: 20px;
-  background: #0f0f0f;
-  color: #fff;
-  border-radius: 14px;
-  padding: 15px;
-  border: 1px solid #333;
-  min-height: 150px;
-}
+    /* ===== Footer ===== */
+    footer {
+      margin-top: auto;
+      width: 100%;
+      padding: 30px 0 18px;
+      text-align: center;
+      font-size: 14px;
+      color: #aaa;
+    }
 
-/* الفوتر */
-.footer {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 30px 0;
-}
+    footer .social a {
+      margin: 0 12px;
+      color: #aaa;
+      font-size: 20px;
+      transition: 0.3s;
+    }
 
-.icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 14px;
-  background: #111;
-  border: 1px solid #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    footer .social a:hover {
+      color: #8a5cf6;
+      transform: translateY(-4px) scale(1.1);
+    }
 
-.icon:hover {
-  background: #8b5cf6;
-}
-</style>
+    /* ===== Animations ===== */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 #8a5cf6; }
+      50% { box-shadow: 0 0 35px #8a5cf6; }
+      100% { box-shadow: 0 0 0 #8a5cf6; }
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- الهيدر -->
-<div class="header">
-  <img class="avatar" src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg">
-  <div class="name">عبد الإله فلاته</div>
-  <div class="badge">المطور والمالك</div>
-</div>
-
-<!-- العنوان -->
-<div class="hero">
-  <h1>حوّل صورك إلى <span>نصوص</span></h1>
-  <p>استخراج النصوص العربية بدقة عالية باستخدام الذكاء الاصطناعي</p>
-</div>
-
-<!-- البطاقة -->
-<div class="card">
-
-  <label class="upload">
-    <input type="file" id="imageInput" accept="image/*">
-    اختر الصورة من هنا<br>
-    <small>(صورة – مستند – لقطة شاشة)</small>
-  </label>
-
-  <div class="buttons">
-    <button class="btn-primary" onclick="extractText()">استخراج النص</button>
-    <button class="btn-secondary" onclick="document.getElementById('imageInput').click()">اختر صورة</button>
+  <!-- Profile -->
+  <div class="profile">
+    <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" class="avatar">
+    <h1>عبد الإله فلاته</h1>
+    <span class="badge">المطور والمالك</span>
   </div>
 
-  <textarea id="result" placeholder="سيظهر النص هنا..."></textarea>
+  <!-- Main -->
+  <div class="card">
+    <h2>حوّل صورك <span>إلى نصوص</span></h2>
+    <p>استخراج النصوص العربية بدقة عالية باستخدام الذكاء الاصطناعي</p>
 
-</div>
+    <div class="upload-box">
+      <label for="file" class="btn btn-secondary">
+        <i class="fa-regular fa-image"></i>
+        اختر صورة
+      </label>
+      <input type="file" id="file" accept="image/*">
 
-<!-- الفوتر -->
-<div class="footer">
-  <div class="icon" onclick="window.location='mailto:iioe@outlook.sa'">✉️</div>
-  <div class="icon" onclick="window.location='tel:0591388202'">📞</div>
-  <div class="icon" onclick="window.location='https://wa.me/966591388202'">💬</div>
-</div>
+      <br>
 
-<script>
-function extractText() {
-  const file = document.getElementById('imageInput').files[0];
-  if (!file) {
-    alert('اختر صورة أولاً');
-    return;
-  }
+      <button class="btn btn-primary">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        استخراج النص
+      </button>
+    </div>
 
-  document.getElementById('result').value = 'جاري استخراج النص...';
+    <textarea placeholder="سيظهر النص هنا..."></textarea>
+  </div>
 
-  Tesseract.recognize(
-    file,
-    'ara',
-    { logger: m => console.log(m) }
-  ).then(({ data: { text } }) => {
-    document.getElementById('result').value = text;
-  });
-}
-</script>
+  <!-- Footer -->
+  <footer>
+    <div class="social">
+      <a href="mailto:iioe@outlook.sa"><i class="fa-solid fa-envelope"></i></a>
+      <a href="tel:0591388202"><i class="fa-solid fa-phone"></i></a>
+    </div>
+    <p>© جميع الحقوق محفوظة — عبد الإله فلاته</p>
+  </footer>
 
 </body>
 </html>
