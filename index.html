@@ -1,102 +1,237 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>استخراج النصوص</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تحويل الصور إلى نصوص</title>
 
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Tahoma, Arial, sans-serif;
-      background: radial-gradient(circle at top, #0f172a, #020617);
-      color: #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .card {
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(18px);
-      border-radius: 20px;
-      padding: 28px;
-      width: 90%;
-      max-width: 420px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
-      text-align: center;
-    }
-    h1 {
-      margin-bottom: 8px;
-      font-size: 22px;
-    }
-    p {
-      font-size: 14px;
-      opacity: .85;
-    }
-    input[type=file] {
-      display: none;
-    }
-    label {
-      display: block;
-      margin: 18px 0;
-      padding: 14px;
-      border-radius: 14px;
-      background: linear-gradient(135deg,#6366f1,#8b5cf6);
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button {
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      border: none;
-      background: #22c55e;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    pre {
-      margin-top: 16px;
-      background: rgba(0,0,0,.4);
-      padding: 14px;
-      border-radius: 14px;
-      font-size: 13px;
-      white-space: pre-wrap;
-      text-align: right;
-    }
-  </style>
+<!-- خط -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+
+<!-- Tesseract -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Cairo', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #1a1a1a, #000);
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* الهيدر */
+.header {
+  text-align: center;
+  padding: 40px 20px 10px;
+}
+
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 3px solid #8b5cf6;
+  box-shadow: 0 0 30px rgba(139,92,246,0.6);
+  object-fit: cover;
+}
+
+.name {
+  margin-top: 12px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 12px;
+  font-size: 13px;
+  color: #c4b5fd;
+  border: 1px solid #8b5cf6;
+  border-radius: 20px;
+}
+
+/* العنوان */
+.hero {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.hero h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.hero h1 span {
+  background: linear-gradient(90deg,#60a5fa,#a78bfa);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  color: #aaa;
+  font-size: 15px;
+}
+
+/* البطاقة */
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 25px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+/* رفع الصورة */
+.upload {
+  border: 2px dashed #444;
+  border-radius: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.upload input {
+  display: none;
+}
+
+/* الأزرار */
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  flex: 1;
+  padding: 14px;
+  font-size: 15px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg,#8b5cf6,#6366f1);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #1f1f1f;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* النتيجة */
+textarea {
+  width: 100%;
+  margin-top: 20px;
+  background: #0f0f0f;
+  color: #fff;
+  border-radius: 14px;
+  padding: 15px;
+  border: 1px solid #333;
+  min-height: 150px;
+}
+
+/* الفوتر */
+.footer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px 0;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: #111;
+  border: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon:hover {
+  background: #8b5cf6;
+}
+</style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>📄 استخراج النص من الصورة</h1>
-    <p>اختر صورة وسيتم استخراج النص منها مباشرة</p>
 
-    <label for="imageInput">📤 رفع صورة</label>
-    <input id="imageInput" type="file" accept="image/*"/>
+<!-- الهيدر -->
+<div class="header">
+  <img class="avatar" src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg">
+  <div class="name">عبد الإله فلاته</div>
+  <div class="badge">المطور والمالك</div>
+</div>
 
-    <button onclick="extractText()">استخراج النص</button>
+<!-- العنوان -->
+<div class="hero">
+  <h1>حوّل صورك إلى <span>نصوص</span></h1>
+  <p>استخراج النصوص العربية بدقة عالية باستخدام الذكاء الاصطناعي</p>
+</div>
 
-    <pre id="result">سيظهر النص هنا…</pre>
+<!-- البطاقة -->
+<div class="card">
+
+  <label class="upload">
+    <input type="file" id="imageInput" accept="image/*">
+    اختر الصورة من هنا<br>
+    <small>(صورة – مستند – لقطة شاشة)</small>
+  </label>
+
+  <div class="buttons">
+    <button class="btn-primary" onclick="extractText()">استخراج النص</button>
+    <button class="btn-secondary" onclick="document.getElementById('imageInput').click()">اختر صورة</button>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-  <script>
-    async function extractText() {
-      const file = document.getElementById("imageInput").files[0];
-      if (!file) {
-        alert("اختر صورة أولاً");
-        return;
-      }
-      document.getElementById("result").textContent = "⏳ جاري المعالجة...";
-      const { data: { text } } = await Tesseract.recognize(
-        file,
-        'ara+eng'
-      );
-      document.getElementById("result").textContent = text || "لم يتم العثور على نص";
-    }
-  </script>
+  <textarea id="result" placeholder="سيظهر النص هنا..."></textarea>
+
+</div>
+
+<!-- الفوتر -->
+<div class="footer">
+  <div class="icon" onclick="window.location='mailto:iioe@outlook.sa'">✉️</div>
+  <div class="icon" onclick="window.location='tel:0591388202'">📞</div>
+  <div class="icon" onclick="window.location='https://wa.me/966591388202'">💬</div>
+</div>
+
+<script>
+function extractText() {
+  const file = document.getElementById('imageInput').files[0];
+  if (!file) {
+    alert('اختر صورة أولاً');
+    return;
+  }
+
+  document.getElementById('result').value = 'جاري استخراج النص...';
+
+  Tesseract.recognize(
+    file,
+    'ara',
+    { logger: m => console.log(m) }
+  ).then(({ data: { text } }) => {
+    document.getElementById('result').value = text;
+  });
+}
+</script>
+
 </body>
 </html>
