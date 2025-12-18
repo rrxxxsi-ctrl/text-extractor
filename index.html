@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة عبدالإله فلاته - المحرك الذكي V3</title>
+    <title>منصة عبدالإله فلاته - التحفة التفاعلية</title>
     
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@900&display=swap" rel="stylesheet">
@@ -14,247 +14,250 @@
         :root {
             --primary: #9d4edd;
             --accent: #00d4ff;
-            --bg: #050505;
+            --bg: #030303;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --text: #ffffff;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        .light-mode {
+            --bg: #fdfdfd;
+            --card-bg: #ffffff;
+            --text: #1a1a1a;
+            --border: rgba(157, 78, 221, 0.15);
         }
 
         body {
             background-color: var(--bg);
-            color: #fff;
+            color: var(--text);
             font-family: 'Cairo', sans-serif;
             margin: 0;
-            background-image: radial-gradient(circle at 50% 50%, #1a0b2e 0%, transparent 80%);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
         }
 
-        /* ===== هيدر احترافي ===== */
+        /* أنيميشن الخلفية المتحركة */
+        .bg-glow {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(157, 78, 221, 0.12) 0%, transparent 50%);
+            z-index: -1; pointer-events: none;
+        }
+
+        /* ===== الهيدر التفاعلي ===== */
         .header-profile {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 6%;
-            background: rgba(10, 10, 10, 0.9);
-            backdrop-filter: blur(25px);
-            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px 8%; background: var(--card-bg);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
             position: sticky; top: 0; z-index: 2000;
+            animation: slideInDown 0.8s ease;
         }
 
-        .user-brand { display: flex; align-items: center; gap: 15px; }
         .avatar-box {
-            width: 50px; height: 50px;
-            border-radius: 12px; border: 2px solid var(--primary);
-            overflow: hidden; box-shadow: 0 0 10px rgba(157, 78, 221, 0.3);
+            width: 50px; height: 50px; border-radius: 12px; border: 2px solid var(--primary);
+            overflow: hidden; transition: 0.4s;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.3);
         }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-box:hover { transform: scale(1.1) rotate(8deg); border-color: var(--accent); }
 
         .glowing-name {
-            font-family: 'Tajawal'; font-weight: 900; font-size: 1.3rem;
-            background: linear-gradient(90deg, #fff, var(--primary), var(--accent));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-size: 200%; animation: flow 4s linear infinite;
+            font-family: 'Tajawal'; font-weight: 900; font-size: 1.4rem;
+            background: linear-gradient(90deg, var(--text), var(--primary), var(--accent), var(--text));
+            background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: textFlow 4s linear infinite;
         }
 
-        .visitor-mini-card {
-            display: flex; align-items: center; gap: 8px;
-            background: rgba(157, 78, 221, 0.1); padding: 5px 12px;
-            border-radius: 30px; border: 1px solid rgba(0, 212, 255, 0.3);
-            font-size: 0.75rem;
+        /* النقطة النابضة */
+        .live-dot {
+            width: 8px; height: 8px; background: #00ff88; border-radius: 50%;
+            position: relative; margin-left: 8px;
+        }
+        .live-dot::after {
+            content: ""; position: absolute; width: 100%; height: 100%;
+            background: inherit; border-radius: 50%; animation: pulse 1.5s infinite;
         }
 
-        /* ===== منطقة العمل ===== */
-        .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        /* ===== البطاقة الرئيسية بلمسة 3D ===== */
+        .main-container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
 
-        .super-card {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 35px; padding: 40px;
-            border: 1px solid rgba(157, 78, 221, 0.15);
-            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        .premium-card {
+            background: var(--card-bg); border-radius: 40px; padding: 50px 30px;
+            border: 1px solid var(--border); text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease-out, box-shadow 0.3s;
+            animation: zoomIn 0.8s;
         }
 
-        .btn-main {
+        .btn-glow {
             background: linear-gradient(45deg, var(--primary), var(--accent));
-            border: none; padding: 18px 50px; border-radius: 18px;
+            border: none; padding: 18px 55px; border-radius: 20px;
             color: #fff; font-weight: 900; font-size: 1.1rem;
-            cursor: pointer; transition: 0.4s;
-            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.3);
+            cursor: pointer; position: relative; overflow: hidden;
+            transition: 0.4s; box-shadow: 0 10px 20px rgba(157, 78, 221, 0.3);
         }
 
-        .result-section {
-            margin-top: 35px; width: 100%;
-            display: flex; flex-direction: column; align-items: center;
-            display: none; 
+        .btn-glow:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px var(--primary);
         }
 
-        .output-container {
-            width: 100%; max-width: 700px;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            border-radius: 22px; padding: 2px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-        }
+        /* أنيميشن الرفع (Bounce) */
+        .btn-glow i { animation: bounce 2s infinite; display: inline-block; margin-left: 10px; }
 
+        /* منطقة النتائج التفاعلية */
+        .result-section { margin-top: 40px; display: none; opacity: 0; transform: translateY(20px); transition: 0.5s; }
+        .result-section.show { display: flex; opacity: 1; transform: translateY(0); flex-direction: column; align-items: center; }
+
+        .output-wrapper {
+            width: 100%; max-width: 750px; border-radius: 25px; padding: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            transition: 0.3s;
+        }
+        
         textarea {
-            width: 100%; height: 320px; background: #050505;
-            color: #e0e0e0; border: none; border-radius: 20px;
-            padding: 25px; font-family: 'Cairo'; font-size: 1.1rem;
-            line-height: 1.8; text-align: right; resize: vertical; outline: none;
-            display: block; box-sizing: border-box;
+            width: 100%; height: 350px; background: var(--bg); color: var(--text);
+            border: none; border-radius: 23px; padding: 25px; font-family: 'Cairo';
+            font-size: 1.1rem; line-height: 1.8; text-align: right; resize: vertical; outline: none;
         }
 
-        .action-group {
-            display: flex; gap: 15px; width: 100%; max-width: 700px;
-            margin-top: 20px; justify-content: center;
-        }
-
-        .btn-opt {
-            flex: 1; padding: 12px; border-radius: 12px; border: none;
-            font-weight: 700; cursor: pointer; color: white; font-family: 'Cairo';
-            transition: 0.3s;
-        }
-
-        /* ===== جماليات وسائل التواصل المحدثة ===== */
-        .contact-footer {
-            margin-top: 50px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
+        /* وسائل التواصل */
+        .contact-grid { margin-top: 50px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         .contact-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(157, 78, 221, 0.2);
-            padding: 15px 25px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 700;
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
+            background: var(--card-bg); padding: 15px 25px; border-radius: 20px;
+            border: 1px solid var(--border); color: var(--text); text-decoration: none;
+            font-weight: 700; transition: 0.4s; display: flex; align-items: center; gap: 10px;
+            animation: fadeInUp 1s;
         }
-
-        .contact-item i {
-            font-size: 1.4rem;
-            color: var(--accent);
-            transition: 0.3s;
-        }
-
         .contact-item:hover {
-            transform: translateY(-10px);
-            background: rgba(157, 78, 221, 0.15);
-            border-color: var(--primary);
-            box-shadow: 0 10px 25px rgba(157, 78, 221, 0.3);
+            transform: translateY(-10px) rotate(-2deg); background: var(--primary); color: #fff;
         }
 
-        .contact-item:hover i {
-            color: #fff;
-            transform: rotate(15deg) scale(1.2);
+        /* مفاتيح الأنيميشن */
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+        @keyframes textFlow { to { background-position: 200% center; } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-5px);} 60% {transform: translateY(-3px);} }
+        
+        #loader { 
+            display: none; width: 50px; height: 50px; margin: 20px auto;
+            border: 4px solid var(--border); border-top-color: var(--accent);
+            border-radius: 50%; animation: spin 1s infinite cubic-bezier(0.5, 0, 0.5, 1);
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @keyframes flow { to { background-position: 200% center; } }
-        #loading { display: none; margin: 20px; color: var(--accent); font-weight: bold; }
     </style>
 </head>
 <body>
+
+    <div class="bg-glow" id="glow"></div>
 
     <header class="header-profile">
         <div class="user-brand">
             <div class="avatar-box"><img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg"></div>
             <div class="glowing-name">عبدالإله فلاته</div>
         </div>
-        <div class="visitor-mini-card">
-            <div style="width:6px; height:6px; background:#00ff88; border-radius:50%; box-shadow: 0 0 8px #00ff88;"></div>
-            <span>الزوار: <b id="vCount">2452</b></span>
+        
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div onclick="toggleMode()" style="cursor: pointer; font-size: 1.2rem; color: var(--primary);" id="modeBtn">
+                <i class="fa fa-moon"></i>
+            </div>
+            <div style="background: var(--card-bg); padding: 5px 15px; border-radius: 50px; border: 1px solid var(--border); display: flex; align-items: center;">
+                <div class="live-dot"></div>
+                <span style="font-size: 0.8rem; margin-right: 5px;">الزوار: <b id="vCount">2452</b></span>
+            </div>
         </div>
     </header>
 
     <div class="main-container">
-        <div class="super-card animate__animated animate__fadeIn">
-            <h1 style="font-weight: 900; margin-bottom: 10px;">المستخرج الذكي V3</h1>
-            <p style="color: #888; margin-bottom: 30px;">تحرير فوري، تنقية شاملة، وحفاظ على هيكلة النصوص.</p>
+        <div class="premium-card" id="card">
+            <h1 class="animate__animated animate__lightSpeedInRight" style="font-weight: 900; font-size: 2.2rem;">المستخرج الذكي <span style="color: var(--accent);">V3</span></h1>
+            <p style="opacity: 0.6; margin-bottom: 35px;">تجربة استخراج نصوص ذكية مع أنيميشن تفاعلي كامل.</p>
             
             <input type="file" id="imageInput" hidden accept="image/*">
-            <button class="btn-main" onclick="document.getElementById('imageInput').click()">
-                <i class="fa fa-camera-retro"></i> ارفع الصورة للمعالجة
+            <button class="btn-glow" onclick="document.getElementById('imageInput').click()">
+                <i class="fa fa-wand-magic-sparkles"></i> ارفع الصورة الآن
             </button>
 
-            <div id="loading">
-                <i class="fa fa-sync fa-spin"></i> جاري التحليل الذكي...
-            </div>
+            <div id="loader"></div>
 
             <div id="resultArea" class="result-section">
-                <div style="font-size:0.7rem; color:var(--accent); margin-bottom:8px;">
-                    <i class="fa fa-pen"></i> يمكنك تعديل النص المستخرج هنا
+                <div style="font-size:0.8rem; color:var(--accent); margin-bottom:12px; font-weight:bold;">
+                    <i class="fa fa-check-circle"></i> تم التحليل! يمكنك التعديل أدناه
                 </div>
-                <div class="output-container">
-                    <textarea id="output" placeholder="سيظهر النص هنا..."></textarea>
+                <div class="output-wrapper">
+                    <textarea id="output" placeholder="النص المستخرج سيظهر هنا بتنسيق أنيق..."></textarea>
                 </div>
-                <div class="action-group">
-                    <button class="btn-opt" style="background:#27ae60;" onclick="copyResult()">نسخ النص</button>
-                    <button class="btn-opt" style="background:#2980b9;" onclick="downloadResult()">تحميل ملف</button>
+                <div style="display: flex; gap: 15px; width: 100%; max-width: 750px; margin-top: 25px;">
+                    <button class="btn-glow" style="flex:1; background: #27ae60;" onclick="copyRes()">نسخ النص</button>
+                    <button class="btn-glow" style="flex:1; background: #2980b9;" onclick="downRes()">تحميل TXT</button>
                 </div>
             </div>
         </div>
 
-        <div class="contact-footer animate__animated animate__fadeInUp">
+        <div class="contact-grid">
             <a href="mailto:iioe@outlook.sa" class="contact-item">
-                <i class="fa fa-envelope-open-text"></i>
-                <span>iioe@outlook.sa</span>
+                <i class="fa fa-envelope"></i> iioe@outlook.sa
             </a>
             <a href="tel:0591388202" class="contact-item">
-                <i class="fa fa-phone-volume"></i>
-                <span>0591388202</span>
+                <i class="fa fa-phone"></i> 0591388202
             </a>
         </div>
     </div>
 
     <script>
+        // أنيميشن تتبع الماوس للخلفية
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.getElementById('glow');
+            glow.style.setProperty('--x', e.clientX + 'px');
+            glow.style.setProperty('--y', e.clientY + 'px');
+        });
+
+        // تبديل الوضع
+        function toggleMode() {
+            document.body.classList.toggle('light-mode');
+            const btn = document.getElementById('modeBtn');
+            const isLight = document.body.classList.contains('light-mode');
+            btn.innerHTML = isLight ? '<i class="fa fa-sun"></i>' : '<i class="fa fa-moon"></i>';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+        if(localStorage.getItem('theme') === 'light') toggleMode();
+
+        // عداد الزوار
         let count = localStorage.getItem('vCount') || 2452;
         count = parseInt(count) + 1;
         localStorage.setItem('vCount', count);
         document.getElementById('vCount').innerText = count;
 
+        // معالجة الصور
         document.getElementById('imageInput').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (!file) return;
 
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('resultArea').style.display = 'none';
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('resultArea').classList.remove('show');
 
             const worker = await Tesseract.createWorker('ara');
-            await worker.setParameters({
-                preserve_interword_spaces: '1',
-                tessedit_char_whitelist: 'ابتثجحخدذرزسشصضطظعغفقكلمنهويءآأإؤئ ةًٌٍَُِّ ',
-            });
-
             const { data: { text } } = await worker.recognize(file);
             await worker.terminate();
 
-            const structuredText = text
-                .replace(/[^\u0600-\u06FF\s\n]/g, "") 
-                .replace(/[ ]{2,}/g, ' ')             
-                .replace(/\n{3,}/g, '\n\n')           
-                .trim();
+            const cleanText = text.replace(/[^\u0600-\u06FF\s\n]/g, "").replace(/[ ]{2,}/g, ' ').trim();
 
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('resultArea').style.display = 'flex';
-            document.getElementById('output').value = structuredText || "لم يتم العثور على نص واضح.";
+            document.getElementById('loader').style.display = 'none';
+            const resArea = document.getElementById('resultArea');
+            resArea.style.display = 'flex';
+            setTimeout(() => resArea.classList.add('show'), 100);
+            document.getElementById('output').value = cleanText || "لم نجد نصاً واضحاً.";
         });
 
-        function copyResult() {
-            const out = document.getElementById('output');
-            out.select();
+        function copyRes() {
+            document.getElementById('output').select();
             document.execCommand('copy');
-            alert('تم النسخ!');
+            alert('تم النسخ بنجاح!');
         }
 
-        function downloadResult() {
-            const content = document.getElementById('output').value;
-            const blob = new Blob([content], {type: 'text/plain'});
+        function downRes() {
+            const blob = new Blob([document.getElementById('output').value], {type: 'text/plain'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'نص_عبدالإله_فلاته.txt';
+            a.download = 'مستخرج_عبدالإله_فلاته.txt';
             a.click();
         }
     </script>
