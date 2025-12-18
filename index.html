@@ -27,16 +27,23 @@
             --border: rgba(157, 78, 221, 0.2);
         }
 
+        /* ضبط الهيكل ليملأ الشاشة من الأعلى للأسفل */
         html, body {
-            overflow-x: hidden;
-            width: 100%;
-            position: relative;
+            height: 100%;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Cairo', sans-serif;
             transition: background 0.5s ease;
+        }
+
+        /* الحاوية الرئيسية بنظام Flex لتوزيع العناصر */
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* يضمن ملء الشاشة بالكامل */
         }
 
         /* الهيدر */
@@ -47,75 +54,74 @@
         }
 
         .user-brand { display: flex; align-items: center; gap: 12px; }
-
-        .avatar-container { position: relative; width: 65px; height: 65px; }
+        .avatar-container { position: relative; width: 60px; height: 60px; }
         .avatar-box { width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* علامة التوثيق الجديدة والمطورة */
         .verified-badge-shield {
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            background: var(--bg);
-            color: var(--verified-color);
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            box-shadow: 0 0 10px var(--verified-color);
-            animation: pulse-blue 2s infinite;
-            z-index: 10;
+            position: absolute; bottom: 2px; right: 2px; background: var(--bg);
+            color: var(--verified-color); border-radius: 50%; width: 22px; height: 22px;
+            display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+            box-shadow: 0 0 10px var(--verified-color); animation: pulse-blue 2s infinite; z-index: 10;
         }
 
         @keyframes pulse-blue {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 186, 255, 0.7); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(0, 186, 255, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 186, 255, 0); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         .glowing-name { font-family: 'Tajawal'; font-weight: 900; font-size: 1.4rem; }
 
-        /* منطقة العمل */
-        .main-container { width: 100%; max-width: 500px; margin: 30px auto; padding: 0 15px; box-sizing: border-box; }
+        /* منطقة العمل الرئيسية تأخذ المساحة المتاحة */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* يوسط البطاقة في المساحة المتبقية */
+            padding: 20px 15px;
+        }
 
         .super-card {
-            background: var(--card-bg); border-radius: 30px; padding: 30px 20px;
+            width: 100%; max-width: 500px; background: var(--card-bg); 
+            border-radius: 30px; padding: 35px 20px;
             border: 1px solid var(--border); text-align: center;
         }
 
         .upload-btn {
             background: linear-gradient(45deg, var(--primary), var(--accent));
-            border: none; padding: 15px 30px; border-radius: 15px;
-            color: #fff; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s;
+            border: none; padding: 18px 30px; border-radius: 15px;
+            color: #fff; font-weight: 900; cursor: pointer; width: 100%;
         }
-        .upload-btn:hover { transform: scale(1.02); opacity: 0.9; }
 
         textarea {
-            width: 100%; height: 250px; background: rgba(0,0,0,0.2);
+            width: 100%; height: 200px; background: rgba(0,0,0,0.2);
             color: var(--text); border: 2px solid var(--primary);
             border-radius: 20px; padding: 15px; margin-top: 20px;
             box-sizing: border-box; outline: none; resize: none; text-align: right;
         }
 
-        /* وسائل التواصل بالأسفل */
+        /* الجزء السفلي: التواصل والحقوق */
+        .footer-section {
+            width: 100%;
+            margin-top: auto; /* يدفع هذا الجزء لآخر الشاشة */
+        }
+
         .fixed-contact-row {
             display: flex; justify-content: space-between; gap: 10px;
-            margin: 30px auto; max-width: 500px; padding: 0 15px;
+            max-width: 500px; margin: 0 auto 20px auto; padding: 0 15px;
         }
 
         .contact-pill {
-            flex: 1; background: var(--card-bg); padding: 12px 5px; border-radius: 12px;
+            flex: 1; background: var(--card-bg); padding: 14px 5px; border-radius: 12px;
             border: 1px solid var(--border); color: var(--text); text-decoration: none;
             font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
 
         .footer-rights {
-            text-align: center; padding: 20px; border-top: 1px solid var(--border);
-            font-size: 0.9rem; font-weight: bold; margin-top: 20px;
+            text-align: center; padding: 25px; border-top: 1px solid var(--border);
+            font-size: 0.95rem; font-weight: bold; background: var(--card-bg);
         }
 
         #loader { display: none; margin: 15px auto; width: 35px; height: 35px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -124,57 +130,61 @@
 </head>
 <body>
 
-    <header class="header-profile">
-        <div class="user-brand">
-            <div class="avatar-container">
-                <div class="avatar-box">
-                    <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله">
+    <div class="page-wrapper">
+        <header class="header-profile">
+            <div class="user-brand">
+                <div class="avatar-container">
+                    <div class="avatar-box">
+                        <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله">
+                    </div>
+                    <div class="verified-badge-shield">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
                 </div>
-                <div class="verified-badge-shield">
-                    <i class="fas fa-shield-alt"></i>
+                <span class="glowing-name">عبدالإله فلاته</span>
+            </div>
+            <div onclick="toggleTheme()" style="cursor:pointer; color:var(--primary); font-size:1.4rem;">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </div>
+        </header>
+
+        <main class="content-area">
+            <div class="super-card">
+                <h1 style="font-size: 2rem; margin: 0 0 10px 0;">المستخرج الذكي</h1>
+                <p style="opacity: 0.7; font-size: 0.95rem; margin-bottom: 30px;">حوّل صورك إلى نصوص عربية نقية</p>
+                
+                <input type="file" id="imageInput" hidden accept="image/*">
+                <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
+                    <i class="fas fa-file-upload"></i> رفع صورة المستند
+                </button>
+
+                <div id="loader"></div>
+
+                <div id="resultArea" style="display:none;">
+                    <textarea id="output"></textarea>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="upload-btn" style="background:#27ae60; flex:1;" onclick="copyRes()">نسخ</button>
+                        <button class="upload-btn" style="background:#2980b9; flex:1;" onclick="downRes()">تحميل</button>
+                    </div>
                 </div>
             </div>
-            <span class="glowing-name">عبدالإله فلاته</span>
-        </div>
-        <div onclick="toggleTheme()" style="cursor:pointer; color:var(--primary); font-size:1.3rem;">
-            <i class="fas fa-moon" id="themeIcon"></i>
-        </div>
-    </header>
+        </main>
 
-    <div class="main-container">
-        <div class="super-card">
-            <h1 style="font-size: 1.8rem; margin: 0 0 10px 0;">المستخرج الذكي</h1>
-            <p style="opacity: 0.7; font-size: 0.9rem;">استخرج النصوص من الصور بدقة عالية</p>
-            
-            <input type="file" id="imageInput" hidden accept="image/*">
-            <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                <i class="fas fa-image"></i> اختيار صورة للمعالجة
-            </button>
-
-            <div id="loader"></div>
-
-            <div id="resultArea" style="display:none;">
-                <textarea id="output"></textarea>
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <button class="upload-btn" style="background:#27ae60;" onclick="copyRes()">نسخ</button>
-                    <button class="upload-btn" style="background:#2980b9;" onclick="downRes()">تحميل</button>
-                </div>
+        <div class="footer-section">
+            <div class="fixed-contact-row">
+                <a href="mailto:iioe@outlook.sa" class="contact-pill">
+                    <i class="fas fa-envelope"></i> iioe@outlook.sa
+                </a>
+                <a href="tel:0591388202" class="contact-pill">
+                    <i class="fas fa-phone"></i> 0591388202
+                </a>
             </div>
+
+            <footer class="footer-rights">
+                جميع الحقوق محفوظة لعبدالإله فلاته © 2025
+            </footer>
         </div>
     </div>
-
-    <div class="fixed-contact-row">
-        <a href="mailto:iioe@outlook.sa" class="contact-pill">
-            <i class="fas fa-envelope"></i> iioe@outlook.sa
-        </a>
-        <a href="tel:0591388202" class="contact-pill">
-            <i class="fas fa-phone"></i> 0591388202
-        </a>
-    </div>
-
-    <footer class="footer-rights">
-        جميع الحقوق محفوظة لعبدالإله فلاته © 2025
-    </footer>
 
     <script>
         function toggleTheme() {
@@ -203,7 +213,7 @@
             const out = document.getElementById('output');
             out.select();
             document.execCommand('copy');
-            alert('تم النسخ!');
+            alert('تم نسخ النص بنجاح!');
         }
 
         function downRes() {
