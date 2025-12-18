@@ -1,309 +1,281 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منصة عبدالإله فلاته للاستخراج الذكي</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة عبدالإله فلاته للاستخراج الذكي</title>
 
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<style>
-:root{
---primary:#9d4edd;
---accent:#00d4ff;
---bg:#050505;
---glass:rgba(255,255,255,.04);
-}
+    <style>
+        :root {
+            --primary: #9d4edd;
+            --accent: #00d4ff;
+            --bg: #050505;
+            --glass-border: rgba(157, 78, 221, 0.3);
+        }
 
-body{
-margin:0;
-font-family:'Cairo',sans-serif;
-background:var(--bg);
-color:#fff;
-}
+        body {
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            line-height: 1.6;
+        }
 
-/* ===== الهيدر ===== */
-.header-profile{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:14px 8%;
-background:rgba(10,10,10,.85);
-backdrop-filter:blur(18px);
-border-bottom:1px solid rgba(157,78,221,.25);
-position:sticky;
-top:0;
-z-index:2000;
-}
+        /* ===== الهيدر المنسق ===== */
+        .header-profile {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 8%;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+        }
 
-.user-meta{
-display:flex;
-align-items:center;
-gap:14px;
-}
+        .user-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.avatar-wrapper{
-width:54px;height:54px;
-}
+        .avatar-wrapper {
+            width: 50px; height: 50px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.3);
+        }
 
-.avatar-wrapper img{
-width:100%;height:100%;
-border-radius:14px;
-border:1.5px solid var(--primary);
-}
+        .avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
-.glowing-name{
-font-family:'Tajawal';
-font-weight:900;
-font-size:1.25rem;
-background:linear-gradient(90deg,#fff,var(--primary),var(--accent));
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-background-size:200%;
-animation:flow 4s linear infinite;
-}
+        .glowing-name {
+            font-family: 'Tajawal';
+            font-weight: 900;
+            font-size: 1.2rem;
+            background: linear-gradient(90deg, #fff, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200%;
+            animation: flow 4s linear infinite;
+        }
 
-@keyframes flow{
-to{background-position:200%}
-}
+        @keyframes flow { to { background-position: 200% } }
 
-/* عداد الزوار */
-.visitor-count{
-display:flex;
-align-items:center;
-gap:8px;
-padding:8px 14px;
-border-radius:14px;
-background:linear-gradient(135deg,rgba(157,78,221,.15),rgba(0,212,255,.12));
-box-shadow:0 0 20px rgba(157,78,221,.25);
-font-size:.8rem;
-color:#ddd;
-transition:.4s;
-}
+        .visitor-count {
+            font-size: 0.85rem;
+            color: #aaa;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
 
-.visitor-count:hover{
-transform:scale(1.05);
-box-shadow:0 0 35px rgba(0,212,255,.6);
-}
+        /* ===== منطقة المحتوى المركزية (حل مشكلة التكدس) ===== */
+        .main-container {
+            max-width: 850px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
 
-/* ===== المحتوى ===== */
-.main-container{
-max-width:800px;
-margin:60px auto;
-padding:0 20px;
-text-align:center;
-}
+        .extract-card {
+            background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(10,10,10,0.9));
+            border-radius: 30px;
+            padding: 50px 40px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* مسافة موحدة بين كل العناصر */
+        }
 
-/* ===== صندوق الاستخراج (محسن) ===== */
-.extract-box{
-background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
-border-radius:28px;
-padding:40px 28px;
-border:1px solid rgba(157,78,221,.25);
-box-shadow:0 20px 60px rgba(0,0,0,.6);
-}
+        .extract-card h1 {
+            font-size: 2.2rem;
+            margin: 0;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.extract-box h1{
-margin-bottom:12px;
-font-size:2rem;
-font-weight:900;
-background:linear-gradient(90deg,#fff,var(--primary));
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
+        .extract-card p {
+            color: #888;
+            max-width: 500px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
 
-.extract-box p{
-margin-bottom:30px;
-font-size:.95rem;
-color:#aaa;
-line-height:1.6;
-}
+        /* زر الرفع بتصميم بارز */
+        .upload-section {
+            padding: 20px 0;
+        }
 
-/* زر الرفع */
-.upload-wrapper{
-margin:25px 0;
-}
+        .btn-upload {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: #fff;
+            padding: 18px 55px;
+            border-radius: 18px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px rgba(157, 78, 221, 0.4);
+        }
 
-.btn-upload{
-background:linear-gradient(45deg,var(--primary),var(--accent));
-border:none;
-padding:16px 50px;
-border-radius:16px;
-color:#fff;
-font-weight:800;
-font-size:1.1rem;
-cursor:pointer;
-transition:.3s;
-}
+        .btn-upload:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 212, 255, 0.5);
+        }
 
-.btn-upload:hover{
-transform:scale(1.05);
-}
+        /* منطقة النتائج */
+        .result-section {
+            margin-top: 10px;
+            position: relative;
+        }
 
-/* فاصل */
-.soft-divider{
-border:none;
-height:1px;
-margin:25px 0;
-background:linear-gradient(
-90deg,
-transparent,
-rgba(157,78,221,.6),
-transparent
-);
-}
+        textarea {
+            width: 100%;
+            height: 230px;
+            background: rgba(0,0,0,0.4);
+            color: #00ffd5;
+            border: 1px solid rgba(157, 78, 221, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            font-size: 1.05rem;
+            resize: none;
+            text-align: right;
+            outline: none;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
 
-/* النص */
-textarea{
-width:100%;
-height:220px;
-margin-top:10px;
-background:rgba(0,0,0,.65);
-color:#00ffd5;
-border:1px solid rgba(157,78,221,.3);
-border-radius:18px;
-padding:18px;
-font-size:1rem;
-line-height:1.7;
-resize:none;
-text-align:right;
-box-shadow:inset 0 0 20px rgba(0,0,0,.6);
-}
+        textarea:focus { border-color: var(--accent); }
 
-#loader{
-display:none;
-margin-top:20px;
-color:var(--accent);
-font-weight:bold;
-}
+        #loader {
+            display: none;
+            color: var(--accent);
+            font-weight: bold;
+            animation: fadeIn 0.5s;
+        }
 
-/* التواصل */
-.contact-box{
-margin-top:40px;
-display:flex;
-justify-content:center;
-gap:20px;
-flex-wrap:wrap;
-}
+        /* التواصل */
+        .contact-grid {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
 
-.contact-item{
-display:flex;
-align-items:center;
-gap:10px;
-padding:14px 22px;
-border-radius:18px;
-background:rgba(255,255,255,.05);
-color:#eee;
-text-decoration:none;
-transition:.4s;
-}
+        .contact-pill {
+            padding: 12px 20px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
 
-.contact-item:hover{
-transform:translateY(-4px) scale(1.05);
-box-shadow:0 0 30px rgba(157,78,221,.4);
-}
+        .contact-pill:hover { background: var(--primary); color: white; }
 
-/* الفوتر */
-footer{
-margin-top:80px;
-text-align:center;
-color:#666;
-font-size:.85rem;
-}
+        footer {
+            margin-top: 100px;
+            padding-bottom: 40px;
+            text-align: center;
+            opacity: 0.4;
+            font-size: 0.8rem;
+        }
 
-.signature{
-margin-top:30px;
-font-family:'Tajawal';
-font-size:1.1rem;
-letter-spacing:2px;
-color:#888;
-}
-</style>
+        @keyframes fadeIn { from {opacity:0} to {opacity:1} }
+    </style>
 </head>
-
 <body>
 
 <header class="header-profile">
-<div class="user-meta">
-<div class="avatar-wrapper">
-<img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg">
-</div>
-<div class="glowing-name">عبدالإله فلاته</div>
-</div>
-
-<div class="visitor-count">
-<i class="fa fa-eye"></i>
-<span id="vCount">2452</span>
-</div>
+    <div class="user-meta">
+        <div class="avatar-wrapper">
+            <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله فلاته">
+        </div>
+        <div class="glowing-name">عبدالإله فلاته</div>
+    </div>
+    <div class="visitor-count">
+        <i class="fa fa-eye"></i> <span id="vCount">2452</span>
+    </div>
 </header>
 
 <div class="main-container">
-<div class="extract-box">
-<h1>المستخرج الذكي</h1>
-<p>ارفع الصورة لاستخراج النص العربي بشكل واضح ومرتب</p>
+    <div class="extract-card">
+        <h1>المستخرج الذكي</h1>
+        <p>قم برفع المستند أو الصورة الآن وسيقوم نظامنا المتطور باستخراج النص العربي بدقة متناهية وترتيب آلي.</p>
+        
+        <div class="upload-section">
+            <input type="file" id="imageInput" hidden accept="image/*">
+            <button class="btn-upload" onclick="imageInput.click()">
+                <i class="fa fa-cloud-upload-alt" style="margin-left: 10px;"></i> رفع صورة الآن
+            </button>
+        </div>
 
-<input type="file" id="imageInput" hidden accept="image/*">
+        <div id="loader">
+            <i class="fa fa-sync fa-spin"></i> جاري التحليل والترتيب...
+        </div>
 
-<div class="upload-wrapper">
-<button class="btn-upload" onclick="imageInput.click()">
-<i class="fa fa-cloud-upload-alt"></i> رفع صورة
-</button>
-</div>
+        <div class="result-section">
+            <textarea id="finalText" readonly placeholder="النص المستخرج سيظهر هنا بشكل منسق..."></textarea>
+        </div>
+    </div>
 
-<div id="loader">
-<i class="fa fa-sync fa-spin"></i> جاري استخراج النص...
-</div>
-
-<hr class="soft-divider">
-
-<textarea id="finalText" readonly placeholder="سيظهر النص المستخرج هنا..."></textarea>
-</div>
-
-<!-- التواصل -->
-<div class="contact-box">
-<a href="mailto:iioe@outlook.sa" class="contact-item">
-<i class="fa fa-envelope"></i>
-iioe@outlook.sa
-</a>
-
-<a href="tel:0591388202" class="contact-item">
-<i class="fa fa-phone"></i>
-0591388202
-</a>
-</div>
+    <div class="contact-grid">
+        <a href="mailto:iioe@outlook.sa" class="contact-pill"><i class="fa fa-envelope"></i> iioe@outlook.sa</a>
+        <a href="tel:0591388202" class="contact-pill"><i class="fa fa-phone"></i> 0591388202</a>
+    </div>
 </div>
 
 <footer>
-<div class="signature">عبد الإله فلاته</div>
+    عبدالإله فلاته © 2025 - جميع الحقوق محفوظة
 </footer>
 
 <script>
-/* عداد الزوار */
-let count = localStorage.getItem("vCount") || 2452;
-count = parseInt(count) + 1;
-localStorage.setItem("vCount", count);
-vCount.innerText = count;
+    // عداد الزوار
+    let count = localStorage.getItem("vCount") || 2452;
+    count = parseInt(count) + 1;
+    localStorage.setItem("vCount", count);
+    vCount.innerText = count;
 
-/* OCR */
-imageInput.addEventListener("change", async e=>{
-const file = e.target.files[0];
-if(!file) return;
+    // محرك OCR الاحترافي
+    imageInput.addEventListener("change", async e => {
+        const file = e.target.files[0];
+        if (!file) return;
 
-loader.style.display = "block";
-finalText.value = "";
+        loader.style.display = "block";
+        finalText.value = "";
 
-const { data:{ text }} = await Tesseract.recognize(file,"ara");
-
-loader.style.display = "none";
-
-finalText.value = text
-.replace(/[^\u0600-\u06FF\n ]/g,"")
-.replace(/\s{2,}/g," ")
-.replace(/\n{2,}/g,"\n")
-.trim() || "لم يتم العثور على نص واضح";
-});
+        try {
+            const { data: { text } } = await Tesseract.recognize(file, "ara");
+            loader.style.display = "none";
+            
+            // تنظيف النص وترتيبه (حل مشكلة التشوه)
+            const cleanText = text
+                .replace(/[^\u0600-\u06FF\n ]/g, "") // إبقاء الحروف العربية والأسطر فقط
+                .replace(/\s{2,}/g, " ")             // تقليل المسافات المزدوجة
+                .replace(/\n{2,}/g, "\n")            // تقليل الأسطر الفارغة
+                .trim();
+                
+            finalText.value = cleanText || "لم يتم العثور على نص واضح، يرجى محاولة رفع صورة بجودة أفضل.";
+        } catch (err) {
+            loader.style.display = "none";
+            alert("حدث خطأ أثناء المعالجة، يرجى المحاولة مرة أخرى.");
+        }
+    });
 </script>
 
 </body>
