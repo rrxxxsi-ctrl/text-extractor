@@ -24,9 +24,6 @@
 <!-- Font -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
 
-<!-- Icons -->
-<script src="https://unpkg.com/lucide@latest"></script>
-
 <!-- OCR -->
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
@@ -41,63 +38,83 @@ body{
 </style>
 </head>
 
-<body class="text-white min-h-screen flex flex-col items-center px-4 py-8">
+<body class="text-white min-h-screen flex flex-col items-center px-4 py-6">
 
 <!-- Header -->
-<header class="w-full max-w-4xl flex justify-between items-center mb-12">
+<header class="w-full max-w-5xl flex justify-between items-center mb-10">
+
   <div class="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-2xl backdrop-blur">
-    ✨ <span class="text-sm font-bold opacity-70">المستخرج الذكي</span>
+    ✨ <span class="text-sm font-bold text-purple-300">المستخرج الذكي</span>
   </div>
 
   <div class="flex items-center gap-4">
-    <div class="text-right">
-      <h2 class="text-xl font-black bg-gradient-to-l from-white to-gray-400 bg-clip-text text-transparent">
-        عبد الإله فلاتة
-      </h2>
-      <span class="text-[10px] bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-bold">
+    <div class="text-right leading-tight">
+      <h2 class="text-lg font-black">عبد الإله فلاتة</h2>
+      <span class="text-[11px] bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-bold">
         المطور والمالك
       </span>
     </div>
-    <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg"
-         class="w-12 h-12 rounded-xl border border-white/10">
+    <img
+      src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg"
+      class="w-12 h-12 rounded-xl border border-white/10 object-cover">
   </div>
+
 </header>
 
 <!-- Main -->
 <main class="w-full max-w-xl flex flex-col gap-8">
 
-<div class="text-center">
-  <h1 class="text-4xl font-black">نصك العربي <span class="text-purple-500">نظيف ومرتب</span></h1>
-  <p class="text-gray-400 mt-2">استخراج النص العربي من الصور بدقة عالية</p>
+<!-- Hero -->
+<div class="text-center space-y-2">
+  <h1 class="text-4xl font-black leading-snug">
+    نصك العربي
+    <span class="text-purple-500 block">نظيف ومرتب</span>
+  </h1>
+  <p class="text-gray-400 text-sm">
+    استخراج النص العربي من الصور بدقة عالية
+  </p>
 </div>
 
-<!-- Upload -->
-<div class="bg-[#0c0c0e]/80 border border-white/5 rounded-[40px] p-6">
+<!-- Upload Card -->
+<div class="bg-[#0c0c0e]/80 border border-white/5 rounded-[36px] p-6 space-y-6">
+
 <input type="file" id="file" accept="image/*" hidden>
 
 <div onclick="file.click()"
-     class="h-60 border-2 border-dashed border-white/10 rounded-3xl flex items-center justify-center cursor-pointer hover:border-purple-500/40">
-  <div class="text-center text-gray-400">
-    📤 اختر صورة
+     class="h-56 border-2 border-dashed border-white/10 rounded-3xl
+            flex items-center justify-center cursor-pointer
+            hover:border-purple-500/40 transition">
+
+  <div class="text-center space-y-2 text-gray-400">
+    <div class="text-3xl">📤</div>
+    <span class="font-bold">اختر صورة</span>
   </div>
 </div>
 
 <button onclick="extract()"
-class="w-full mt-6 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 font-black">
-استخراج النص
+class="w-full py-4 rounded-2xl
+       bg-gradient-to-r from-purple-600 to-indigo-600
+       font-black text-lg hover:opacity-90 transition">
+  استخراج النص
 </button>
+
 </div>
 
 <!-- Result -->
-<textarea id="result"
-class="w-full h-72 bg-black/40 rounded-2xl p-6 text-right border border-white/5 resize-none"
-placeholder="سيظهر النص هنا..." readonly></textarea>
+<div class="space-y-2">
+  <label class="text-sm text-gray-400">النص المستخرج</label>
+  <textarea id="result"
+    class="w-full h-72 bg-black/40 rounded-2xl p-6
+           text-right border border-white/5 resize-none leading-loose"
+    placeholder="سيظهر النص هنا..." readonly></textarea>
+</div>
 
 </main>
 
 <!-- Footer -->
-<footer class="mt-16 opacity-20 text-xs tracking-widest">
-ABDALLAH FALLATAH • SMART OCR • 2024
+<footer class="mt-16 text-center text-xs opacity-30 tracking-widest leading-relaxed">
+  ABDALLAH FALLATAH<br>
+  SMART OCR • 2024
 </footer>
 
 <script>
@@ -105,9 +122,12 @@ const fileInput = document.getElementById('file');
 const result = document.getElementById('result');
 
 async function extract(){
-  if(!fileInput.files[0]) return alert("اختر صورة أولاً");
+  if(!fileInput.files[0]){
+    alert("اختر صورة أولاً");
+    return;
+  }
 
-  result.value = "جاري المعالجة...";
+  result.value = "جاري استخراج النص...";
 
   const { data:{ text }} = await Tesseract.recognize(
     fileInput.files[0],
