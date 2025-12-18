@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة عبدالإله فلاته</title>
+    <title>منصة عبدالإله فلاته - الدقة الفائقة</title>
     
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@900&display=swap" rel="stylesheet">
@@ -27,26 +27,15 @@
             --border: rgba(157, 78, 221, 0.2);
         }
 
-        /* ضبط الهيكل ليملأ الشاشة من الأعلى للأسفل */
         html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Cairo', sans-serif;
-            transition: background 0.5s ease;
+            height: 100%; margin: 0; padding: 0; overflow-x: hidden;
+            background-color: var(--bg); color: var(--text);
+            font-family: 'Cairo', sans-serif; transition: 0.5s;
         }
 
-        /* الحاوية الرئيسية بنظام Flex لتوزيع العناصر */
-        .page-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh; /* يضمن ملء الشاشة بالكامل */
-        }
+        .page-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
 
-        /* الهيدر */
+        /* الهيدر مع التوثيق المطور */
         .header-profile {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px 5%; background: var(--card-bg);
@@ -57,75 +46,41 @@
         .avatar-container { position: relative; width: 60px; height: 60px; }
         .avatar-box { width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-
         .verified-badge-shield {
             position: absolute; bottom: 2px; right: 2px; background: var(--bg);
             color: var(--verified-color); border-radius: 50%; width: 22px; height: 22px;
             display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
-            box-shadow: 0 0 10px var(--verified-color); animation: pulse-blue 2s infinite; z-index: 10;
+            box-shadow: 0 0 10px var(--verified-color); animation: pulse-blue 2s infinite;
         }
 
-        @keyframes pulse-blue {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
+        @keyframes pulse-blue { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         .glowing-name { font-family: 'Tajawal'; font-weight: 900; font-size: 1.4rem; }
 
-        /* منطقة العمل الرئيسية تأخذ المساحة المتاحة */
-        .content-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; /* يوسط البطاقة في المساحة المتبقية */
-            padding: 20px 15px;
-        }
+        /* منطقة المحتوى */
+        .content-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 15px; }
+        .super-card { width: 100%; max-width: 500px; background: var(--card-bg); border-radius: 30px; padding: 35px 20px; border: 1px solid var(--border); text-align: center; }
 
-        .super-card {
-            width: 100%; max-width: 500px; background: var(--card-bg); 
-            border-radius: 30px; padding: 35px 20px;
-            border: 1px solid var(--border); text-align: center;
-        }
+        .upload-btn { background: linear-gradient(45deg, var(--primary), var(--accent)); border: none; padding: 18px 30px; border-radius: 15px; color: #fff; font-weight: 900; cursor: pointer; width: 100%; }
 
-        .upload-btn {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            border: none; padding: 18px 30px; border-radius: 15px;
-            color: #fff; font-weight: 900; cursor: pointer; width: 100%;
-        }
-
+        /* تحسين مربع النص */
         textarea {
-            width: 100%; height: 200px; background: rgba(0,0,0,0.2);
-            color: var(--text); border: 2px solid var(--primary);
+            width: 100%; height: 250px; background: rgba(0,0,0,0.4);
+            color: #fff; border: 2px solid var(--primary);
             border-radius: 20px; padding: 15px; margin-top: 20px;
             box-sizing: border-box; outline: none; resize: none; text-align: right;
+            font-size: 1.1rem; line-height: 1.6;
         }
 
-        /* الجزء السفلي: التواصل والحقوق */
-        .footer-section {
-            width: 100%;
-            margin-top: auto; /* يدفع هذا الجزء لآخر الشاشة */
-        }
+        .footer-section { width: 100%; margin-top: auto; }
+        .fixed-contact-row { display: flex; justify-content: space-between; gap: 10px; max-width: 500px; margin: 0 auto 20px auto; padding: 0 15px; }
+        .contact-pill { flex: 1; background: var(--card-bg); padding: 14px 5px; border-radius: 12px; border: 1px solid var(--border); color: var(--text); text-decoration: none; font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .footer-rights { text-align: center; padding: 25px; border-top: 1px solid var(--border); font-size: 0.95rem; font-weight: bold; background: var(--card-bg); }
 
-        .fixed-contact-row {
-            display: flex; justify-content: space-between; gap: 10px;
-            max-width: 500px; margin: 0 auto 20px auto; padding: 0 15px;
-        }
-
-        .contact-pill {
-            flex: 1; background: var(--card-bg); padding: 14px 5px; border-radius: 12px;
-            border: 1px solid var(--border); color: var(--text); text-decoration: none;
-            font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-
-        .footer-rights {
-            text-align: center; padding: 25px; border-top: 1px solid var(--border);
-            font-size: 0.95rem; font-weight: bold; background: var(--card-bg);
-        }
-
-        #loader { display: none; margin: 15px auto; width: 35px; height: 35px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* شريط التحدم */
+        #progress-container { display: none; margin-top: 20px; }
+        #progress-bar { width: 100%; background: #333; height: 10px; border-radius: 5px; overflow: hidden; }
+        #progress-fill { width: 0%; height: 100%; background: var(--accent); transition: 0.3s; }
+        #status-text { font-size: 0.8rem; margin-top: 5px; color: var(--accent); }
     </style>
 </head>
 <body>
@@ -134,36 +89,33 @@
         <header class="header-profile">
             <div class="user-brand">
                 <div class="avatar-container">
-                    <div class="avatar-box">
-                        <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله">
-                    </div>
-                    <div class="verified-badge-shield">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
+                    <div class="avatar-box"><img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله"></div>
+                    <div class="verified-badge-shield"><i class="fas fa-shield-alt"></i></div>
                 </div>
                 <span class="glowing-name">عبدالإله فلاته</span>
             </div>
-            <div onclick="toggleTheme()" style="cursor:pointer; color:var(--primary); font-size:1.4rem;">
-                <i class="fas fa-moon" id="themeIcon"></i>
-            </div>
+            <div onclick="toggleTheme()" style="cursor:pointer; color:var(--primary); font-size:1.4rem;"><i class="fas fa-moon" id="themeIcon"></i></div>
         </header>
 
         <main class="content-area">
             <div class="super-card">
-                <h1 style="font-size: 2rem; margin: 0 0 10px 0;">المستخرج الذكي</h1>
-                <p style="opacity: 0.7; font-size: 0.95rem; margin-bottom: 30px;">حوّل صورك إلى نصوص عربية نقية</p>
+                <h1 style="font-size: 1.8rem; margin-bottom: 5px;">المستخرج الذكي V2</h1>
+                <p style="opacity: 0.7; font-size: 0.9rem; margin-bottom: 25px;">دقة معززة بمعالجة الذكاء الاصطناعي</p>
                 
                 <input type="file" id="imageInput" hidden accept="image/*">
                 <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                    <i class="fas fa-file-upload"></i> رفع صورة المستند
+                    <i class="fas fa-magic"></i> استخراج النص بدقة عالية
                 </button>
 
-                <div id="loader"></div>
+                <div id="progress-container">
+                    <div id="progress-bar"><div id="progress-fill"></div></div>
+                    <div id="status-text">جاري تحليل الحروف...</div>
+                </div>
 
                 <div id="resultArea" style="display:none;">
-                    <textarea id="output"></textarea>
+                    <textarea id="output" placeholder="النص سيظهر هنا..."></textarea>
                     <div style="display: flex; gap: 10px; margin-top: 15px;">
-                        <button class="upload-btn" style="background:#27ae60; flex:1;" onclick="copyRes()">نسخ</button>
+                        <button class="upload-btn" style="background:#27ae60; flex:1;" onclick="copyRes()">نسخ النص</button>
                         <button class="upload-btn" style="background:#2980b9; flex:1;" onclick="downRes()">تحميل</button>
                     </div>
                 </div>
@@ -172,17 +124,10 @@
 
         <div class="footer-section">
             <div class="fixed-contact-row">
-                <a href="mailto:iioe@outlook.sa" class="contact-pill">
-                    <i class="fas fa-envelope"></i> iioe@outlook.sa
-                </a>
-                <a href="tel:0591388202" class="contact-pill">
-                    <i class="fas fa-phone"></i> 0591388202
-                </a>
+                <a href="mailto:iioe@outlook.sa" class="contact-pill"><i class="fas fa-envelope"></i> iioe@outlook.sa</a>
+                <a href="tel:0591388202" class="contact-pill"><i class="fas fa-phone"></i> 0591388202</a>
             </div>
-
-            <footer class="footer-rights">
-                جميع الحقوق محفوظة لعبدالإله فلاته © 2025
-            </footer>
+            <footer class="footer-rights">جميع الحقوق محفوظة لعبدالإله فلاته © 2025</footer>
         </div>
     </div>
 
@@ -197,16 +142,44 @@
         document.getElementById('imageInput').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (!file) return;
-            document.getElementById('loader').style.display = 'block';
-            document.getElementById('resultArea').style.display = 'none';
 
-            const worker = await Tesseract.createWorker('ara');
-            const { data: { text } } = await worker.recognize(file);
-            await worker.terminate();
+            const progCont = document.getElementById('progress-container');
+            const progFill = document.getElementById('progress-fill');
+            const statusText = document.getElementById('status-text');
+            const resultArea = document.getElementById('resultArea');
 
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('resultArea').style.display = 'block';
-            document.getElementById('output').value = text.replace(/[^\u0600-\u06FF\s\n]/g, "").trim();
+            progCont.style.display = 'block';
+            resultArea.style.display = 'none';
+
+            try {
+                // استخدام المحرك مع تعزيز اللغة العربية
+                const worker = await Tesseract.createWorker('ara', 1, {
+                    logger: m => {
+                        if (m.status === 'recognizing text') {
+                            progFill.style.width = (m.progress * 100) + '%';
+                            statusText.innerText = `جاري استخراج الكلمات: ${Math.round(m.progress * 100)}%`;
+                        }
+                    }
+                });
+
+                // تحسينات إضافية للدقة
+                await worker.setParameters({
+                    tessedit_char_whitelist: 'ابتثجحخدذرزسشصضطظعغفقكلمنهويءآأؤإئ ًٌٍَُِّْ0123456789()',
+                });
+
+                const { data: { text } } = await worker.recognize(file);
+                await worker.terminate();
+
+                progCont.style.display = 'none';
+                resultArea.style.display = 'block';
+                
+                // تنظيف النص من الرموز العشوائية الناتجة عن ضوضاء الخلفية
+                const cleanedText = text.replace(/[^\u0600-\u06FF\s0-9]/g, '').trim();
+                document.getElementById('output').value = cleanedText || "عذراً، لم يتم التعرف على النص بوضوح. حاول رفع صورة أكثر نقاءً.";
+            } catch (err) {
+                alert("حدث خطأ أثناء المعالجة، يرجى المحاولة مرة أخرى.");
+                progCont.style.display = 'none';
+            }
         });
 
         function copyRes() {
