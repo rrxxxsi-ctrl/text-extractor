@@ -96,19 +96,41 @@ padding:0 20px;
 text-align:center;
 }
 
+/* ===== صندوق الاستخراج (محسن) ===== */
 .extract-box{
-background:var(--glass);
-border-radius:30px;
-padding:50px 30px;
-border:1px solid rgba(157,78,221,.2);
+background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+border-radius:28px;
+padding:40px 28px;
+border:1px solid rgba(157,78,221,.25);
+box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+.extract-box h1{
+margin-bottom:12px;
+font-size:2rem;
+font-weight:900;
+background:linear-gradient(90deg,#fff,var(--primary));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.extract-box p{
+margin-bottom:30px;
+font-size:.95rem;
+color:#aaa;
+line-height:1.6;
 }
 
 /* زر الرفع */
+.upload-wrapper{
+margin:25px 0;
+}
+
 .btn-upload{
 background:linear-gradient(45deg,var(--primary),var(--accent));
 border:none;
 padding:16px 50px;
-border-radius:15px;
+border-radius:16px;
 color:#fff;
 font-weight:800;
 font-size:1.1rem;
@@ -120,19 +142,34 @@ transition:.3s;
 transform:scale(1.05);
 }
 
+/* فاصل */
+.soft-divider{
+border:none;
+height:1px;
+margin:25px 0;
+background:linear-gradient(
+90deg,
+transparent,
+rgba(157,78,221,.6),
+transparent
+);
+}
+
 /* النص */
 textarea{
 width:100%;
-height:260px;
-margin-top:25px;
-background:rgba(0,0,0,.5);
-color:#00ffc8;
-border:1px solid #333;
-border-radius:15px;
-padding:20px;
-font-size:1.05rem;
+height:220px;
+margin-top:10px;
+background:rgba(0,0,0,.65);
+color:#00ffd5;
+border:1px solid rgba(157,78,221,.3);
+border-radius:18px;
+padding:18px;
+font-size:1rem;
+line-height:1.7;
 resize:none;
 text-align:right;
+box-shadow:inset 0 0 20px rgba(0,0,0,.6);
 }
 
 #loader{
@@ -205,16 +242,21 @@ color:#888;
 <div class="main-container">
 <div class="extract-box">
 <h1>المستخرج الذكي</h1>
-<p style="color:#888">ارفع الصورة لاستخراج النص العربي بشكل واضح ومرتب</p>
+<p>ارفع الصورة لاستخراج النص العربي بشكل واضح ومرتب</p>
 
 <input type="file" id="imageInput" hidden accept="image/*">
+
+<div class="upload-wrapper">
 <button class="btn-upload" onclick="imageInput.click()">
 <i class="fa fa-cloud-upload-alt"></i> رفع صورة
 </button>
+</div>
 
 <div id="loader">
 <i class="fa fa-sync fa-spin"></i> جاري استخراج النص...
 </div>
+
+<hr class="soft-divider">
 
 <textarea id="finalText" readonly placeholder="سيظهر النص المستخرج هنا..."></textarea>
 </div>
@@ -239,24 +281,24 @@ iioe@outlook.sa
 
 <script>
 /* عداد الزوار */
-let count=localStorage.getItem("vCount")||2452;
-count=parseInt(count)+1;
-localStorage.setItem("vCount",count);
-vCount.innerText=count;
+let count = localStorage.getItem("vCount") || 2452;
+count = parseInt(count) + 1;
+localStorage.setItem("vCount", count);
+vCount.innerText = count;
 
 /* OCR */
 imageInput.addEventListener("change", async e=>{
-const file=e.target.files[0];
-if(!file)return;
+const file = e.target.files[0];
+if(!file) return;
 
-loader.style.display="block";
-finalText.value="";
+loader.style.display = "block";
+finalText.value = "";
 
-const { data:{ text }}=await Tesseract.recognize(file,"ara");
+const { data:{ text }} = await Tesseract.recognize(file,"ara");
 
-loader.style.display="none";
+loader.style.display = "none";
 
-finalText.value=text
+finalText.value = text
 .replace(/[^\u0600-\u06FF\n ]/g,"")
 .replace(/\s{2,}/g," ")
 .replace(/\n{2,}/g,"\n")
