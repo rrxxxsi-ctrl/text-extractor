@@ -2,12 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة عبدالإله فلاته - الموثقة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>منصة عبدالإله فلاته</title>
     
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
@@ -17,6 +16,7 @@
             --text: #ffffff;
             --primary: #9d4edd;
             --accent: #00d4ff;
+            --verified-color: #00baff;
             --border: rgba(255, 255, 255, 0.1);
         }
 
@@ -27,125 +27,98 @@
             --border: rgba(157, 78, 221, 0.2);
         }
 
-        body {
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+            margin: 0;
+            padding: 0;
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Cairo', sans-serif;
-            margin: 0;
-            transition: 0.5s ease;
-            direction: rtl;
+            transition: background 0.5s ease;
         }
 
-        /* ===== الهيدر المطور ===== */
+        /* الهيدر */
         .header-profile {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 15px 8%; background: var(--card-bg);
+            padding: 15px 5%; background: var(--card-bg);
             backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 2000;
         }
 
-        .user-brand { display: flex; align-items: center; gap: 15px; }
+        .user-brand { display: flex; align-items: center; gap: 12px; }
 
-        /* حاوية الصورة الشخصية مع التوثيق المميز */
-        .avatar-container {
-            position: relative;
-            width: 60px; height: 60px;
-        }
-
-        .avatar-box {
-            width: 100%; height: 100%; border-radius: 50%;
-            border: 2px solid var(--primary); overflow: hidden;
-            box-shadow: 0 0 15px var(--primary);
-        }
+        .avatar-container { position: relative; width: 65px; height: 65px; }
+        .avatar-box { width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* شارة التوثيق فوق الصورة بطريقة مميزة */
-        .verified-badge-on-img {
+        /* علامة التوثيق الجديدة والمطورة */
+        .verified-badge-shield {
             position: absolute;
-            bottom: -2px;
-            right: -2px;
-            background: #fff;
-            color: #1d9bf0;
+            bottom: 2px;
+            right: 2px;
+            background: var(--bg);
+            color: var(--verified-color);
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            border: 2px solid var(--bg);
-            box-shadow: 0 0 10px rgba(29, 155, 240, 0.5);
+            font-size: 0.9rem;
+            box-shadow: 0 0 10px var(--verified-color);
+            animation: pulse-blue 2s infinite;
             z-index: 10;
         }
 
-        .glowing-name {
-            font-family: 'Tajawal'; font-weight: 900; font-size: 1.5rem;
-            background: linear-gradient(90deg, var(--text), var(--primary), var(--accent), var(--text));
-            background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: textFlow 5s linear infinite;
+        @keyframes pulse-blue {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 186, 255, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(0, 186, 255, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 186, 255, 0); }
         }
 
-        .theme-switch { cursor: pointer; font-size: 1.4rem; color: var(--primary); }
+        .glowing-name { font-family: 'Tajawal'; font-weight: 900; font-size: 1.4rem; }
 
-        /* ===== منطقة المحتوى ===== */
-        .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        /* منطقة العمل */
+        .main-container { width: 100%; max-width: 500px; margin: 30px auto; padding: 0 15px; box-sizing: border-box; }
 
         .super-card {
-            background: var(--card-bg); border-radius: 35px; padding: 45px 30px;
+            background: var(--card-bg); border-radius: 30px; padding: 30px 20px;
             border: 1px solid var(--border); text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            margin-bottom: 30px;
         }
 
         .upload-btn {
             background: linear-gradient(45deg, var(--primary), var(--accent));
-            border: none; padding: 18px 45px; border-radius: 18px;
-            color: #fff; font-weight: 900; font-size: 1.1rem;
-            cursor: pointer; transition: 0.4s;
+            border: none; padding: 15px 30px; border-radius: 15px;
+            color: #fff; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s;
         }
+        .upload-btn:hover { transform: scale(1.02); opacity: 0.9; }
 
-        .result-section { margin-top: 30px; display: none; }
         textarea {
-            width: 100%; height: 300px; background: rgba(0,0,0,0.2);
+            width: 100%; height: 250px; background: rgba(0,0,0,0.2);
             color: var(--text); border: 2px solid var(--primary);
-            border-radius: 20px; padding: 25px; font-family: 'Cairo';
-            font-size: 1.1rem; text-align: right; outline: none; resize: none;
+            border-radius: 20px; padding: 15px; margin-top: 20px;
+            box-sizing: border-box; outline: none; resize: none; text-align: right;
         }
 
-        /* ===== منطقة التواصل (رقم الجوال يمين - ايميل يسار) ===== */
-        .contact-area {
-            display: flex; 
-            justify-content: space-between; /* يوزع العناصر على الأطراف */
-            align-items: center;
-            margin-top: 30px;
-            padding: 0 10px;
+        /* وسائل التواصل بالأسفل */
+        .fixed-contact-row {
+            display: flex; justify-content: space-between; gap: 10px;
+            margin: 30px auto; max-width: 500px; padding: 0 15px;
         }
 
-        .contact-box {
-            background: var(--card-bg); 
-            padding: 12px 20px; 
-            border-radius: 15px;
-            border: 1px solid var(--border); 
-            color: var(--text);
-            text-decoration: none; 
-            font-weight: bold; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px;
-            transition: 0.3s;
-            min-width: 160px;
-            justify-content: center;
+        .contact-pill {
+            flex: 1; background: var(--card-bg); padding: 12px 5px; border-radius: 12px;
+            border: 1px solid var(--border); color: var(--text); text-decoration: none;
+            font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .contact-box:hover { background: var(--primary); color: #fff; transform: translateY(-3px); }
 
         .footer-rights {
-            margin-top: 50px; padding: 30px; text-align: center;
-            border-top: 1px solid var(--border); opacity: 0.9;
-            font-weight: 900; letter-spacing: 1px;
+            text-align: center; padding: 20px; border-top: 1px solid var(--border);
+            font-size: 0.9rem; font-weight: bold; margin-top: 20px;
         }
 
-        @keyframes textFlow { to { background-position: 200% center; } }
-        #loader { display: none; margin: 20px auto; width: 45px; height: 45px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        #loader { display: none; margin: 15px auto; width: 35px; height: 35px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
@@ -155,48 +128,48 @@
         <div class="user-brand">
             <div class="avatar-container">
                 <div class="avatar-box">
-                    <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله فلاته">
+                    <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله">
                 </div>
-                <div class="verified-badge-on-img">
-                    <i class="fas fa-check"></i>
+                <div class="verified-badge-shield">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
             </div>
             <span class="glowing-name">عبدالإله فلاته</span>
         </div>
-        <div class="theme-switch" onclick="toggleTheme()">
+        <div onclick="toggleTheme()" style="cursor:pointer; color:var(--primary); font-size:1.3rem;">
             <i class="fas fa-moon" id="themeIcon"></i>
         </div>
     </header>
 
     <div class="main-container">
         <div class="super-card">
-            <h1 style="font-size: 2.3rem; margin-bottom: 10px;">المستخرج الذكي</h1>
-            <p style="opacity: 0.7; margin-bottom: 35px;">استخرج نصوصك العربية من الصور بدقة عالية</p>
+            <h1 style="font-size: 1.8rem; margin: 0 0 10px 0;">المستخرج الذكي</h1>
+            <p style="opacity: 0.7; font-size: 0.9rem;">استخرج النصوص من الصور بدقة عالية</p>
             
             <input type="file" id="imageInput" hidden accept="image/*">
             <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                <i class="fas fa-file-export"></i> اختيار صورة للمعالجة
+                <i class="fas fa-image"></i> اختيار صورة للمعالجة
             </button>
 
             <div id="loader"></div>
 
-            <div id="resultArea" class="result-section">
-                <textarea id="output" placeholder="سيظهر النص المستخرج هنا..."></textarea>
-                <div style="display: flex; gap: 15px; margin-top: 20px;">
-                    <button class="upload-btn" style="flex:1; background:#27ae60;" onclick="copyRes()">نسخ</button>
-                    <button class="upload-btn" style="flex:1; background:#2980b9;" onclick="downRes()">تحميل</button>
+            <div id="resultArea" style="display:none;">
+                <textarea id="output"></textarea>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="upload-btn" style="background:#27ae60;" onclick="copyRes()">نسخ</button>
+                    <button class="upload-btn" style="background:#2980b9;" onclick="downRes()">تحميل</button>
                 </div>
             </div>
-
-            <div class="contact-area">
-                <a href="tel:0591388202" class="contact-box">
-                    <i class="fas fa-phone"></i> 0591388202
-                </a>
-                <a href="mailto:iioe@outlook.sa" class="contact-box">
-                    <i class="fas fa-envelope"></i> iioe@outlook.sa
-                </a>
-            </div>
         </div>
+    </div>
+
+    <div class="fixed-contact-row">
+        <a href="mailto:iioe@outlook.sa" class="contact-pill">
+            <i class="fas fa-envelope"></i> iioe@outlook.sa
+        </a>
+        <a href="tel:0591388202" class="contact-pill">
+            <i class="fas fa-phone"></i> 0591388202
+        </a>
     </div>
 
     <footer class="footer-rights">
@@ -208,19 +181,7 @@
             const body = document.body;
             const icon = document.getElementById('themeIcon');
             body.classList.toggle('light-mode');
-            if(body.classList.contains('light-mode')) {
-                icon.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'light');
-            } else {
-                icon.className = 'fas fa-moon';
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // استعادة الوضع المفضل
-        if(localStorage.getItem('theme') === 'light') {
-            document.body.classList.add('light-mode');
-            document.getElementById('themeIcon').className = 'fas fa-sun';
+            icon.className = body.classList.contains('light-mode') ? 'fas fa-sun' : 'fas fa-moon';
         }
 
         document.getElementById('imageInput').addEventListener('change', async function(e) {
@@ -249,7 +210,7 @@
             const blob = new Blob([document.getElementById('output').value], {type: 'text/plain'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'مستند_عبدالاله.txt';
+            a.download = 'مستخرج_فلاته.txt';
             a.click();
         }
     </script>
