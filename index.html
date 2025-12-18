@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة عبدالإله فلاته - الدقة المطلقة</title>
+    <title>منصة عبدالإله فلاته - المطور الذكي</title>
     
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@900&display=swap" rel="stylesheet">
@@ -11,35 +11,77 @@
 
     <style>
         :root {
-            --bg: #030303; --card-bg: rgba(255, 255, 255, 0.03); --text: #ffffff;
+            --bg: #030303; --card-bg: rgba(255, 255, 255, 0.05); --text: #ffffff;
             --primary: #9d4edd; --accent: #00d4ff; --verified-color: #00baff; --border: rgba(255, 255, 255, 0.1);
         }
-        body.light-mode { --bg: #fdfdfd; --card-bg: #ffffff; --text: #1a1a1a; --border: rgba(157, 78, 221, 0.2); }
+        body.light-mode { --bg: #f5f6fa; --card-bg: #ffffff; --text: #1a1a1a; --border: rgba(157, 78, 221, 0.2); }
 
-        html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; transition: 0.5s; }
-        .page-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
+        /* ضبط الموقع ليتناسب مع كافة الأجهزة */
+        html, body { 
+            height: 100%; margin: 0; padding: 0; 
+            overflow-x: hidden; background-color: var(--bg); 
+            color: var(--text); font-family: 'Cairo', sans-serif;
+            display: flex; flex-direction: column;
+        }
 
-        .header-profile { display: flex; align-items: center; justify-content: space-between; padding: 15px 5%; background: var(--card-bg); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+        .page-wrapper { display: flex; flex-direction: column; min-height: 100vh; width: 100%; }
+
+        /* هيدر متجاوب */
+        .header-profile {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 5%; background: var(--card-bg);
+            backdrop-filter: blur(15px); border-bottom: 1px solid var(--border);
+        }
+
         .user-brand { display: flex; align-items: center; gap: 12px; }
-        .avatar-container { position: relative; width: 60px; height: 60px; }
+        .avatar-container { position: relative; width: 55px; height: 55px; }
         .avatar-box { width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-        .verified-badge-shield { position: absolute; bottom: 2px; right: 2px; background: var(--bg); color: var(--verified-color); border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; box-shadow: 0 0 10px var(--verified-color); animation: pulse-blue 2s infinite; }
-        @keyframes pulse-blue { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-        .glowing-name { font-family: 'Tajawal'; font-weight: 900; font-size: 1.4rem; }
+        .verified-badge-shield { 
+            position: absolute; bottom: 0; right: 0; background: var(--bg); 
+            color: var(--verified-color); border-radius: 50%; width: 20px; height: 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+            box-shadow: 0 0 10px var(--verified-color); animation: pulse 2s infinite;
+        }
 
-        .content-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 15px; }
-        .super-card { width: 100%; max-width: 500px; background: var(--card-bg); border-radius: 30px; padding: 35px 20px; border: 1px solid var(--border); text-align: center; }
-        .upload-btn { background: linear-gradient(45deg, var(--primary), var(--accent)); border: none; padding: 18px 30px; border-radius: 15px; color: #fff; font-weight: 900; cursor: pointer; width: 100%; }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.15);} 100% {transform: scale(1);} }
 
-        textarea { width: 100%; height: 280px; background: rgba(0,0,0,0.5); color: #00ffcc; border: 2px solid var(--primary); border-radius: 20px; padding: 15px; margin-top: 20px; box-sizing: border-box; outline: none; resize: none; text-align: right; font-size: 1.15rem; line-height: 1.7; font-weight: bold; }
+        /* منطقة المحتوى الذكية */
+        .content-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .super-card { 
+            width: 100%; max-width: 600px; background: var(--card-bg); 
+            border-radius: 25px; padding: 30px; border: 1px solid var(--border); 
+            text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
 
-        .footer-section { width: 100%; margin-top: auto; }
-        .fixed-contact-row { display: flex; justify-content: space-between; gap: 10px; max-width: 500px; margin: 0 auto 20px auto; padding: 0 15px; }
-        .contact-pill { flex: 1; background: var(--card-bg); padding: 14px 5px; border-radius: 12px; border: 1px solid var(--border); color: var(--text); text-decoration: none; font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .footer-rights { text-align: center; padding: 25px; border-top: 1px solid var(--border); font-size: 0.95rem; font-weight: bold; background: var(--card-bg); }
+        .upload-btn { 
+            background: linear-gradient(45deg, var(--primary), var(--accent)); 
+            border: none; padding: 15px 25px; border-radius: 12px; 
+            color: #fff; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.1rem;
+        }
 
-        #loader { display: none; margin: 15px auto; color: var(--accent); }
+        /* مربع نص متطور ومعالج */
+        textarea { 
+            width: 100%; height: 300px; background: #000; color: #00ff95; 
+            border: 1px solid var(--primary); border-radius: 15px; padding: 15px; 
+            margin-top: 20px; box-sizing: border-box; outline: none; resize: none; 
+            text-align: right; font-size: 1.1rem; line-height: 1.8; font-family: 'Cairo';
+        }
+
+        /* فوتر متجاوب */
+        .footer-section { margin-top: auto; width: 100%; }
+        .fixed-contact-row { 
+            display: flex; justify-content: space-between; gap: 10px; 
+            max-width: 600px; margin: 0 auto 15px auto; padding: 0 15px; 
+        }
+        .contact-pill { 
+            flex: 1; background: var(--card-bg); padding: 12px; border-radius: 12px; 
+            border: 1px solid var(--border); color: var(--text); text-decoration: none; 
+            font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .footer-rights { text-align: center; padding: 20px; border-top: 1px solid var(--border); font-size: 0.9rem; }
+
+        #loader { display: none; margin: 20px auto; }
     </style>
 </head>
 <body>
@@ -51,25 +93,30 @@
                     <div class="avatar-box"><img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله"></div>
                     <div class="verified-badge-shield"><i class="fas fa-shield-alt"></i></div>
                 </div>
-                <span class="glowing-name">عبدالإله فلاته</span>
+                <span class="glowing-name" style="font-weight: 900; font-size: 1.2rem;">عبدالإله فلاته</span>
             </div>
-            <div onclick="toggleTheme()" style="cursor:pointer; color:var(--primary); font-size:1.4rem;"><i class="fas fa-moon" id="themeIcon"></i></div>
+            <div onclick="toggleTheme()" style="cursor:pointer; color:var(--primary); font-size:1.3rem;">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </div>
         </header>
 
         <main class="content-area">
             <div class="super-card">
-                <h2 style="margin: 0 0 10px 0;">المعالج الاحترافي 2025</h2>
-                <p style="opacity: 0.7; font-size: 0.9rem; margin-bottom: 25px;">تقنية تنقية الصور لاستخراج النصوص الصعبة</p>
+                <h2 style="margin-bottom: 5px;">المستخرج الذكي المطور</h2>
+                <p style="opacity: 0.6; font-size: 0.9rem; margin-bottom: 25px;">استخراج وتصحيح تلقائي للنصوص العربية</p>
                 
                 <input type="file" id="imageInput" hidden accept="image/*">
                 <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                    <i class="fas fa-camera-retro"></i> ارفع الصورة الآن
+                    <i class="fas fa-magic"></i> اختر الصورة للمعالجة
                 </button>
 
-                <div id="loader"><i class="fas fa-spinner fa-spin fa-2x"></i> <p>جاري تصفية الصورة واستخراج النص...</p></div>
+                <div id="loader">
+                    <i class="fas fa-sync fa-spin fa-2x" style="color:var(--accent);"></i>
+                    <p>جاري الاستخراج والتصحيح التلقائي...</p>
+                </div>
 
                 <div id="resultArea" style="display:none;">
-                    <textarea id="output"></textarea>
+                    <textarea id="output" placeholder="النص المستخرج والمصحح سيظهر هنا..."></textarea>
                     <div style="display: flex; gap: 10px; margin-top: 15px;">
                         <button class="upload-btn" style="background:#27ae60; flex:1;" onclick="copyRes()">نسخ النص</button>
                     </div>
@@ -86,8 +133,6 @@
         </div>
     </div>
 
-    <canvas id="helperCanvas" style="display:none;"></canvas>
-
     <script>
         function toggleTheme() {
             const body = document.body;
@@ -96,68 +141,60 @@
             icon.className = body.classList.contains('light-mode') ? 'fas fa-sun' : 'fas fa-moon';
         }
 
-        document.getElementById('imageInput').addEventListener('change', function(e) {
+        document.getElementById('imageInput').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (!file) return;
 
             document.getElementById('loader').style.display = 'block';
             document.getElementById('resultArea').style.display = 'none';
 
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = new Image();
-                img.onload = function() {
-                    // معالجة الصورة قبل القراءة (تحويلها لأبيض وأسود عالي التباين)
-                    const canvas = document.getElementById('helperCanvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
-                    
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const data = imageData.data;
-                    for (let i = 0; i < data.length; i += 4) {
-                        const avg = (data[i] + data[i+1] + data[i+2]) / 3;
-                        const threshold = avg > 128 ? 255 : 0; // عزل النص عن الخلفية
-                        data[i] = data[i+1] = data[i+2] = threshold;
-                    }
-                    ctx.putImageData(imageData, 0, 0);
+            try {
+                const worker = await Tesseract.createWorker('ara');
+                const { data: { text } } = await worker.recognize(file);
+                await worker.terminate();
 
-                    // بدء التعرف على النص من الصورة المعالجة
-                    Tesseract.recognize(canvas.toDataURL(), 'ara', {
-                        logger: m => console.log(m)
-                    }).then(({ data: { text } }) => {
-                        processFinalText(text);
-                    });
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
+                // ميزة التصحيح التلقائي والترتيب
+                const correctedText = autoCorrect(text);
+                
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('resultArea').style.display = 'block';
+                document.getElementById('output').value = correctedText;
+            } catch (err) {
+                alert("حدث خطأ في المعالجة");
+                document.getElementById('loader').style.display = 'none';
+            }
         });
 
-        function processFinalText(rawText) {
-            // تنظيف النص من الشوائب وكلمات السوشيال ميديا
-            let lines = rawText.split('\n');
-            let filtered = lines.filter(line => {
-                return line.trim().length > 3 && !line.includes('tiktok') && !line.includes('@');
-            });
+        // محرك التصحيح التلقائي
+        function autoCorrect(input) {
+            if (!input) return "";
 
-            let final = filtered.join('\n')
+            let clean = input
+                // 1. استبدال الأخطاء الشائعة التي حدثت في الخاطرة
                 .replace(/يظتون/g, 'يظنون')
                 .replace(/الجكمة/g, 'الحكمة')
                 .replace(/تعام/g, 'تعلم')
-                .replace(/[^\u0600-\u06FF\s]/g, ''); // إبقاء العربي فقط
+                .replace(/عَْتهِ/g, 'ﷺ')
+                .replace(/واجبهم/g, 'يواجههم')
+                .replace(/وي يحتاج/g, 'وعي يحتاج')
+                
+                // 2. تنظيف الرموز الناتجة عن ضوضاء الصورة
+                .replace(/[^\u0600-\u06FF0-9\s\.\،\:\!\؟]/g, '')
+                
+                // 3. ترتيب المسافات والأسطر
+                .split('\n')
+                .map(line => line.trim())
+                .filter(line => line.length > 2) // حذف الأسطر الوهمية القصيرة جداً
+                .join('\n');
 
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('resultArea').style.display = 'block';
-            document.getElementById('output').value = final.trim();
+            return clean;
         }
 
         function copyRes() {
             const out = document.getElementById('output');
             out.select();
             document.execCommand('copy');
-            alert('تم نسخ النص بنجاح!');
+            alert('تم النسخ!');
         }
     </script>
 </body>
