@@ -3,142 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة عبدالإله فلاته - الاستخراج النقي</title>
+    <title>منصة عبدالإله فلاته - الذكاء الاصطناعي</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         :root {
-            --bg: #050505; --card-bg: rgba(255, 255, 255, 0.04); --text: #ffffff;
-            --primary: #a855f7; --accent: #22d3ee; --verified: #0ea5e9; --border: rgba(255, 255, 255, 0.1);
+            --bg: #030303; --card-bg: #111111; --text: #ffffff;
+            --primary: #9d4edd; --accent: #00d4ff; --border: rgba(255, 255, 255, 0.1);
         }
-        body.light-mode { --bg: #f8fafc; --card-bg: #ffffff; --text: #0f172a; --border: rgba(168, 85, 247, 0.2); }
+        
+        body { 
+            margin: 0; background-color: var(--bg); color: var(--text); 
+            font-family: 'Cairo', sans-serif; min-height: 100vh;
+            display: flex; flex-direction: column;
+        }
 
-        html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; display: flex; flex-direction: column; }
-        .page-wrapper { display: flex; flex-direction: column; min-height: 100vh; width: 100%; }
-
-        .header-profile { display: flex; align-items: center; justify-content: space-between; padding: 1rem 5%; background: var(--card-bg); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+        .header-profile {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 5%; background: var(--card-bg); border-bottom: 1px solid var(--border);
+        }
         .user-brand { display: flex; align-items: center; gap: 12px; }
         .avatar-container { position: relative; width: 55px; height: 55px; }
         .avatar-box { width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-        .verified-badge { position: absolute; bottom: 0; right: 0; background: var(--bg); color: var(--verified); border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; box-shadow: 0 0 8px var(--verified); }
+        .v-badge { position: absolute; bottom: 0; right: 0; color: #00d4ff; background: var(--bg); border-radius: 50%; font-size: 1rem; }
 
-        .content-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        .super-card { width: 100%; max-width: 550px; background: var(--card-bg); border-radius: 24px; padding: 25px; border: 1px solid var(--border); text-align: center; }
+        .main-content { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .super-card { 
+            width: 100%; max-width: 500px; background: var(--card-bg); 
+            border-radius: 30px; padding: 30px; border: 1px solid var(--border); text-align: center;
+        }
+
+        .upload-btn {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border: none; padding: 18px; border-radius: 15px;
+            color: #fff; font-weight: 900; cursor: pointer; width: 100%; font-size: 1.1rem;
+        }
+
+        textarea {
+            width: 100%; height: 300px; background: #000; color: #00ffcc;
+            border: 1px solid var(--primary); border-radius: 20px; padding: 20px;
+            margin-top: 20px; box-sizing: border-box; outline: none; resize: none;
+            text-align: right; font-size: 1.2rem; line-height: 1.8;
+        }
+
+        .contact-row {
+            display: flex; justify-content: space-between; gap: 10px;
+            max-width: 500px; margin: 0 auto 20px; padding: 0 15px;
+        }
+        .c-pill {
+            flex: 1; background: var(--card-bg); padding: 12px; border-radius: 12px;
+            border: 1px solid var(--border); color: #fff; text-decoration: none; font-size: 0.8rem;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+
+        footer { text-align: center; padding: 20px; border-top: 1px solid var(--border); font-size: 0.9rem; opacity: 0.7; }
         
-        .upload-btn { background: linear-gradient(135deg, var(--primary), var(--accent)); border: none; padding: 16px; border-radius: 14px; color: #fff; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; transition: 0.3s; }
-        .upload-btn:active { transform: scale(0.98); }
-
-        textarea { width: 100%; height: 280px; background: rgba(0,0,0,0.6); color: #22d3ee; border: 1px solid var(--primary); border-radius: 16px; padding: 15px; margin-top: 20px; box-sizing: border-box; outline: none; resize: none; text-align: right; font-size: 1.15rem; line-height: 1.8; }
-
-        .footer-section { margin-top: auto; width: 100%; }
-        .fixed-contact-row { display: flex; justify-content: space-between; gap: 10px; max-width: 550px; margin: 0 auto 15px auto; padding: 0 15px; }
-        .contact-pill { flex: 1; background: var(--card-bg); padding: 12px; border-radius: 12px; border: 1px solid var(--border); color: var(--text); text-decoration: none; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .footer-rights { text-align: center; padding: 20px; border-top: 1px solid var(--border); font-size: 0.85rem; opacity: 0.8; }
-
-        #loader { display: none; margin: 20px auto; color: var(--accent); }
+        #loader { display: none; margin: 20px 0; }
+        .fa-spin { color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <div class="page-wrapper">
-        <header class="header-profile">
-            <div class="user-brand">
-                <div class="avatar-container">
-                    <div class="avatar-box"><img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله"></div>
-                    <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
-                </div>
-                <span style="font-weight: 900; font-size: 1.1rem;">عبدالإله فلاته</span>
+    <header class="header-profile">
+        <div class="user-brand">
+            <div class="avatar-container">
+                <div class="avatar-box"><img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله"></div>
+                <i class="fas fa-check-circle v-badge"></i>
             </div>
-            <div onclick="toggleTheme()" style="cursor:pointer; font-size:1.3rem;"><i class="fas fa-moon" id="themeIcon"></i></div>
-        </header>
-
-        <main class="content-area">
-            <div class="super-card">
-                <h3 style="margin: 0 0 10px 0;">مستخرج الخواطر النقي</h3>
-                <p style="opacity: 0.6; font-size: 0.85rem; margin-bottom: 20px;">يقوم بحذف الرموز والارقام العشوائية تلقائياً</p>
-                
-                <input type="file" id="imageInput" hidden accept="image/*">
-                <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                    <i class="fas fa-wand-magic-sparkles"></i> استخراج الخاطرة فقط
-                </button>
-
-                <div id="loader"><i class="fas fa-spinner fa-spin fa-2x"></i><p>جاري تنقية النص...</p></div>
-
-                <div id="resultArea" style="display:none;">
-                    <textarea id="output"></textarea>
-                    <button class="upload-btn" style="background:#059669; margin-top:15px;" onclick="copyRes()">نسخ الخاطرة</button>
-                </div>
-            </div>
-        </main>
-
-        <div class="footer-section">
-            <div class="fixed-contact-row">
-                <a href="mailto:iioe@outlook.sa" class="contact-pill"><i class="fas fa-envelope"></i> iioe@outlook.sa</a>
-                <a href="tel:0591388202" class="contact-pill"><i class="fas fa-phone"></i> 0591388202</a>
-            </div>
-            <footer class="footer-rights">جميع الحقوق محفوظة لعبدالإله فلاته © 2025</footer>
+            <span style="font-weight: 900;">عبدالإله فلاته</span>
         </div>
+    </header>
+
+    <main class="main-content">
+        <div class="super-card">
+            <h2 style="margin:0 0 10px 0;">المستخرج الذكي (GPT-4o)</h2>
+            <p style="opacity: 0.6; font-size: 0.9rem; margin-bottom: 25px;">استخراج نقي، تصحيح لغوي، وتنسيق تلقائي</p>
+            
+            <input type="file" id="imageInput" hidden accept="image/*">
+            <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
+                <i class="fas fa-brain"></i> تحليل الخاطرة بالذكاء الاصطناعي
+            </button>
+
+            <div id="loader">
+                <i class="fas fa-robot fa-spin fa-3x"></i>
+                <p>جاري قراءة الصورة وتنسيق النص...</p>
+            </div>
+
+            <div id="resultArea" style="display:none;">
+                <textarea id="output"></textarea>
+                <button class="upload-btn" style="background:#27ae60; margin-top:15px;" onclick="copyRes()">نسخ النص الجاهز</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="contact-row">
+        <a href="mailto:iioe@outlook.sa" class="c-pill"><i class="fas fa-envelope"></i> iioe@outlook.sa</a>
+        <a href="tel:0591388202" class="c-pill"><i class="fas fa-phone"></i> 0591388202</a>
     </div>
 
+    <footer>جميع الحقوق محفوظة لعبدالإله فلاته © 2025</footer>
+
     <script>
-        function toggleTheme() {
-            const body = document.body;
-            const icon = document.getElementById('themeIcon');
-            body.classList.toggle('light-mode');
-            icon.className = body.classList.contains('light-mode') ? 'fas fa-sun' : 'fas fa-moon';
-        }
+        const API_KEY = "Sk-proj-nG4SuFEY-cxGytRqrXjr3_6O5KwoNeip8dyRZmC7c49joYW2YTc69_Srkd3Hdsmn0esQ60Z808T3BlbkFJFhAWuu7c0t4ZM2fm0oAVkdfJaJR49W7Cej-WxRXYBtPYkCIrC4gOMAqbdJhJq5dwe4_h5Hjo4A"; // المفتاح الخاص بك
 
         document.getElementById('imageInput').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (!file) return;
+
             document.getElementById('loader').style.display = 'block';
             document.getElementById('resultArea').style.display = 'none';
 
-            try {
-                const worker = await Tesseract.createWorker('ara');
-                const { data: { text } } = await worker.recognize(file);
-                await worker.terminate();
+            const base64Image = await toBase64(file);
 
-                // تطبيق الفلتر الذكي لاستخراج الخاطرة فقط
-                document.getElementById('output').value = cleanText(text);
+            try {
+                const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-4o",
+                        messages: [
+                            {
+                                role: "user",
+                                content: [
+                                    { type: "text", text: "استخرج النص العربي من هذه الصورة. قم بحذف أي أرقام ساعة أو أيقونات تطبيقات أو كلمات مثل 'بحث' أو 'تعليق'. قم بتصحيح الأخطاء الإملائية الناتجة عن القراءة الخاطئة (مثل تالفه تصبح تألفه). أريد النص الصافي للخاطرة فقط مرتباً." },
+                                    { type: "image_url", image_url: { url: base64Image } }
+                                ]
+                            }
+                        ],
+                        max_tokens: 500
+                    })
+                });
+
+                const data = await response.json();
+                const result = data.choices[0].message.content;
+
+                document.getElementById('output').value = result.trim();
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('resultArea').style.display = 'block';
-            } catch (err) {
-                alert("حدث خطأ، حاول مرة أخرى");
+
+            } catch (error) {
+                alert("حدث خطأ في الاتصال بالذكاء الاصطناعي");
                 document.getElementById('loader').style.display = 'none';
             }
         });
 
-        function cleanText(raw) {
-            let lines = raw.split('\n');
-            let filteredLines = lines.filter(line => {
-                let l = line.trim();
-                // استبعاد السطور التي تحتوي على رموز التيك توك أو أرقام الساعة والبطارية
-                if (l.length < 5) return false; 
-                if (l.includes('بحث') || l.includes('تعليق') || l.includes('مشاركة')) return false;
-                if (l.match(/^[0-9\s]+$/)) return false; // استبعاد السطور التي هي أرقام فقط
-                return true;
-            });
-
-            let final = filteredLines.join('\n')
-                .replace(/تالفه/g, 'تألفه')
-                .replace(/هيئه/g, 'هيئة')
-                .replace(/[^\u0600-\u06FF\s\.\،]/g, '') // حذف أي حروف انجليزية أو رموز غريبة
-                .replace(/\s+/g, ' ') // تقليل المسافات الزائدة
-                .trim();
-
-            return final;
-        }
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
 
         function copyRes() {
             const out = document.getElementById('output');
             out.select();
             document.execCommand('copy');
-            alert('تم النسخ!');
+            alert('تم نسخ الخاطرة بنجاح!');
         }
     </script>
 </body>
