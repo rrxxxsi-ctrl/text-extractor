@@ -3,66 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة عبدالإله فلاته - الذكاء الاصطناعي</title>
+    <title>منصة عبدالإله فلاته - المطور 2025</title>
     
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         :root {
-            --bg: #030303; --card-bg: #111111; --text: #ffffff;
-            --primary: #9d4edd; --accent: #00d4ff; --border: rgba(255, 255, 255, 0.1);
+            --bg: #050505; --card-bg: #121212; --text: #ffffff;
+            --primary: #9d4edd; --accent: #00d4ff; --border: rgba(255, 255, 255, 0.08);
         }
         
-        body { 
-            margin: 0; background-color: var(--bg); color: var(--text); 
-            font-family: 'Cairo', sans-serif; min-height: 100vh;
-            display: flex; flex-direction: column;
-        }
+        body { margin: 0; background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
 
-        .header-profile {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 1rem 5%; background: var(--card-bg); border-bottom: 1px solid var(--border);
-        }
-        .user-brand { display: flex; align-items: center; gap: 12px; }
-        .avatar-container { position: relative; width: 55px; height: 55px; }
+        .header-profile { display: flex; align-items: center; justify-content: space-between; padding: 12px 5%; background: var(--card-bg); border-bottom: 1px solid var(--border); }
+        .user-brand { display: flex; align-items: center; gap: 10px; }
+        .avatar-container { position: relative; width: 50px; height: 50px; }
         .avatar-box { width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-        .v-badge { position: absolute; bottom: 0; right: 0; color: #00d4ff; background: var(--bg); border-radius: 50%; font-size: 1rem; }
+        .v-badge { position: absolute; bottom: -2px; right: -2px; color: var(--accent); background: var(--bg); border-radius: 50%; font-size: 0.9rem; }
 
         .main-content { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .super-card { 
-            width: 100%; max-width: 500px; background: var(--card-bg); 
-            border-radius: 30px; padding: 30px; border: 1px solid var(--border); text-align: center;
-        }
+        .super-card { width: 100%; max-width: 500px; background: var(--card-bg); border-radius: 25px; padding: 25px; border: 1px solid var(--border); text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        .upload-btn {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            border: none; padding: 18px; border-radius: 15px;
-            color: #fff; font-weight: 900; cursor: pointer; width: 100%; font-size: 1.1rem;
-        }
+        .upload-btn { background: linear-gradient(45deg, var(--primary), var(--accent)); border: none; padding: 16px; border-radius: 12px; color: #fff; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; }
 
-        textarea {
-            width: 100%; height: 300px; background: #000; color: #00ffcc;
-            border: 1px solid var(--primary); border-radius: 20px; padding: 20px;
-            margin-top: 20px; box-sizing: border-box; outline: none; resize: none;
-            text-align: right; font-size: 1.2rem; line-height: 1.8;
-        }
+        textarea { width: 100%; height: 280px; background: #000; color: #00ffcc; border: 1px solid var(--primary); border-radius: 15px; padding: 15px; margin-top: 15px; box-sizing: border-box; outline: none; resize: none; text-align: right; font-size: 1.1rem; line-height: 1.7; }
 
-        .contact-row {
-            display: flex; justify-content: space-between; gap: 10px;
-            max-width: 500px; margin: 0 auto 20px; padding: 0 15px;
-        }
-        .c-pill {
-            flex: 1; background: var(--card-bg); padding: 12px; border-radius: 12px;
-            border: 1px solid var(--border); color: #fff; text-decoration: none; font-size: 0.8rem;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
+        /* تعديل المسافات في الفوتر */
+        .footer-section { padding: 15px; background: var(--card-bg); border-top: 1px solid var(--border); }
+        .contact-row { display: flex; gap: 10px; max-width: 500px; margin: 0 auto 10px; }
+        .c-pill { flex: 1; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; border: 1px solid var(--border); color: #fff; text-decoration: none; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
 
-        footer { text-align: center; padding: 20px; border-top: 1px solid var(--border); font-size: 0.9rem; opacity: 0.7; }
-        
-        #loader { display: none; margin: 20px 0; }
-        .fa-spin { color: var(--accent); }
+        #loader { display: none; margin: 20px 0; color: var(--accent); }
     </style>
 </head>
 <body>
@@ -79,36 +53,34 @@
 
     <main class="main-content">
         <div class="super-card">
-            <h2 style="margin:0 0 10px 0;">المستخرج الذكي (GPT-4o)</h2>
-            <p style="opacity: 0.6; font-size: 0.9rem; margin-bottom: 25px;">استخراج نقي، تصحيح لغوي، وتنسيق تلقائي</p>
+            <h3 style="margin:0 0 10px 0;">المستخرج الذكي V3</h3>
+            <p style="opacity: 0.6; font-size: 0.8rem; margin-bottom: 20px;">معالجة هجينة لاستخراج الخواطر بدقة</p>
             
             <input type="file" id="imageInput" hidden accept="image/*">
             <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                <i class="fas fa-brain"></i> تحليل الخاطرة بالذكاء الاصطناعي
+                <i class="fas fa-image"></i> اختر صورة الخاطرة
             </button>
 
-            <div id="loader">
-                <i class="fas fa-robot fa-spin fa-3x"></i>
-                <p>جاري قراءة الصورة وتنسيق النص...</p>
-            </div>
+            <div id="loader"><i class="fas fa-cog fa-spin fa-2x"></i><p>جاري المعالجة الرقمية...</p></div>
 
             <div id="resultArea" style="display:none;">
                 <textarea id="output"></textarea>
-                <button class="upload-btn" style="background:#27ae60; margin-top:15px;" onclick="copyRes()">نسخ النص الجاهز</button>
+                <button class="upload-btn" style="background:#059669; margin-top:10px;" onclick="copyRes()">نسخ النص</button>
             </div>
         </div>
     </main>
 
-    <div class="contact-row">
-        <a href="mailto:iioe@outlook.sa" class="c-pill"><i class="fas fa-envelope"></i> iioe@outlook.sa</a>
-        <a href="tel:0591388202" class="c-pill"><i class="fas fa-phone"></i> 0591388202</a>
-    </div>
+    <div class="footer-section">
+        <div class="contact-row">
+            <a href="mailto:iioe@outlook.sa" class="c-pill"><i class="fas fa-envelope"></i> iioe@outlook.sa</a>
+            <a href="tel:0591388202" class="c-pill"><i class="fas fa-phone"></i> 0591388202</a>
+        </div>
+        <div style="text-align:center; font-size:0.75rem; opacity:0.6;">جميع الحقوق محفوظة لعبدالإله فلاته © 2025</div>
+    </header>
 
-    <footer>جميع الحقوق محفوظة لعبدالإله فلاته © 2025</footer>
+    <canvas id="pCanvas" style="display:none;"></canvas>
 
     <script>
-        const API_KEY = "Sk-proj-nG4SuFEY-cxGytRqrXjr3_6O5KwoNeip8dyRZmC7c49joYW2YTc69_Srkd3Hdsmn0esQ60Z808T3BlbkFJFhAWuu7c0t4ZM2fm0oAVkdfJaJR49W7Cej-WxRXYBtPYkCIrC4gOMAqbdJhJq5dwe4_h5Hjo4A"; // المفتاح الخاص بك
-
         document.getElementById('imageInput').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -116,55 +88,52 @@
             document.getElementById('loader').style.display = 'block';
             document.getElementById('resultArea').style.display = 'none';
 
-            const base64Image = await toBase64(file);
-
-            try {
-                const response = await fetch("https://api.openai.com/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: "gpt-4o",
-                        messages: [
-                            {
-                                role: "user",
-                                content: [
-                                    { type: "text", text: "استخرج النص العربي من هذه الصورة. قم بحذف أي أرقام ساعة أو أيقونات تطبيقات أو كلمات مثل 'بحث' أو 'تعليق'. قم بتصحيح الأخطاء الإملائية الناتجة عن القراءة الخاطئة (مثل تالفه تصبح تألفه). أريد النص الصافي للخاطرة فقط مرتباً." },
-                                    { type: "image_url", image_url: { url: base64Image } }
-                                ]
-                            }
-                        ],
-                        max_tokens: 500
-                    })
-                });
-
-                const data = await response.json();
-                const result = data.choices[0].message.content;
-
-                document.getElementById('output').value = result.trim();
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('resultArea').style.display = 'block';
-
-            } catch (error) {
-                alert("حدث خطأ في الاتصال بالذكاء الاصطناعي");
-                document.getElementById('loader').style.display = 'none';
-            }
-        });
-
-        const toBase64 = file => new Promise((resolve, reject) => {
             const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = async function() {
+                    const canvas = document.getElementById('pCanvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width; canvas.height = img.height;
+                    
+                    // فلتر تصفية الصورة يدوياً لضمان الدقة بدون API
+                    ctx.filter = 'grayscale(100%) contrast(150%) brightness(110%)';
+                    ctx.drawImage(img, 0, 0);
+
+                    try {
+                        const { data: { text } } = await Tesseract.recognize(canvas.toDataURL(), 'ara');
+                        document.getElementById('output').value = cleanText(text);
+                        document.getElementById('loader').style.display = 'none';
+                        document.getElementById('resultArea').style.display = 'block';
+                    } catch (err) {
+                        alert("فشلت المعالجة، يرجى المحاولة بصورة أوضح.");
+                        document.getElementById('loader').style.display = 'none';
+                    }
+                };
+                img.src = event.target.result;
+            };
             reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
         });
+
+        function cleanText(raw) {
+            return raw.split('\n')
+                .map(line => line.trim())
+                .filter(line => {
+                    // حذف سطور تيك توك وأرقام الجوال العشوائية
+                    if (line.length < 6) return false;
+                    if (line.includes('بحث') || line.includes('تعليق')) return false;
+                    return /^[\u0600-\u06FF\s]+$/.test(line.replace(/[0-9]/g, ''));
+                })
+                .join('\n')
+                .replace(/تالفه/g, 'تألفه').replace(/هيئه/g, 'هيئة')
+                .trim();
+        }
 
         function copyRes() {
             const out = document.getElementById('output');
             out.select();
             document.execCommand('copy');
-            alert('تم نسخ الخاطرة بنجاح!');
+            alert('تم النسخ!');
         }
     </script>
 </body>
