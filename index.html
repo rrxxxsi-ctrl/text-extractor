@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة عبدالإله فلاته - النسخة الموثقة</title>
+    <title>منصة عبدالإله فلاته - النسخة الاحترافية</title>
     
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@900&display=swap" rel="stylesheet">
@@ -12,13 +12,20 @@
 
     <style>
         :root {
-            --primary: #9d4edd;
-            --accent: #00d4ff;
-            --verified: #1d9bf0; /* لون التوثيق الرسمي */
             --bg: #030303;
             --card-bg: rgba(255, 255, 255, 0.03);
             --text: #ffffff;
-            --border: rgba(255, 255, 255, 0.08);
+            --primary: #9d4edd;
+            --accent: #00d4ff;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* تنسيقات الوضع المضيء */
+        body.light-mode {
+            --bg: #f5f6fa;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+            --border: rgba(157, 78, 221, 0.2);
         }
 
         body {
@@ -26,128 +33,93 @@
             color: var(--text);
             font-family: 'Cairo', sans-serif;
             margin: 0;
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 50%, #1a0b2e 0%, transparent 80%);
+            transition: 0.4s ease;
+            direction: rtl;
         }
 
-        /* ===== الهيدر: الاسم + الصورة + التوثيق ===== */
+        /* ===== الهيدر ===== */
         .header-profile {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 8%;
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px 8%; background: var(--card-bg);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
             position: sticky; top: 0; z-index: 2000;
         }
 
-        .user-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        .user-brand { display: flex; align-items: center; gap: 15px; }
+        
         .avatar-box {
-            width: 52px; height: 52px;
-            border-radius: 50%; /* جعلتها دائرية لمظهر أكثر رسمية مع التوثيق */
-            border: 2px solid var(--primary);
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
+            width: 55px; height: 55px; border-radius: 50%;
+            border: 2px solid var(--primary); overflow: hidden;
+            box-shadow: 0 0 15px var(--primary);
         }
-
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        .name-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .name-wrapper { display: flex; align-items: center; gap: 8px; }
         .glowing-name {
             font-family: 'Tajawal'; font-weight: 900; font-size: 1.4rem;
-            background: linear-gradient(90deg, #fff, var(--primary), var(--accent), #fff);
+            background: linear-gradient(90deg, var(--text), var(--primary), var(--accent), var(--text));
             background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: textFlow 5s linear infinite;
         }
 
-        /* شارة التوثيق المميزة */
-        .verified-badge {
-            color: var(--verified);
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            filter: drop-shadow(0 0 5px rgba(29, 155, 240, 0.6));
-            animation: badgePulse 2s infinite;
+        .verified-badge { color: #1d9bf0; font-size: 1.1rem; animation: pulse 2s infinite; }
+
+        /* زر التبديل */
+        .mode-toggle {
+            cursor: pointer; font-size: 1.4rem; color: var(--primary);
+            transition: 0.3s; padding: 10px;
         }
 
-        @keyframes badgePulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--verified)); }
-            50% { transform: scale(1.15); filter: drop-shadow(0 0 10px var(--verified)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 2px var(--verified)); }
-        }
-
-        /* ===== الكرت الرئيسي ===== */
+        /* ===== منطقة العمل المركزية ===== */
         .main-container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
 
         .super-card {
-            background: var(--card-bg); border-radius: 40px; padding: 45px 30px;
+            background: var(--card-bg); border-radius: 35px; padding: 40px;
             border: 1px solid var(--border); text-align: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
 
-        .btn-main {
+        .btn-action {
             background: linear-gradient(45deg, var(--primary), var(--accent));
-            border: none; padding: 18px 50px; border-radius: 18px;
+            border: none; padding: 18px 50px; border-radius: 15px;
             color: #fff; font-weight: 900; font-size: 1.1rem;
-            cursor: pointer; transition: 0.4s;
-            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.3);
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-action:hover { transform: translateY(-3px); box-shadow: 0 10px 20px var(--primary); }
+
+        /* مربع النتائج */
+        .result-section { margin-top: 30px; display: none; }
+        .output-box {
+            width: 100%; height: 300px; background: rgba(0,0,0,0.2);
+            color: var(--text); border: 2px solid var(--primary);
+            border-radius: 20px; padding: 20px; font-family: 'Cairo';
+            font-size: 1.1rem; text-align: right; resize: none; outline: none;
         }
 
-        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 15px 40px var(--primary); }
-
-        /* منطقة النتائج */
-        .result-section { margin-top: 35px; display: none; flex-direction: column; align-items: center; }
-
-        .output-container {
-            width: 100%; max-width: 750px; border-radius: 25px; padding: 2px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-        }
-
-        textarea {
-            width: 100%; height: 320px; background: #080808; color: #00ffd5;
-            border: none; border-radius: 23px; padding: 25px; font-family: 'Cairo';
-            font-size: 1.1rem; line-height: 1.8; text-align: right; resize: vertical; outline: none;
-        }
-
-        /* وسائل التواصل يمين ويسار */
-        .contact-row {
+        /* ===== وسائل التواصل (خارج المربع وفي الأسفل) ===== */
+        .contact-footer {
             margin-top: 40px; display: flex; justify-content: space-between; gap: 20px;
         }
-
-        .contact-item {
-            flex: 1; background: var(--card-bg); padding: 15px; border-radius: 20px;
-            border: 1px solid var(--border); color: #eee; text-decoration: none;
-            display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 700; transition: 0.4s;
+        .contact-link {
+            flex: 1; background: var(--card-bg); padding: 15px;
+            border-radius: 15px; border: 1px solid var(--border);
+            color: var(--text); text-decoration: none; font-weight: bold;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.3s;
         }
+        .contact-link:hover { background: var(--primary); color: #fff; }
 
-        .contact-item:hover { background: var(--primary); color: #fff; transform: translateY(-5px); }
-
-        /* الفوتر */
-        .footer-stats {
-            margin-top: 60px; padding: 30px; text-align: center; border-top: 1px solid var(--border);
+        /* ===== الفوتر وحقوق الملكية ===== */
+        .bottom-footer {
+            margin-top: 60px; padding: 40px 20px; text-align: center;
+            border-top: 1px solid var(--border);
         }
-
-        .visitor-badge {
-            display: inline-flex; align-items: center; background: rgba(255,255,255,0.05);
-            padding: 8px 20px; border-radius: 50px; border: 1px solid var(--border); font-size: 0.85rem;
-        }
-
-        .live-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; margin-left: 10px; box-shadow: 0 0 10px #00ff88; }
+        .rights-text { font-weight: 700; color: var(--text); opacity: 0.9; margin-bottom: 10px; }
+        .visitor-box { display: inline-block; background: var(--card-bg); padding: 5px 20px; border-radius: 50px; font-size: 0.9rem; }
 
         @keyframes textFlow { to { background-position: 200% center; } }
-        #loader { display: none; width: 45px; height: 45px; margin: 20px auto; border: 4px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s infinite linear; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        #loader { display: none; margin: 20px auto; width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
@@ -156,67 +128,82 @@
     <header class="header-profile">
         <div class="user-brand">
             <div class="avatar-box">
-                <img src="https://i.ibb.co/hR8hN0x/image.jpg" onerror="this.src='https://via.placeholder.com/150'" alt="عبدالإله فلاته">
+                <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله فلاته">
             </div>
             <div class="name-wrapper">
                 <div class="glowing-name">عبدالإله فلاته</div>
-                <div class="verified-badge" title="حساب موثق">
-                    <i class="fas fa-check-circle"></i>
-                </div>
+                <i class="fas fa-check-circle verified-badge" title="موثق"></i>
             </div>
         </div>
-        
-        <div style="cursor: pointer; color: var(--primary);" onclick="document.body.classList.toggle('light-mode')">
-            <i class="fa fa-moon"></i>
+        <div class="mode-toggle" id="themeBtn" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
         </div>
     </header>
 
     <div class="main-container">
         <div class="super-card">
-            <h1 style="font-weight: 900; font-size: 2.2rem; margin-bottom: 8px;">المستخرج الذكي</h1>
-            <p style="opacity: 0.6; margin-bottom: 35px;">استخراج النصوص العربية بأحدث تقنيات OCR الموثقة.</p>
+            <h1 style="margin-bottom: 5px;">المستخرج الذكي</h1>
+            <p style="opacity: 0.6; margin-bottom: 30px;">حوّل صورك إلى نصوص عربية نقية ومعدلة</p>
             
             <input type="file" id="imageInput" hidden accept="image/*">
-            <button class="btn-main" onclick="document.getElementById('imageInput').click()">
-                <i class="fa fa-upload"></i> رفع صورة جديدة
+            <button class="btn-action" onclick="document.getElementById('imageInput').click()">
+                <i class="fas fa-camera"></i> رفع صورة المستند
             </button>
 
             <div id="loader"></div>
 
             <div id="resultArea" class="result-section">
-                <div class="output-container">
-                    <textarea id="output" placeholder="سيتم عرض النص هنا..."></textarea>
-                </div>
-                <div style="display: flex; gap: 15px; width: 100%; max-width: 750px; margin-top: 20px;">
-                    <button class="btn-main" style="flex:1; background:#27ae60;" onclick="copyRes()">نسخ النص</button>
-                    <button class="btn-main" style="flex:1; background:#2980b9;" onclick="downRes()">تحميل الملف</button>
+                <textarea id="output" class="output-box"></textarea>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn-action" style="flex:1; background:#27ae60; padding:12px;" onclick="copyRes()">نسخ</button>
+                    <button class="btn-action" style="flex:1; background:#2980b9; padding:12px;" onclick="downRes()">تحميل</button>
                 </div>
             </div>
 
-            <div class="contact-row">
-                <a href="mailto:iioe@outlook.sa" class="contact-item">
-                    <i class="fa fa-envelope"></i> iioe@outlook.sa
+            <div class="contact-footer">
+                <a href="mailto:iioe@outlook.sa" class="contact-link">
+                    <i class="fas fa-envelope"></i> iioe@outlook.sa
                 </a>
-                <a href="tel:0591388202" class="contact-item">
-                    <i class="fa fa-phone"></i> 0591388202
+                <a href="tel:0591388202" class="contact-link">
+                    <i class="fas fa-phone"></i> 0591388202
                 </a>
             </div>
         </div>
     </div>
 
-    <footer class="footer-stats">
-        <div class="visitor-badge">
-            <div class="live-dot" style="animation: blink 1.5s infinite;"></div>
-            <span>الزيارات الموثقة: <b id="vCount">2452</b></span>
+    <footer class="bottom-footer">
+        <div class="rights-text">جميع الحقوق محفوظة لعبدالإله فلاته © 2025</div>
+        <div class="visitor-box">
+            <i class="fas fa-users" style="color: var(--accent);"></i> الزوار: <b id="vCount">0</b>
         </div>
     </footer>
 
     <script>
+        // نظام تبديل الوضع (ليلي/نهاري)
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.querySelector('#themeBtn i');
+            body.classList.toggle('light-mode');
+            
+            if(body.classList.contains('light-mode')) {
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'light');
+            } else {
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // استعادة الوضع المفضل
+        if(localStorage.getItem('theme') === 'light') toggleTheme();
+
+        // عداد الزوار
         let count = localStorage.getItem('vCount') || 2452;
         count = parseInt(count) + 1;
         localStorage.setItem('vCount', count);
         document.getElementById('vCount').innerText = count;
 
+        // معالج الاستخراج
         document.getElementById('imageInput').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -228,21 +215,22 @@
             await worker.terminate();
 
             document.getElementById('loader').style.display = 'none';
-            document.getElementById('resultArea').style.display = 'flex';
+            document.getElementById('resultArea').style.display = 'block';
             document.getElementById('output').value = text.replace(/[^\u0600-\u06FF\s\n]/g, "").trim();
         });
 
         function copyRes() {
-            document.getElementById('output').select();
+            const out = document.getElementById('output');
+            out.select();
             document.execCommand('copy');
-            alert('تم نسخ النص!');
+            alert('تم النسخ!');
         }
 
         function downRes() {
             const blob = new Blob([document.getElementById('output').value], {type: 'text/plain'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'مستخرج_عبدالاله.txt';
+            a.download = 'مستند_عبدالاله.txt';
             a.click();
         }
     </script>
