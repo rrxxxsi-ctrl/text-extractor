@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة عبدالإله فلاته - OCR V3</title>
+    <title>منصة عبدالإله فلاته - الموثقة</title>
     
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@900&display=swap" rel="stylesheet">
@@ -21,9 +21,9 @@
         }
 
         body.light-mode {
-            --bg: #f8f9fc;
+            --bg: #fdfdfd;
             --card-bg: #ffffff;
-            --text: #222f3e;
+            --text: #1a1a1a;
             --border: rgba(157, 78, 221, 0.2);
         }
 
@@ -33,43 +33,67 @@
             font-family: 'Cairo', sans-serif;
             margin: 0;
             transition: 0.5s ease;
-            overflow-x: hidden;
+            direction: rtl;
         }
 
-        /* الهيدر */
+        /* ===== الهيدر المطور ===== */
         .header-profile {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px 8%; background: var(--card-bg);
-            backdrop-filter: blur(15px); border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
             position: sticky; top: 0; z-index: 2000;
         }
 
         .user-brand { display: flex; align-items: center; gap: 15px; }
+
+        /* حاوية الصورة الشخصية مع التوثيق المميز */
+        .avatar-container {
+            position: relative;
+            width: 60px; height: 60px;
+        }
+
         .avatar-box {
-            width: 55px; height: 55px; border-radius: 50%;
+            width: 100%; height: 100%; border-radius: 50%;
             border: 2px solid var(--primary); overflow: hidden;
             box-shadow: 0 0 15px var(--primary);
         }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* شارة التوثيق فوق الصورة بطريقة مميزة */
+        .verified-badge-on-img {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            background: #fff;
+            color: #1d9bf0;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            border: 2px solid var(--bg);
+            box-shadow: 0 0 10px rgba(29, 155, 240, 0.5);
+            z-index: 10;
+        }
+
         .glowing-name {
-            font-family: 'Tajawal'; font-weight: 900; font-size: 1.4rem;
+            font-family: 'Tajawal'; font-weight: 900; font-size: 1.5rem;
             background: linear-gradient(90deg, var(--text), var(--primary), var(--accent), var(--text));
             background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: textFlow 5s linear infinite;
         }
 
-        .verified-badge { color: #1d9bf0; margin-right: 5px; }
+        .theme-switch { cursor: pointer; font-size: 1.4rem; color: var(--primary); }
 
-        .theme-switch { cursor: pointer; font-size: 1.3rem; color: var(--primary); transition: 0.3s; }
-
-        /* منطقة المحتوى */
+        /* ===== منطقة المحتوى ===== */
         .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
 
         .super-card {
-            background: var(--card-bg); border-radius: 35px; padding: 40px;
+            background: var(--card-bg); border-radius: 35px; padding: 45px 30px;
             border: 1px solid var(--border); text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             margin-bottom: 30px;
         }
 
@@ -80,37 +104,48 @@
             cursor: pointer; transition: 0.4s;
         }
 
-        /* مربع النتائج */
-        .result-section { margin-top: 25px; display: none; }
+        .result-section { margin-top: 30px; display: none; }
         textarea {
-            width: 100%; height: 280px; background: rgba(0,0,0,0.3);
+            width: 100%; height: 300px; background: rgba(0,0,0,0.2);
             color: var(--text); border: 2px solid var(--primary);
-            border-radius: 20px; padding: 20px; font-family: 'Cairo';
+            border-radius: 20px; padding: 25px; font-family: 'Cairo';
             font-size: 1.1rem; text-align: right; outline: none; resize: none;
         }
 
-        /* وسائل التواصل (تم نقلها للأسفل خارج البطاقة) */
+        /* ===== منطقة التواصل (رقم الجوال يمين - ايميل يسار) ===== */
         .contact-area {
-            display: flex; justify-content: center; gap: 15px;
-            margin-top: 20px; flex-wrap: wrap;
+            display: flex; 
+            justify-content: space-between; /* يوزع العناصر على الأطراف */
+            align-items: center;
+            margin-top: 30px;
+            padding: 0 10px;
         }
+
         .contact-box {
-            background: var(--card-bg); padding: 12px 25px; border-radius: 15px;
-            border: 1px solid var(--border); color: var(--text);
-            text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 10px;
+            background: var(--card-bg); 
+            padding: 12px 20px; 
+            border-radius: 15px;
+            border: 1px solid var(--border); 
+            color: var(--text);
+            text-decoration: none; 
+            font-weight: bold; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px;
             transition: 0.3s;
+            min-width: 160px;
+            justify-content: center;
         }
         .contact-box:hover { background: var(--primary); color: #fff; transform: translateY(-3px); }
 
-        /* الفوتر */
         .footer-rights {
-            margin-top: 60px; padding: 30px; text-align: center;
-            border-top: 1px solid var(--border); opacity: 0.8;
-            font-weight: bold;
+            margin-top: 50px; padding: 30px; text-align: center;
+            border-top: 1px solid var(--border); opacity: 0.9;
+            font-weight: 900; letter-spacing: 1px;
         }
 
         @keyframes textFlow { to { background-position: 200% center; } }
-        #loader { display: none; margin: 20px auto; width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        #loader { display: none; margin: 20px auto; width: 45px; height: 45px; border: 4px solid #eee; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
@@ -118,13 +153,15 @@
 
     <header class="header-profile">
         <div class="user-brand">
-            <div class="avatar-box">
-                <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله فلاته">
+            <div class="avatar-container">
+                <div class="avatar-box">
+                    <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله فلاته">
+                </div>
+                <div class="verified-badge-on-img">
+                    <i class="fas fa-check"></i>
+                </div>
             </div>
-            <div class="user-brand">
-                <span class="glowing-name">عبدالإله فلاته</span>
-                <i class="fas fa-check-circle verified-badge"></i>
-            </div>
+            <span class="glowing-name">عبدالإله فلاته</span>
         </div>
         <div class="theme-switch" onclick="toggleTheme()">
             <i class="fas fa-moon" id="themeIcon"></i>
@@ -132,33 +169,33 @@
     </header>
 
     <div class="main-container">
-        <div class="super-card animate__animated animate__fadeIn">
-            <h1 style="font-size: 2.2rem; margin-bottom: 10px;">المستخرج الذكي</h1>
-            <p style="opacity: 0.7; margin-bottom: 30px;">حوّل صورك إلى نصوص عربية نقية ومعدلة</p>
+        <div class="super-card">
+            <h1 style="font-size: 2.3rem; margin-bottom: 10px;">المستخرج الذكي</h1>
+            <p style="opacity: 0.7; margin-bottom: 35px;">استخرج نصوصك العربية من الصور بدقة عالية</p>
             
             <input type="file" id="imageInput" hidden accept="image/*">
             <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                <i class="fas fa-file-image"></i> رفع صورة المستند
+                <i class="fas fa-file-export"></i> اختيار صورة للمعالجة
             </button>
 
             <div id="loader"></div>
 
             <div id="resultArea" class="result-section">
-                <textarea id="output"></textarea>
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <button class="upload-btn" style="flex:1; background:#27ae60;" onclick="copyRes()">نسخ النص</button>
-                    <button class="upload-btn" style="flex:1; background:#2980b9;" onclick="downRes()">تحميل الملف</button>
+                <textarea id="output" placeholder="سيظهر النص المستخرج هنا..."></textarea>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button class="upload-btn" style="flex:1; background:#27ae60;" onclick="copyRes()">نسخ</button>
+                    <button class="upload-btn" style="flex:1; background:#2980b9;" onclick="downRes()">تحميل</button>
                 </div>
             </div>
-        </div>
 
-        <div class="contact-area">
-            <a href="mailto:iioe@outlook.sa" class="contact-box">
-                <i class="fas fa-envelope"></i> iioe@outlook.sa
-            </a>
-            <a href="tel:0591388202" class="contact-box">
-                <i class="fas fa-phone"></i> 0591388202
-            </a>
+            <div class="contact-area">
+                <a href="tel:0591388202" class="contact-box">
+                    <i class="fas fa-phone"></i> 0591388202
+                </a>
+                <a href="mailto:iioe@outlook.sa" class="contact-box">
+                    <i class="fas fa-envelope"></i> iioe@outlook.sa
+                </a>
+            </div>
         </div>
     </div>
 
@@ -180,6 +217,7 @@
             }
         }
 
+        // استعادة الوضع المفضل
         if(localStorage.getItem('theme') === 'light') {
             document.body.classList.add('light-mode');
             document.getElementById('themeIcon').className = 'fas fa-sun';
