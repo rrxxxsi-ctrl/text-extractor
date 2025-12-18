@@ -1,56 +1,125 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>مستخرج النصوص الذكي - عبد الإله فلاتة</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Tajawal', sans-serif;
-        background-color: #050505;
-        background-image: radial-gradient(circle at top right, #1a1033 0%, transparent 40%),
-                          radial-gradient(circle at bottom left, #0a1a22 0%, transparent 40%);
-        background-attachment: fixed;
-      }
-      
-      /* تحسين شريط التمرير */
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: #0a0a0a; }
-      ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-      ::-webkit-scrollbar-thumb:hover { background: #444; }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محول الصور إلى نصوص - عبد الإله فلاتة</title>
 
-      /* حركة الطفو الإبداعية */
-      @keyframes float {
-        0% { transform: translateY(0px) rotate(0deg); }
-        33% { transform: translateY(-12px) rotate(1deg); }
-        66% { transform: translateY(-5px) rotate(-1deg); }
-        100% { transform: translateY(0px) rotate(0deg); }
-      }
-      
-      .animate-float-slow { animation: float 6s ease-in-out infinite; }
-      .animate-float-mid { animation: float 5s ease-in-out infinite; animation-delay: 1s; }
-      .animate-float-fast { animation: float 4s ease-in-out infinite; animation-delay: 2s; }
+<!-- Manifest -->
+<link rel="manifest" href="data:application/json,{
+  &quot;name&quot;:&quot;محول الصور إلى نصوص - عبد الإله فلاتة&quot;,
+  &quot;short_name&quot;:&quot;OCR عربي&quot;,
+  &quot;description&quot;:&quot;تطبيق لاستخراج النصوص العربية من الصور بدقة عالية&quot;,
+  &quot;start_url&quot;:&quot;/&quot;,
+  &quot;display&quot;:&quot;standalone&quot;,
+  &quot;background_color&quot;:&quot;#050505&quot;,
+  &quot;theme_color&quot;:&quot;#7c3aed&quot;,
+  &quot;dir&quot;:&quot;rtl&quot;,
+  &quot;lang&quot;:&quot;ar&quot;
+}">
 
-      /* تأثير التوهج الخلفي */
-      .glow-shadow {
-        box-shadow: 0 0 25px rgba(139, 92, 246, 0.1);
-      }
-    </style>
-    <script type="importmap">
-    {
-      "imports": {
-        "react/": "https://esm.sh/react@^19.2.3/",
-        "react": "https://esm.sh/react@^19.2.3",
-        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-        "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
-        "lucide-react": "https://esm.sh/lucide-react@^0.561.0"
-      }
-    }
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<!-- OCR -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<style>
+body{
+  font-family:'Tajawal',sans-serif;
+  background:#050505;
+  background-image:
+    radial-gradient(circle at top right,#1a1033 0%,transparent 40%),
+    radial-gradient(circle at bottom left,#0a1a22 0%,transparent 40%);
+}
+</style>
+</head>
+
+<body class="text-white min-h-screen flex flex-col items-center px-4 py-8">
+
+<!-- Header -->
+<header class="w-full max-w-4xl flex justify-between items-center mb-12">
+  <div class="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-2xl backdrop-blur">
+    ✨ <span class="text-sm font-bold opacity-70">المستخرج الذكي</span>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <div class="text-right">
+      <h2 class="text-xl font-black bg-gradient-to-l from-white to-gray-400 bg-clip-text text-transparent">
+        عبد الإله فلاتة
+      </h2>
+      <span class="text-[10px] bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-bold">
+        المطور والمالك
+      </span>
+    </div>
+    <img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg"
+         class="w-12 h-12 rounded-xl border border-white/10">
+  </div>
+</header>
+
+<!-- Main -->
+<main class="w-full max-w-xl flex flex-col gap-8">
+
+<div class="text-center">
+  <h1 class="text-4xl font-black">نصك العربي <span class="text-purple-500">نظيف ومرتب</span></h1>
+  <p class="text-gray-400 mt-2">استخراج النص العربي من الصور بدقة عالية</p>
+</div>
+
+<!-- Upload -->
+<div class="bg-[#0c0c0e]/80 border border-white/5 rounded-[40px] p-6">
+<input type="file" id="file" accept="image/*" hidden>
+
+<div onclick="file.click()"
+     class="h-60 border-2 border-dashed border-white/10 rounded-3xl flex items-center justify-center cursor-pointer hover:border-purple-500/40">
+  <div class="text-center text-gray-400">
+    📤 اختر صورة
+  </div>
+</div>
+
+<button onclick="extract()"
+class="w-full mt-6 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 font-black">
+استخراج النص
+</button>
+</div>
+
+<!-- Result -->
+<textarea id="result"
+class="w-full h-72 bg-black/40 rounded-2xl p-6 text-right border border-white/5 resize-none"
+placeholder="سيظهر النص هنا..." readonly></textarea>
+
+</main>
+
+<!-- Footer -->
+<footer class="mt-16 opacity-20 text-xs tracking-widest">
+ABDALLAH FALLATAH • SMART OCR • 2024
+</footer>
+
+<script>
+const fileInput = document.getElementById('file');
+const result = document.getElementById('result');
+
+async function extract(){
+  if(!fileInput.files[0]) return alert("اختر صورة أولاً");
+
+  result.value = "جاري المعالجة...";
+
+  const { data:{ text }} = await Tesseract.recognize(
+    fileInput.files[0],
+    "ara"
+  );
+
+  result.value = text
+    .replace(/[^\u0600-\u06FF\n ]/g,"")
+    .replace(/\s{2,}/g," ")
+    .trim() || "لم يتم العثور على نص";
+}
+</script>
+
+</body>
 </html>
