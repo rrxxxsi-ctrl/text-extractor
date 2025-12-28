@@ -1,408 +1,34 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#020617">
-    <title>مكتب بدر الحقيل | Premium</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --bg-dark: #020617;
-            --bg-light: #f8fafc;
-            --primary-blue: #3b82f6;
-            --primary-gold: #f59e0b;
-            --card-glass-dark: rgba(255, 255, 255, 0.03);
-            --card-glass-light: rgba(255, 255, 255, 0.8);
-            --border-dark: rgba(255, 255, 255, 0.08);
-            --border-light: rgba(0, 0, 0, 0.05);
-        }
-
-        /* --- إعدادات أساسية --- */
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-dark);
-            color: #fff;
-            min-height: 100vh;
-            padding-bottom: 140px;
-            overflow-x: hidden;
-            transition: background 0.5s ease, color 0.5s ease;
-        }
-
-        /* الوضع النهاري */
-        body.light-mode {
-            background-color: var(--bg-light);
-            color: #1e293b;
-        }
-
-        /* --- شاشة التحميل --- */
-        #loader {
-            position: fixed; inset: 0;
-            background: #020617;
-            z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            flex-direction: column;
-            transition: opacity 0.5s ease, visibility 0.5s;
-        }
-        .loader-spinner {
-            width: 50px; height: 50px;
-            border: 4px solid rgba(59, 130, 246, 0.3);
-            border-radius: 50%;
-            border-top-color: #3b82f6;
-            animation: spin 1s ease-in-out infinite;
-            margin-bottom: 20px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* --- الخلفية الحية (Particles) --- */
-        .particles-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; overflow: hidden;
-            pointer-events: none;
-        }
-        .particle {
-            position: absolute;
-            background: rgba(59, 130, 246, 0.2);
-            border-radius: 50%;
-            animation: floatParticle 20s infinite linear;
-        }
-        @keyframes floatParticle {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* --- أزرار التحكم العلوية --- */
-        .top-nav {
-            position: absolute; top: 20px; left: 20px;
-            display: flex; gap: 10px; z-index: 50;
-        }
-        html[dir="ltr"] .top-nav { right: 20px; left: auto; }
-
-        .nav-btn {
-            width: 40px; height: 40px;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: inherit;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-        }
-        body.light-mode .nav-btn { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
-        .nav-btn:hover { transform: scale(1.1); }
-
-        /* --- الهيدر --- */
-        header { text-align: center; padding: 60px 20px 40px; position: relative; }
-        
-        .badge-pulse {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 6px 16px; border-radius: 50px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            color: #60a5fa; font-size: 0.85rem; font-weight: 700;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
-        }
-        
-        .main-title {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        body.light-mode .main-title { 
-            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        /* --- الشبكة --- */
-        .main-grid {
-            display: grid; grid-template-columns: 1fr; gap: 30px;
-            max-width: 1100px; margin: 0 auto; padding: 0 20px;
-        }
-        @media (min-width: 850px) { .main-grid { grid-template-columns: 1fr 1fr; } }
-
-        /* --- الأعمدة --- */
-        .column-box {
-            background: var(--card-glass-dark);
-            border: 1px solid var(--border-dark);
-            border-radius: 24px;
-            padding: 24px;
-            position: relative;
-            transition: 0.3s;
-        }
-        body.light-mode .column-box {
-            background: var(--card-glass-light);
-            border: 1px solid var(--border-light);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        .col-header {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            font-size: 1.25rem; font-weight: 800;
-            padding: 15px; border-radius: 16px; margin-bottom: 30px;
-            color: white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-        .res-header { background: linear-gradient(135deg, #2563eb, #1e40af); }
-        .com-header { background: linear-gradient(135deg, #d97706, #9a3412); }
-
-        /* --- كروت 3D --- */
-        .tilt-card {
-            display: flex; align-items: center; gap: 15px;
-            padding: 18px; margin-bottom: 15px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 18px;
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
-            transition: transform 0.1s ease-out; /* حركة ناعمة للماوس */
-            cursor: default;
-        }
-        body.light-mode .tilt-card {
-            background: rgba(255,255,255,0.6);
-            border-color: rgba(0,0,0,0.05);
-        }
-        
-        .tilt-card:hover { border-color: rgba(255,255,255,0.2); }
-
-        .card-icon {
-            width: 48px; height: 48px;
-            border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-            transform: translateZ(20px); /* يبرز للأمام */
-        }
-        .res-icon { background: rgba(37,99,235,0.15); color: #60a5fa; }
-        .com-icon { background: rgba(217,119,6,0.15); color: #fbbf24; }
-        
-        body.light-mode .res-icon { background: rgba(37,99,235,0.1); color: #2563eb; }
-        body.light-mode .com-icon { background: rgba(217,119,6,0.1); color: #d97706; }
-
-        .card-content { transform: translateZ(15px); }
-        .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
-        .card-desc { font-size: 0.8rem; opacity: 0.7; }
-
-        /* --- البار العائم --- */
-        .dock-wrapper {
-            position: fixed; bottom: 30px; left: 0; width: 100%;
-            display: flex; justify-content: center; z-index: 100; pointer-events: none;
-        }
-        .glass-dock {
-            pointer-events: auto;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(20px);
-            padding: 12px 20px;
-            border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center; gap: 20px;
-            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.5);
-            transition: 0.3s;
-        }
-        body.light-mode .glass-dock {
-            background: rgba(255, 255, 255, 0.9);
-            border-color: rgba(0,0,0,0.1);
-            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.15);
-        }
-
-        .dock-btn {
-            width: 55px; height: 55px; border-radius: 20px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; color: white; text-decoration: none;
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .dock-btn:hover { transform: scale(1.1) translateY(-5px); }
-        
-        .btn-call { background: linear-gradient(135deg, #22c55e, #166534); box-shadow: 0 8px 20px rgba(34,197,94,0.3); }
-        .btn-map { background: linear-gradient(135deg, #3b82f6, #1e40af); box-shadow: 0 8px 20px rgba(59,130,246,0.3); }
-
-        /* --- Animations --- */
-        .fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(30px); }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        
-        .shake-active { animation: shake 0.5s both; }
-        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
-
-    </style>
-</head>
-<body>
-
-    <div id="loader">
-        <div class="loader-spinner"></div>
-        <h2 class="text-white font-bold text-xl tracking-wider">BADER AL HUQAIL</h2>
-    </div>
-
-    <div class="particles-container" id="particles"></div>
-
-    <div class="top-nav">
-        <div class="nav-btn" onclick="toggleTheme()" id="theme-btn"><i class="fa-regular fa-sun"></i></div>
-        <div class="nav-btn font-bold text-xs" onclick="toggleLang()" id="lang-btn">EN</div>
-    </div>
-
-    <header class="fade-in-up" style="animation-delay: 0.2s">
-        <div class="badge-pulse">
-            <i class="fa-solid fa-certificate"></i> <span data-i18n="certified">مكتب معتمد</span>
-        </div>
-        <h1 class="main-title">
-            <span data-i18n="office_name">مكتب بدر الحقيل</span> <br>
-            <span class="text-blue-500" data-i18n="real_estate">للعقارات</span>
-        </h1>
-        <p class="text-slate-400 font-medium text-lg mt-2 max-w-2xl mx-auto" data-i18n="desc">
-            بوابتك الموثوقة لتصحيح أوضاع المباني السكنية والتجارية
-        </p>
-    </header>
-
-    <div class="main-grid">
-        
-        <div class="column-box fade-in-up" style="animation-delay: 0.4s">
-            <div class="col-header res-header">
-                <i class="fa-solid fa-house-chimney"></i> <span data-i18n="res_title">المسار السكني</span>
-            </div>
-            
-            <div class="cards-wrapper">
-                <div class="tilt-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon res-icon"><i class="fa-solid fa-tape"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="r_step1">رفع المقاسات</div>
-                        <div class="card-desc" data-i18n="r_desc1">معاينة دقيقة على الطبيعة</div>
-                    </div>
-                </div>
-                
-                <div class="tilt-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon res-icon"><i class="fa-solid fa-compass-drafting"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="r_step2">مخطط الوضع القائم</div>
-                        <div class="card-desc" data-i18n="r_desc2">رسم هندسي للواقع</div>
-                    </div>
-                </div>
-
-                <div class="tilt-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon res-icon"><i class="fa-solid fa-pen-ruler"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="r_step3">إنشاء مخطط مقترح</div>
-                        <div class="card-desc" data-i18n="r_desc3">تصميم التعديلات المطلوبة</div>
-                    </div>
-                </div>
-
-                <div class="tilt-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon res-icon"><i class="fa-solid fa-file-contract"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="r_step4">إعداد تقرير فني</div>
-                        <div class="card-desc" data-i18n="r_desc4">تقرير معتمد وشامل</div>
-                    </div>
-                </div>
-
-                <div class="tilt-card" style="border-right: 4px solid #3b82f6;" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon res-icon"><i class="fa-solid fa-paper-plane"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="r_step5">إرسال للبلدية</div>
-                        <div class="card-desc text-blue-400 font-bold" data-i18n="r_desc5">متابعة حتى الاعتماد</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="column-box fade-in-up" style="animation-delay: 0.6s">
-            <div class="col-header com-header">
-                <i class="fa-solid fa-city"></i> <span data-i18n="com_title">المسار التجاري</span>
-            </div>
-            
-            <div class="cards-wrapper">
-                <div class="tilt-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon com-icon"><i class="fa-solid fa-ruler-combined"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="c_step1">رفع المقاسات</div>
-                        <div class="card-desc" data-i18n="c_desc1">مطابقة دقيقة للواقع</div>
-                    </div>
-                </div>
-
-                <div class="tilt-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon com-icon"><i class="fa-solid fa-layer-group"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="c_step2">مخطط الوضع القائم</div>
-                        <div class="card-desc" data-i18n="c_desc2">رسم تفصيلي دقيق</div>
-                    </div>
-                </div>
-
-                <div class="tilt-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon com-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="c_step3">مخطط مقترح</div>
-                        <div class="card-desc" data-i18n="c_desc3">تعديلات معمارية تجارية</div>
-                    </div>
-                </div>
-
-                <div class="tilt-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon com-icon"><i class="fa-solid fa-clipboard-check"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="c_step4">تقرير فني</div>
-                        <div class="card-desc" data-i18n="c_desc4">السلامة الإنشائية</div>
-                    </div>
-                </div>
-
-                <div class="tilt-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon com-icon"><i class="fa-solid fa-cube"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="c_step5">واجهة 3D</div>
-                        <div class="card-desc" data-i18n="c_desc5">تصميم واجهة عصرية</div>
-                    </div>
-                </div>
-
-                <div class="tilt-card" style="border-right: 4px solid #f59e0b;" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
-                    <div class="card-icon com-icon"><i class="fa-solid fa-building-columns"></i></div>
-                    <div class="card-content">
-                        <div class="card-title" data-i18n="c_step6">إرسال للأمانة</div>
-                        <div class="card-desc text-amber-500 font-bold" data-i18n="c_desc6">متابعة المعاملة بالكامل</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="dock-wrapper fade-in-up" style="animation-delay: 1s">
-        <div class="glass-dock">
-            <a href="tel:0569982526" class="dock-btn btn-call">
-                <i class="fa-solid fa-phone"></i>
-            </a>
-            <div class="w-px h-8 bg-white/20"></div>
-            <a href="#" onclick="openMap(event)" id="map-btn" class="dock-btn btn-map">
-                <i class="fa-solid fa-location-dot"></i>
-            </a>
-        </div>
-    </div>
-
     <script>
-        // --- 1. Loading Screen ---
-        window.addEventListener('load', () => {
+        // --- 1. حل مشكلة شاشة التحميل (الحل الجذري) ---
+        // سيتم إخفاء الشاشة فور تحميل الصفحة، أو بعد 2.5 ثانية كحد أقصى (إجباري)
+        function hideLoader() {
             const loader = document.getElementById('loader');
-            setTimeout(() => {
+            if (loader) {
                 loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-            }, 800);
-        });
+                setTimeout(() => {
+                    loader.style.display = 'none'; // إخفاء كامل من الصفحة
+                }, 500);
+            }
+        }
 
-        // --- 2. Particles Generator ---
+        window.addEventListener('load', hideLoader);
+        // مؤقت احتياطي: إذا لم يحمل الموقع خلال 2.5 ثانية، اخفِ الشاشة فوراً
+        setTimeout(hideLoader, 2500);
+
+
+        // --- 2. Particles Generator (خلفية الجزيئات) ---
         const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 20; i++) {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            p.style.left = Math.random() * 100 + '%';
-            p.style.top = Math.random() * 100 + '%';
-            p.style.width = p.style.height = (Math.random() * 5 + 2) + 'px';
-            p.style.animationDelay = (Math.random() * 5) + 's';
-            p.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            particlesContainer.appendChild(p);
+        if (particlesContainer) {
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.width = p.style.height = (Math.random() * 5 + 2) + 'px';
+                p.style.animationDelay = (Math.random() * 5) + 's';
+                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(p);
+            }
         }
 
         // --- 3. 3D Tilt Effect ---
@@ -414,7 +40,7 @@
             const xCenter = rect.width / 2;
             const yCenter = rect.height / 2;
             
-            const rotateX = ((y - yCenter) / yCenter) * -5; // Max rotation deg
+            const rotateX = ((y - yCenter) / yCenter) * -5;
             const rotateY = ((x - xCenter) / xCenter) * 5;
 
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
@@ -440,4 +66,64 @@
                 c_step3: "مخطط مقترح", c_desc3: "تعديلات معمارية تجارية",
                 c_step4: "تقرير فني", c_desc4: "السلامة الإنشائية",
                 c_step5: "واجهة 3D", c_desc5: "تصميم واجهة عصرية",
-                c_step6: "إرسال للأمانة", c_desc6: "متابعة المعاملة بالكام
+                c_step6: "إرسال للأمانة", c_desc6: "متابعة المعاملة بالكامل"
+            },
+            en: {
+                certified: "Certified Office", office_name: "Bader Al Huqail", real_estate: "Real Estate",
+                desc: "Your trusted gateway for Residential & Commercial building correction",
+                res_title: "Residential", com_title: "Commercial",
+                r_step1: "Site Measurements", r_desc1: "Precise on-site inspection",
+                r_step2: "As-Built Drawing", r_desc2: "Current status plan",
+                r_step3: "Proposal Plan", r_desc3: "Design required changes",
+                r_step4: "Technical Report", r_desc4: "Comprehensive certified report",
+                r_step5: "Submit to Municipality", r_desc5: "Follow-up until approval",
+                c_step1: "Site Measurements", c_desc1: "Exact reality matching",
+                c_step2: "As-Built Drawing", c_desc2: "Detailed engineering plan",
+                c_step3: "Proposal Plan", c_desc3: "Commercial architectural edits",
+                c_step4: "Technical Report", c_desc4: "Structural safety proof",
+                c_step5: "3D Facade", c_desc5: "Modern design",
+                c_step6: "Submit to Municipality", c_desc6: "Complete procedure follow-up"
+            }
+        };
+
+        let lang = 'ar';
+        function toggleLang() {
+            lang = lang === 'ar' ? 'en' : 'ar';
+            const html = document.documentElement;
+            const btn = document.getElementById('lang-btn');
+            
+            if (lang === 'en') {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'en');
+                btn.textContent = 'عربي';
+            } else {
+                html.setAttribute('dir', 'rtl');
+                html.setAttribute('lang', 'ar');
+                btn.textContent = 'EN';
+            }
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+            });
+        }
+
+        let isLight = false;
+        function toggleTheme() {
+            isLight = !isLight;
+            document.body.classList.toggle('light-mode');
+            const icon = document.querySelector('#theme-btn i');
+            icon.className = isLight ? 'fa-solid fa-moon' : 'fa-regular fa-sun';
+        }
+
+        function openMap(e) {
+            e.preventDefault();
+            const btn = document.getElementById('map-btn');
+            btn.classList.add('shake-active');
+            setTimeout(() => {
+                btn.classList.remove('shake-active');
+                window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59";
+            }, 500);
+        }
+    </script>
+    
