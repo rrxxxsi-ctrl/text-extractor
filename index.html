@@ -3,43 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="مكتب بدر الحقيل للعقارات - خدمات تصحيح أوضاع المباني السكنية والتجارية">
     <meta name="theme-color" content="#020617">
-    <title>مكتب بدر الحقيل | النسخة الماسية</title>
+    <title>مكتب بدر الحقيل | المسارات التفاعلية</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. إعدادات المتغيرات والألوان --- */
         :root {
             --bg-dark: #020617;
             --bg-light: #f8fafc;
-            --primary-blue: #3b82f6;
-            --primary-gold: #f59e0b;
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --neon-blue: 0 0 10px rgba(59, 130, 246, 0.5);
-            --neon-gold: 0 0 10px rgba(245, 158, 11, 0.5);
         }
 
-        /* --- 2. تخصيص شريط التمرير (Improvement #8) --- */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-
-        /* --- 3. الأساسيات --- */
         body {
             font-family: 'Cairo', sans-serif;
             background-color: var(--bg-dark);
             color: #fff;
             min-height: 100vh;
-            padding-bottom: 160px; /* مساحة للبار السفلي */
+            padding-bottom: 140px;
             overflow-x: hidden;
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            user-select: none; /* (Improvement #19) */
+            transition: 0.5s;
             margin: 0;
+            user-select: none;
         }
 
         body.light-mode {
@@ -47,392 +33,312 @@
             color: #0f172a;
         }
 
-        /* --- 4. تأثير الضجيج (Improvement #4) --- */
-        .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PHBmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjY1IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI25vaXNlKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==');
-            pointer-events: none; z-index: 0; opacity: 0.4;
+        /* خلفية */
+        .bg-glow {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15), transparent 70%);
+            pointer-events: none;
         }
 
-        /* --- 5. الهيدر والعناوين --- */
-        header { text-align: center; padding: 60px 20px 20px; position: relative; z-index: 10; }
-
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 8px 16px; border-radius: 50px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            font-size: 0.85rem; font-weight: 700;
-            backdrop-filter: blur(10px);
-            margin-bottom: 20px;
-        }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
-        .open .status-dot { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
-        .closed .status-dot { background: #ef4444; box-shadow: 0 0 10px #ef4444; }
-
-        .typewriter-text {
+        /* الهيدر */
+        header { text-align: center; padding: 50px 20px 30px; }
+        
+        .main-title {
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 900;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            display: inline-block;
-        }
-        body.light-mode .typewriter-text { 
-            background: linear-gradient(135deg, #1e293b 0%, #475569 100%); 
+            background: linear-gradient(to bottom, #fff, #94a3b8);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
+        body.light-mode .main-title { background: linear-gradient(to bottom, #1e293b, #475569); -webkit-background-clip: text; }
 
-        /* --- 6. الشبكة والأعمدة (Improvement #10 - Animated Borders) --- */
-        .main-grid {
-            display: grid; grid-template-columns: 1fr; gap: 30px;
-            max-width: 1100px; margin: 0 auto; padding: 0 20px;
+        /* أزرار التبديل (Tabs) */
+        .tabs-wrapper {
+            display: flex; justify-content: center; margin-bottom: 40px;
             position: relative; z-index: 10;
         }
-        @media (min-width: 850px) { .main-grid { grid-template-columns: 1fr 1fr; } }
+        
+        .tabs-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px; border-radius: 20px;
+            display: flex; gap: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        body.light-mode .tabs-container { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.05); }
 
-        .column-box {
-            position: relative;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 24px; padding: 24px;
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
+        .tab-btn {
+            padding: 12px 30px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; align-items: center; gap: 8px;
+            color: #94a3b8;
+            border: 1px solid transparent;
+        }
+
+        .tab-btn.active.res {
+            background: #2563eb; color: white;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+            transform: scale(1.05);
+        }
+        .tab-btn.active.com {
+            background: #d97706; color: white;
+            box-shadow: 0 4px 20px rgba(217, 119, 6, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* القائمة */
+        .cards-list {
+            max-width: 600px; margin: 0 auto; padding: 0 20px;
+            display: flex; flex-direction: column; gap: 15px;
+        }
+
+        .step-card {
+            display: flex; align-items: center; gap: 16px;
+            padding: 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            opacity: 0; transform: translateY(20px);
             transition: 0.3s;
         }
-        /* تأثير اللمعان المتحرك على الحدود */
-        .column-box::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: 0.5s;
-        }
-        .column-box:hover::before { left: 100%; }
-
-        body.light-mode .column-box {
-            background: rgba(255, 255, 255, 0.7);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        body.light-mode .step-card {
+            background: rgba(255,255,255,0.8);
             border-color: rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        .col-header {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            font-size: 1.3rem; font-weight: 800; padding: 18px;
-            border-radius: 16px; margin-bottom: 30px; color: white;
-            position: relative; overflow: hidden;
+        .step-card:hover {
+            transform: scale(1.02) !important;
+            background: rgba(255,255,255,0.08);
         }
-        .res-header { background: linear-gradient(135deg, #2563eb, #1e40af); box-shadow: var(--neon-blue); }
-        .com-header { background: linear-gradient(135deg, #d97706, #9a3412); box-shadow: var(--neon-gold); }
-
-        /* --- 7. الكروت التفاعلية --- */
-        .tilt-card {
-            display: flex; align-items: center; gap: 16px;
-            padding: 16px; margin-bottom: 16px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 18px;
-            transition: transform 0.3s ease, background 0.3s;
-            cursor: default;
-        }
-        .tilt-card:hover {
-            transform: scale(1.02) translateX(-5px);
-            background: rgba(255,255,255,0.07);
-        }
-        body.light-mode .tilt-card { background: rgba(255,255,255,0.5); border-color: rgba(0,0,0,0.05); }
-        body.light-mode .tilt-card:hover { background: white; }
 
         .card-icon {
-            width: 48px; height: 48px; border-radius: 14px;
+            width: 50px; height: 50px; border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; flex-shrink: 0;
-            transition: transform 0.3s;
+            font-size: 1.3rem; flex-shrink: 0;
         }
-        .tilt-card:hover .card-icon { transform: rotate(10deg) scale(1.1); }
+        .res-style .card-icon { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .com-style .card-icon { background: rgba(245,158,11,0.15); color: #fbbf24; }
+        
+        .card-title { font-weight: 700; font-size: 1.1rem; }
+        .card-desc { font-size: 0.85rem; opacity: 0.7; }
 
-        .res-icon { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-        .com-icon { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
-
-        /* --- 8. البار العائم (Magnetic Buttons) --- */
-        .dock-container {
+        /* البار العائم */
+        .dock-wrapper {
             position: fixed; bottom: 30px; left: 0; width: 100%;
-            display: flex; justify-content: center; z-index: 100; pointer-events: none;
+            display: flex; justify-content: center; z-index: 100;
+        }
+        .glass-dock {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 12px 24px; border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; gap: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
         
-        .glass-dock {
-            pointer-events: auto;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(20px);
-            padding: 12px 24px;
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            display: flex; align-items: center; gap: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            transition: 0.3s;
-        }
-        body.light-mode .glass-dock { background: rgba(255, 255, 255, 0.9); border-color: rgba(0,0,0,0.1); }
-
         .action-btn {
-            width: 55px; height: 55px; border-radius: 18px;
+            width: 55px; height: 55px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; color: white; text-decoration: none;
-            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            font-size: 1.5rem; color: white; text-decoration: none;
+            transition: 0.3s;
             position: relative;
         }
-        
-        /* تأثير الضغط (Ripple) */
         .action-btn:active { transform: scale(0.9); }
+        .btn-call { background: #22c55e; box-shadow: 0 5px 15px rgba(34,197,94,0.3); }
+        .btn-map { background: #3b82f6; box-shadow: 0 5px 15px rgba(59,130,246,0.3); }
 
-        .btn-call { background: #22c55e; }
-        .btn-map { background: #3b82f6; }
-        .btn-whatsapp { background: #25d366; }
-        .btn-share { background: #64748b; font-size: 1.2rem; }
-
-        /* Tooltip بسيط */
-        .action-btn::after {
-            content: attr(data-tooltip);
-            position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%) translateY(10px);
-            background: #0f172a; color: white; padding: 5px 10px; border-radius: 8px; font-size: 0.75rem;
-            opacity: 0; pointer-events: none; transition: 0.3s; white-space: nowrap;
-        }
-        .action-btn:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-        /* --- 9. أزرار التحكم العلوية --- */
-        .top-controls {
-            position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 50;
-        }
+        /* التحكم العلوي */
+        .top-controls { position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; }
         html[dir="ltr"] .top-controls { right: 20px; left: auto; }
-
         .ctrl-btn {
             width: 40px; height: 40px; border-radius: 12px;
-            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
-            color: inherit; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s;
+            background: rgba(255,255,255,0.1); color: inherit;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
-        .ctrl-btn:hover { background: rgba(255,255,255,0.1); }
-        body.light-mode .ctrl-btn { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.05); }
 
-        /* --- 10. الأنيميشن الآمن --- */
-        .fade-in { animation: fadeIn 0.8s ease forwards; opacity: 0; transform: translateY(20px); }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
-
-        /* --- Footer --- */
-        footer { text-align: center; margin-top: 40px; font-size: 0.8rem; color: #64748b; position: relative; z-index: 10; }
-
-        /* إخفاء على الموبايل لترتيب أفضل */
-        @media (max-width: 600px) {
-            .typewriter-text { font-size: 2.2rem; }
+        /* أنيميشن */
+        .animate-in { animation: slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <div class="noise-overlay"></div>
+    <div class="bg-glow"></div>
 
     <div class="top-controls">
-        <button class="ctrl-btn" onclick="toggleTheme()" id="theme-btn"><i class="fa-regular fa-sun"></i></button>
-        <button class="ctrl-btn text-xs font-bold" onclick="toggleLang()" id="lang-btn">EN</button>
+        <div class="ctrl-btn" onclick="toggleTheme()"><i class="fa-regular fa-sun"></i></div>
+        <div class="ctrl-btn text-xs font-bold" onclick="toggleLang()" id="lang-btn">EN</div>
     </div>
 
-    <header class="fade-in" style="animation-delay: 0s;">
-        <div class="flex justify-center gap-4 mb-6">
-            <div id="status-badge" class="status-badge open">
-                <span class="status-dot"></span> <span id="status-text">مفتوح الآن</span>
-            </div>
-        </div>
-
-        <h1 class="typewriter-text" id="main-title">مكتب بدر الحقيل</h1>
-        <p class="text-blue-500 font-bold text-xl mb-4" data-i18n="real_estate">للعقارات والهندسة</p>
-        
-        <p class="text-slate-400 max-w-2xl mx-auto leading-relaxed" data-i18n="desc">
-            بوابتك الموثوقة لتصحيح أوضاع المباني السكنية والتجارية وفق أحدث الأنظمة
-        </p>
+    <header class="animate-in" style="animation-delay: 0s">
+        <h1 class="main-title" data-i18n="title">مكتب بدر الحقيل</h1>
+        <p class="text-blue-500 font-bold text-xl" data-i18n="subtitle">للعقارات والهندسة</p>
+        <p class="text-slate-400 mt-2" data-i18n="desc">اختر المسار المناسب لعرض الخطوات المطلوبة</p>
     </header>
 
-    <div class="main-grid">
-        
-        <div class="column-box fade-in" style="animation-delay: 0.2s;">
-            <div class="col-header res-header">
-                <i class="fa-solid fa-house-chimney"></i> <span data-i18n="res_title">المسار السكني</span>
+    <div class="tabs-wrapper animate-in" style="animation-delay: 0.1s">
+        <div class="tabs-container">
+            <div class="tab-btn active res" onclick="switchTab('res')" id="btn-res">
+                <i class="fa-solid fa-house-chimney"></i> <span data-i18n="res_tab">المسار السكني</span>
             </div>
-            
-            <div id="res-cards">
-                </div>
-        </div>
-
-        <div class="column-box fade-in" style="animation-delay: 0.4s;">
-            <div class="col-header com-header">
-                <i class="fa-solid fa-city"></i> <span data-i18n="com_title">المسار التجاري</span>
+            <div class="tab-btn com" onclick="switchTab('com')" id="btn-com">
+                <i class="fa-solid fa-city"></i> <span data-i18n="com_tab">المسار التجاري</span>
             </div>
-            
-            <div id="com-cards">
-                 </div>
         </div>
     </div>
 
-    <footer>
-        <p>© <span id="year"></span> <span data-i18n="rights">مكتب بدر الحقيل للعقارات. جميع الحقوق محفوظة.</span></p>
-    </footer>
+    <div id="content-area" class="cards-list"></div>
 
-    <div class="dock-container">
-        <div class="glass-dock" id="dock">
-            <a href="tel:0569982526" class="action-btn btn-call" data-tooltip="اتصال">
+    <div class="dock-wrapper animate-in" style="animation-delay: 0.5s">
+        <div class="glass-dock">
+            <a href="tel:0569982526" class="action-btn btn-call">
                 <i class="fa-solid fa-phone"></i>
             </a>
-            <a href="https://wa.me/966569982526" target="_blank" class="action-btn btn-whatsapp" data-tooltip="واتساب">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
-            <a href="#" onclick="openMap(event)" id="map-btn" class="action-btn btn-map" data-tooltip="الموقع">
+            
+            <div style="width:1px; height:30px; background:rgba(255,255,255,0.2)"></div>
+            
+            <a href="#" onclick="openMap(event)" id="map-btn" class="action-btn btn-map">
                 <i class="fa-solid fa-location-dot"></i>
             </a>
-            <button onclick="shareSite()" class="action-btn btn-share" data-tooltip="مشاركة">
-                <i class="fa-solid fa-share-nodes"></i>
-            </button>
         </div>
     </div>
 
     <script>
-        // --- البيانات (Data) ---
         const data = {
             ar: {
-                res_title: "المسار السكني", com_title: "المسار التجاري",
-                real_estate: "للعقارات والهندسة",
-                desc: "بوابتك الموثوقة لتصحيح أوضاع المباني السكنية والتجارية وفق أحدث الأنظمة",
-                status_open: "مفتوح الآن", status_closed: "مغلق الآن",
-                rights: "مكتب بدر الحقيل للعقارات. جميع الحقوق محفوظة.",
-                steps_res: [
+                title: "مكتب بدر الحقيل", subtitle: "للعقارات والهندسة",
+                desc: "اختر المسار المناسب لعرض الخطوات المطلوبة",
+                res_tab: "المسار السكني", com_tab: "المسار التجاري",
+                res_steps: [
                     { t: "رفع المقاسات", d: "معاينة دقيقة على الطبيعة", i: "fa-tape" },
-                    { t: "مخطط الوضع القائم", d: "رسم هندسي للواقع", i: "fa-compass-drafting" },
+                    { t: "مخطط الوضع القائم", d: "رسم هندسي للواقع الحالي", i: "fa-compass-drafting" },
                     { t: "إنشاء مخطط مقترح", d: "تصميم التعديلات المطلوبة", i: "fa-pen-ruler" },
-                    { t: "إعداد تقرير فني", d: "تقرير معتمد وشامل", i: "fa-file-contract" },
-                    { t: "إرسال للبلدية", d: "متابعة حتى الاعتماد", i: "fa-paper-plane", highlight: true }
+                    { t: "إعداد تقرير فني", d: "تقرير هندسي معتمد", i: "fa-file-contract" },
+                    { t: "إرسال للبلدية", d: "متابعة المعاملة حتى الاعتماد", i: "fa-paper-plane" }
                 ],
-                steps_com: [
+                com_steps: [
                     { t: "رفع المقاسات", d: "مطابقة دقيقة للواقع", i: "fa-ruler-combined" },
                     { t: "مخطط الوضع القائم", d: "رسم تفصيلي دقيق", i: "fa-layer-group" },
                     { t: "مخطط مقترح", d: "تعديلات معمارية تجارية", i: "fa-wand-magic-sparkles" },
                     { t: "تقرير فني", d: "السلامة الإنشائية", i: "fa-clipboard-check" },
-                    { t: "واجهة 3D", d: "تصميم واجهة عصرية", i: "fa-cube" },
-                    { t: "إرسال للأمانة", d: "متابعة المعاملة بالكامل", i: "fa-building-columns", highlight: true }
+                    { t: "واجهة 3D", d: "تصميم واجهة عصرية مميزة", i: "fa-cube" },
+                    { t: "إرسال للأمانة", d: "متابعة المعاملة بالكامل", i: "fa-building-columns" }
                 ]
             },
             en: {
-                res_title: "Residential", com_title: "Commercial",
-                real_estate: "Real Estate & Engineering",
-                desc: "Your trusted gateway for Residential & Commercial building correction",
-                status_open: "Open Now", status_closed: "Closed Now",
-                rights: "Bader Al Huqail Real Estate. All Rights Reserved.",
-                steps_res: [
+                title: "Bader Al Huqail", subtitle: "Real Estate & Engineering",
+                desc: "Choose the path to view required steps",
+                res_tab: "Residential", com_tab: "Commercial",
+                res_steps: [
                     { t: "Site Measurements", d: "Precise on-site inspection", i: "fa-tape" },
                     { t: "As-Built Drawing", d: "Current status plan", i: "fa-compass-drafting" },
                     { t: "Proposal Plan", d: "Design required changes", i: "fa-pen-ruler" },
-                    { t: "Technical Report", d: "Comprehensive certified report", i: "fa-file-contract" },
-                    { t: "Submit to Municipality", d: "Follow-up until approval", i: "fa-paper-plane", highlight: true }
+                    { t: "Technical Report", d: "Certified report", i: "fa-file-contract" },
+                    { t: "Submit to Municipality", d: "Follow-up until approval", i: "fa-paper-plane" }
                 ],
-                steps_com: [
+                com_steps: [
                     { t: "Site Measurements", d: "Exact reality matching", i: "fa-ruler-combined" },
-                    { t: "As-Built Drawing", d: "Detailed engineering plan", i: "fa-layer-group" },
+                    { t: "As-Built Drawing", d: "Detailed plan", i: "fa-layer-group" },
                     { t: "Proposal Plan", d: "Commercial edits", i: "fa-wand-magic-sparkles" },
-                    { t: "Technical Report", d: "Structural safety proof", i: "fa-clipboard-check" },
+                    { t: "Technical Report", d: "Structural safety", i: "fa-clipboard-check" },
                     { t: "3D Facade", d: "Modern design", i: "fa-cube" },
-                    { t: "Submit to Municipality", d: "Complete follow-up", i: "fa-building-columns", highlight: true }
+                    { t: "Submit to Municipality", d: "Complete follow-up", i: "fa-building-columns" }
                 ]
             }
         };
 
-        let lang = 'ar';
+        let currentLang = 'ar';
+        let currentTab = 'res'; 
 
-        // --- 1. تهيئة المحتوى (Improvement #20) ---
-        function renderContent() {
-            const d = data[lang];
-            
-            // Texts
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (d[key]) el.textContent = d[key];
-            });
+        function render(tab) {
+            currentTab = tab;
+            const container = document.getElementById('content-area');
+            const d = data[currentLang];
+            const steps = tab === 'res' ? d.res_steps : d.com_steps;
+            const themeClass = tab === 'res' ? 'res-style' : 'com-style';
+            const borderCol = tab === 'res' ? '#3b82f6' : '#f59e0b';
 
-            // Status Text Update
-            checkStatus();
+            container.innerHTML = '';
 
-            // Render Cards (Dynamic HTML Generation)
-            const renderCards = (items, containerId, theme) => {
-                const container = document.getElementById(containerId);
-                container.innerHTML = items.map(item => `
-                    <div class="tilt-card" ${item.highlight ? `style="border-${lang === 'ar' ? 'left' : 'right'}: 4px solid ${theme === 'res' ? '#3b82f6' : '#f59e0b'};"` : ''}>
-                        <div class="card-icon ${theme === 'res' ? 'res-icon' : 'com-icon'}">
-                            <i class="fa-solid ${item.i}"></i>
-                        </div>
-                        <div>
-                            <div class="card-title">${item.t}</div>
-                            <div class="card-desc ${item.highlight ? (theme === 'res' ? 'text-blue-400 font-bold' : 'text-amber-500 font-bold') : ''}">${item.d}</div>
-                        </div>
+            steps.forEach((step, index) => {
+                const card = document.createElement('div');
+                card.className = `step-card ${themeClass}`;
+                if (index === steps.length - 1) {
+                    card.style.borderRight = `4px solid ${borderCol}`;
+                    if (currentLang === 'en') card.style.borderRight = 'none', card.style.borderLeft = `4px solid ${borderCol}`;
+                }
+
+                card.innerHTML = `
+                    <div class="card-icon">
+                        <i class="fa-solid ${step.i}"></i>
                     </div>
-                `).join('');
-            };
+                    <div>
+                        <div class="card-title">${step.t}</div>
+                        <div class="card-desc">${step.d}</div>
+                    </div>
+                `;
+                
+                card.style.animation = `slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards`;
+                card.style.animationDelay = `${index * 0.1}s`; 
 
-            renderCards(d.steps_res, 'res-cards', 'res');
-            renderCards(d.steps_com, 'com-cards', 'com');
+                container.appendChild(card);
+            });
         }
 
-        // --- 2. منطق الحالة (Improvement #1) ---
-        function checkStatus() {
-            const now = new Date();
-            // توقيت السعودية UTC+3
-            const hours = (now.getUTCHours() + 3) % 24;
-            const badge = document.getElementById('status-badge');
-            const text = document.getElementById('status-text');
-            
-            // مفتوح من 8 صباحاً حتى 9 مساءً
-            if (hours >= 8 && hours < 21) {
-                badge.className = 'status-badge open';
-                text.textContent = data[lang].status_open;
+        function switchTab(tab) {
+            const btnRes = document.getElementById('btn-res');
+            const btnCom = document.getElementById('btn-com');
+
+            if (tab === 'res') {
+                btnRes.classList.add('active');
+                btnCom.classList.remove('active');
             } else {
-                badge.className = 'status-badge closed';
-                text.textContent = data[lang].status_closed;
+                btnCom.classList.add('active');
+                btnRes.classList.remove('active');
             }
+            render(tab);
         }
 
-        // --- 3. تبديل اللغة (Improvement #5) ---
         function toggleLang() {
-            lang = lang === 'ar' ? 'en' : 'ar';
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            document.getElementById('lang-btn').textContent = lang === 'ar' ? 'EN' : 'عربي';
-            renderContent();
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('lang-btn').textContent = currentLang === 'ar' ? 'EN' : 'عربي';
+            
+            const d = data[currentLang];
+            document.querySelector('[data-i18n="title"]').textContent = d.title;
+            document.querySelector('[data-i18n="subtitle"]').textContent = d.subtitle;
+            document.querySelector('[data-i18n="desc"]').textContent = d.desc;
+            document.querySelector('[data-i18n="res_tab"]').textContent = d.res_tab;
+            document.querySelector('[data-i18n="com_tab"]').textContent = d.com_tab;
+
+            render(currentTab);
         }
 
-        // --- 4. تبديل الثيم (Improvement #17) ---
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            const btn = document.querySelector('#theme-btn i');
-            btn.className = isLight ? 'fa-solid fa-moon' : 'fa-regular fa-sun';
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
         }
 
-        // --- 5. منطق الخريطة (Improvement #18 - Fix) ---
+        // --- وظيفة زر الخريطة (تم إضافة الرابط المحدد) ---
         function openMap(e) {
             e.preventDefault();
             const btn = document.getElementById('map-btn');
-            // تأثير الاهتزاز CSS
-            btn.style.animation = 'shake 0.5s';
-            setTimeout(() => btn.style.animation = 'none', 500);
+            btn.style.transform = 'scale(0.9)';
+            setTimeout(() => btn.style.transform = 'scale(1)', 200);
             
             setTimeout(() => {
+                // الانتقال للرابط المطلوب
                 window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59";
-            }, 400);
+            }, 300);
         }
 
-        // --- 6. المشاركة (Improvement #6) ---
-        async function shareSite() {
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: 'مكتب بدر الحقيل للعقارات',
-                        text: 'خدمات تصحيح أوضاع المباني السكنية والتجارية',
-                        url: window.location.href
-                    });
-                } catch (err) { console.log('Share canceled'); }
-            } else {
-                alert('تم نسخ الرابط!');
-                navigator.clipboard.writeText(window.location.href);
-            }
-        }
-
-       
+        render('res');
+    </script>
+</body>
+</html>
