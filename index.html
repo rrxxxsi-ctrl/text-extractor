@@ -3,105 +3,181 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>مكتب بدر الحقبيل للعقارات</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background: linear-gradient(135deg, #e3f2fd, #ffffff);
-      color: #333;
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">  <style>
+    :root{
+      /* ألوان مستوحاة من لون الشعار */
+      --primary:#1f4fa3;
+      --secondary:#2f6fd1;
+      --soft:#f2f6ff;
+      --dark:#123066;
+      --danger:#d84343;
     }
-    header {
-      text-align: center;
-      padding: 30px 20px;
-      background: #0d47a1;
-      color: white;
-      animation: fadeDown 1.2s ease;
-    }
-    header img {
-      max-width: 120px;
-      margin-bottom: 15px;
-    }
-    section {
-      padding: 40px 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #0d47a1;
-    }
-    .paths {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    }
-    .card h3 {
-      margin-bottom: 15px;
-      color: #1565c0;
-    }
-    .card ul {
-      list-style: none;
-      padding: 0;
-    }
-    .card ul li {
-      padding: 8px 0;
-      border-bottom: 1px dashed #ddd;
-    }
-    .contact {
-      text-align: center;
-      margin-top: 50px;
-    }
-    .btns {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      padding: 15px 30px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      color: white;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    }
-    .call { background: #1e88e5; }
-    .whatsapp { background: #25D366; }
-    .map { background: #e53935; }footer {
-  text-align: center;
-  padding: 20px;
-  background: #0d47a1;
-  color: white;
-  margin-top: 50px;
-}
 
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    body{
+      margin:0;
+      font-family:'Cairo',sans-serif;
+      background:linear-gradient(135deg,var(--soft),#ffffff);
+      color:#333;
+    }
 
-  </style>
-</head>
+    header{
+      text-align:center;
+      padding:45px 20px 55px;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:white;
+      animation:fadeDown 1.2s ease;
+    }
+
+    header img{
+      max-width:135px;
+      margin-bottom:15px;
+      animation:pulse 3s infinite;
+    }
+
+    header h1{
+      margin:8px 0 6px;
+      font-size:1.65rem; /* حجم متوسط غير مبالغ */
+      font-weight:700;
+    }
+
+    header p{
+      font-size:1rem;
+      opacity:.9;
+    }
+
+    section{
+      padding:55px 20px;
+      max-width:1100px;
+      margin:auto;
+    }
+
+    h2{
+      text-align:center;
+      margin-bottom:32px;
+      color:var(--dark);
+      font-size:1.45rem;
+      font-weight:700;
+    }
+
+    .paths{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:26px;
+    }
+
+    .card{
+      background:white;
+      border-radius:22px;
+      padding:28px;
+      box-shadow:0 18px 40px rgba(0,0,0,.15);
+      transition:transform .5s ease,box-shadow .5s ease;
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
+      transform-style:preserve-3d;
+      perspective:1000px;
+    }
+
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,transparent,rgba(47,111,209,.12));
+      opacity:0;
+      transition:.4s;
+    }
+
+    .card:hover::after{opacity:1;}
+
+    .card:hover{
+      transform:rotateX(6deg) rotateY(-6deg) translateY(-12px) scale(1.03);
+      box-shadow:0 30px 60px rgba(0,0,0,.25);
+    }
+
+    .card:active{animation:shake .35s;}
+
+    .card h3{
+      transform:translateZ(30px);
+      margin-bottom:18px;
+      color:var(--primary);
+      font-size:1.25rem;
+      font-weight:700;
+    }
+
+    .card ul{
+      transform:translateZ(20px);list-style:none;padding:0;margin:0;}
+
+    .card ul li{
+      padding:9px 0;
+      border-bottom:1px dashed #ddd;
+      font-size:1rem;
+    }
+
+    .contact{
+      text-align:center;
+      margin-top:70px;
+    }
+
+    .btns{
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:15px 38px;
+      border-radius:60px;
+      text-decoration:none;
+      font-weight:700;
+      color:white;
+      font-size:1.05rem;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      transition:transform .25s ease,box-shadow .25s ease,filter .25s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-4px) scale(1.05);
+      box-shadow:0 14px 30px rgba(0,0,0,.25);
+      filter:brightness(1.08);
+    }
+
+    .btn:active{animation:shake .35s;}
+
+    .map{
+      background:linear-gradient(135deg,var(--danger),#ff6b6b);
+    }
+
+    footer{
+      text-align:center;
+      padding:25px;
+      background:linear-gradient(135deg,var(--dark),var(--primary));
+      color:white;
+      margin-top:80px;
+      font-size:.95rem;
+    }
+
+    /* Animations */
+    @keyframes fadeDown{
+      from{opacity:0;transform:translateY(-35px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    @keyframes pulse{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.05)}
+    }
+
+    @keyframes shake{
+      0%{transform:translateX(0)}
+      25%{transform:translateX(-6px)}
+      50%{transform:translateX(6px)}
+      75%{transform:translateX(-4px)}
+      100%{transform:translateX(0)}
+    }
+  </style></head>
 <body><header>
-  <!-- ضع الشعار المرفق بنفس الاسم -->
-  <img src="logo.png" alt="شعار مكتب بدر الحقبيل للعقارات">
+  <img src="https://h.top4top.io/p_3649v12nc0.jpg" alt="شعار مكتب بدر الحقبيل للعقارات">
   <h1>مكتب بدر الحقبيل للعقارات</h1>
   <p>دليل خطوات تصحيح وضع المباني القائمة</p>
 </header><section>
@@ -130,10 +206,9 @@
 </div>
 
   </div>  <div class="contact">
-    <h2>تواصل معنا مباشرة</h2>
+    <h2>تواصل معنا</h2>
     <div class="btns">
-      <a class="btn call" href="tel:0569982526">📞 اتصال مباشر</a>
-      <a class="btn whatsapp" href="https://wa.me/966569982526" target="_blank">💬 واتساب</a>
+      <a class="btn" href="tel:0569982526">📞 اتصال مباشر</a>
       <a class="btn map" href="https://maps.app.goo.gl/RYLgqqXsVnbptV1UA" target="_blank">📍 موقع المكتب</a>
     </div>
   </div>
