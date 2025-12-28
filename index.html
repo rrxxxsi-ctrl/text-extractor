@@ -2,342 +2,373 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتب بدر الحقيل للعقارات | تصحيح وضع المباني</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#020617">
+    <title>مكتب بدر الحقيل للعقارات</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #0f172a;      /* كحلي غامق */
-            --secondary: #1e293b;    /* رمادي مزرق */
-            --accent: #d97706;       /* ذهبي/برتقالي فخم */
-            --accent-glow: rgba(217, 119, 6, 0.3);
-            --light: #f8fafc;
-            --text-main: #334155;
-            --text-light: #94a3b8;
-            --white: #ffffff;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --bg-dark: #020617;
+            --primary-glow: rgba(56, 189, 248, 0.3);
+            --secondary-glow: rgba(234, 179, 8, 0.2);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-light: rgba(255, 255, 255, 0.08);
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--light);
-            color: var(--text-main);
-            line-height: 1.6;
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark);
+            color: #fff;
+            min-height: 100vh;
+            padding-bottom: 140px;
             overflow-x: hidden;
-        }
-
-        /* --- الهيدر (Hero Section) --- */
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
-            color: var(--white);
-            padding: 100px 20px 140px;
-            text-align: center;
             position: relative;
-            overflow: hidden;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
-            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
         }
 
-        /* خلفية متحركة خفيفة */
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 10%, transparent 60%);
-            animation: rotateBG 60s linear infinite;
-        }
-
-        @keyframes rotateBG { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        header h1 {
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        header p {
-            font-size: 1.2rem;
-            color: #cbd5e1;
-            font-weight: 300;
-        }
-
-        .badge {
-            background: var(--accent);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px var(--accent-glow);
-        }
-
-        /* --- الحاوية الرئيسية --- */
-        .container {
-            max-width: 1100px;
-            margin: -80px auto 50px; /* سحب المحتوى للأعلى */
-            padding: 0 20px;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* --- نظام التبويبات (Tabs) --- */
-        .tabs-wrapper {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 40px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .tab-btn {
-            padding: 15px 40px;
-            border: none;
-            background: transparent;
-            font-family: inherit;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-light);
-            cursor: pointer;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: var(--white);
-            box-shadow: 0 5px 15px rgba(15, 23, 42, 0.3);
-        }
-
-        .tab-btn i { margin-left: 8px; }
-
-        /* --- محتوى البطاقات --- */
-        .content-section {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        .content-section.active { display: block; }
-
-        @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
-
-        .service-card {
-            background: var(--white);
-            border-radius: 30px;
-            padding: 50px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #f1f5f9;
-        }
-
-        .service-card::after {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; width: 100%; height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-
-        .steps-list {
-            list-style: none;
-            margin-top: 30px;
-        }
-
-        .step-item {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            margin-bottom: 15px;
-            background: #f8fafc;
-            border-radius: 15px;
-            border-right: 4px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .step-item:hover {
-            background: #fff;
-            border-right-color: var(--accent);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transform: translateX(-5px);
-        }
-
-        .step-icon {
-            width: 45px;
-            height: 45px;
-            background: #e2e8f0;
-            color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            margin-left: 20px;
-            flex-shrink: 0;
-            transition: 0.3s;
-        }
-
-        .step-item:hover .step-icon {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .step-text {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-
-        /* --- قسم التواصل --- */
-        .contact-section {
-            margin-top: 60px;
-            text-align: center;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .contact-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-            background: var(--white);
-            border-radius: 20px;
-            text-decoration: none;
-            color: var(--primary);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .contact-btn i {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: var(--accent);
-        }
-
-        .contact-btn span {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .contact-btn:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            background: var(--primary);
+        /* --- خلفية الأورورا المتحركة --- */
+        .aurora-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(29, 78, 216, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(234, 179, 8, 0.1) 0%, transparent 40%);
+            animation: pulseBg 10s ease-in-out infinite alternate;
         }
         
-        .contact-btn:hover i, .contact-btn:hover span {
-            color: var(--white);
+        @keyframes pulseBg {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
         }
 
-        .contact-btn.map-btn:hover { background: #dc2626; border-color: #dc2626; }
-        .contact-btn.call-btn:hover { background: #16a34a; border-color: #16a34a; }
-
-        /* --- الفوتر --- */
-        footer {
+        /* --- الهيدر --- */
+        header {
             text-align: center;
-            padding: 40px;
-            margin-top: 80px;
-            color: var(--text-light);
-            font-size: 0.9rem;
-            border-top: 1px solid #e2e8f0;
+            padding: 50px 20px 30px;
+            animation: fadeDown 1s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        /* --- زر الواتساب العائم --- */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: #25d366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            z-index: 100;
+        .hero-title {
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,255,255,0.1);
+        }
+
+        /* --- الشبكة --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        @media (min-width: 850px) {
+            .grid-container { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* --- أعمدة المسارات --- */
+        .path-col {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid var(--border-light);
+            padding: 2px; /* For gradient border effect */
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* تأثير حدود متدرجة للعمود */
+        .col-residential { background: linear-gradient(160deg, rgba(59,130,246,0.2), transparent 40%); }
+        .col-commercial { background: linear-gradient(160deg, rgba(234,179,8,0.2), transparent 40%); }
+
+        .path-inner {
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 22px;
+            padding: 24px;
+            height: 100%;
+        }
+
+        /* العنوان داخل المسار */
+        .path-head {
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .res-theme .path-head { background: linear-gradient(135deg, #1d4ed8, #1e40af); border: 1px solid #3b82f6; box-shadow: 0 0 20px rgba(37,99,235,0.3); }
+        .com-theme .path-head { background: linear-gradient(135deg, #b45309, #92400e); border: 1px solid #f59e0b; box-shadow: 0 0 20px rgba(217,119,6,0.3); }
+
+        /* --- الخطوات والخط الرابط --- */
+        .steps-wrapper { position: relative; padding-right: 10px; }
+        
+        /* الخط الرابط المضيء */
+        .connecting-line {
+            position: absolute;
+            top: 25px; bottom: 40px; right: 26px;
+            width: 2px;
+            background: rgba(255,255,255,0.1);
+            z-index: 0;
+        }
+        .res-theme .connecting-line { background: linear-gradient(to bottom, #3b82f6 0%, rgba(59,130,246,0.1) 100%); box-shadow: 0 0 10px #3b82f6; }
+        .com-theme .connecting-line { background: linear-gradient(to bottom, #f59e0b 0%, rgba(245,158,11,0.1) 100%); box-shadow: 0 0 10px #f59e0b; }
+
+        .step-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 18px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(5px);
+        }
+
+        .step-card:hover {
+            transform: translateX(-5px);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* الأيقونات */
+        .s-icon {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .res-theme .s-icon { background: #1e3a8a; color: #60a5fa; border: 1px solid #3b82f6; }
+        .com-theme .s-icon { background: #451a03; color: #fbbf24; border: 1px solid #f59e0b; }
+
+        /* --- البار العائم --- */
+        .dock-container {
+            position: fixed;
+            bottom: 30px; left: 0; width: 100%;
+            display: flex; justify-content: center;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        .glass-dock {
+            pointer-events: auto;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 10px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.15);
+            display: flex; align-items: center; gap: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            transform: translateY(0);
+            animation: floatDock 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatDock { 0% {transform: translateY(0);} 100% {transform: translateY(-5px);} }
+
+        .action-btn {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; color: white;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: 0.3s;
+            position: relative;
+        }
+        .action-btn:active { transform: scale(0.9); }
+        
+        .btn-green { 
+            background: linear-gradient(135deg, #22c55e, #15803d); 
+            box-shadow: 0 0 20px rgba(34,197,94,0.4);
+        }
+        .btn-blue { 
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            box-shadow: 0 0 20px rgba(59,130,246,0.4);
         }
 
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            background-color: #1ebd59;
-        }
+        /* --- الأنيميشن --- */
+        @keyframes fadeDown { from {opacity:0; transform:translateY(-30px);} to {opacity:1; transform:translateY(0);} }
+        .fade-in-item { opacity: 0; animation: fadeInItem 0.6s ease forwards; transform: translateY(20px); }
+        @keyframes fadeInItem { to {opacity:1; transform:translateY(0);} }
+        
+        .shake { animation: shakeAnim 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shakeAnim { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
 
-        /* --- التجاوب (Mobile) --- */
-        @media (max-width: 768px) {
-            header h1 { font-size: 2rem; }
-            .container { margin-top: -60px; }
-            .service-card { padding: 30px 20px; }
-            .tab-btn { padding: 12px 20px; font-size: 0.9rem; }
-            .step-text { font-size: 1rem; }
-        }
     </style>
 </head>
 <body>
 
+    <div class="aurora-bg"></div>
+
     <header>
-        <div class="header-content">
-            <span class="badge">عقارات وهندسة</span>
-            <h1>مكتب بدر الحقيل للعقارات</h1>
-            <p>دليلك الشامل والموثوق لخطوات تصحيح وضع المباني القائمة وفق الأنظمة البلدية الحديثة.</p>
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/50 border border-slate-700 mb-6 backdrop-blur-sm">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-sm font-bold text-slate-300">خدمات عقارية معتمدة</span>
         </div>
+        <h1 class="text-4xl md:text-6xl font-black mb-4 hero-title">مكتب بدر الحقيل للعقارات</h1>
+        <p class="text-slate-400 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+            المرجع الأول لتصحيح أوضاع المباني السكنية والتجارية بخطوات واضحة ونظامية
+        </p>
     </header>
 
-    <div class="container">
+    <div class="grid-container">
         
-        <div class="tabs-wrapper">
-            <button class="tab-btn active" onclick="openTab('residential')">
-                <i class="fa-solid fa-house-chimney"></i> المسار السكني
-            </button>
-            <button class="tab-btn" onclick="openTab('commercial')">
-                <i class="fa-solid fa-building"></i> المسار التجاري
-            </button>
-        </div>
-
-        <div id="residential" class="content-section active">
-            <div class="service-card">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <i class="fa-solid fa-house-user" style="font-size: 3rem; color: var(--accent);"></i>
-                    <h2 style="margin-top: 15px; color: var(--primary);">خطوات المسار السكني</h2>
+        <div class="path-col col-residential res-theme fade-in-item" style="animation-delay: 0.1s">
+            <div class="path-inner">
+                <div class="path-head">
+                    <i class="fa-solid fa-house-chimney"></i> المسار السكني
                 </div>
                 
-                <ul class="steps-list">
-                  
+                <div class="steps-wrapper">
+                    <div class="connecting-line"></div> <div class="step-card">
+                        <div class="s-icon"><i class="fa-solid fa-tape"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">رفع المقاسات</h3>
+                            <p class="text-xs text-blue-200">معاينة دقيقة على الطبيعة</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="s-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">مخطط الوضع القائم</h3>
+                            <p class="text-xs text-blue-200">رسم هندسي للواقع</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="s-icon"><i class="fa-solid fa-pen-ruler"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">مخطط مقترح</h3>
+                            <p class="text-xs text-blue-200">تصميم التعديلات المطلوبة</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="s-icon"><i class="fa-solid fa-file-contract"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">إعداد تقرير فني</h3>
+                            <p class="text-xs text-blue-200">تقرير معتمد وشامل</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-card" style="border-right: 4px solid #3b82f6;">
+                        <div class="s-icon"><i class="fa-solid fa-paper-plane"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">إرسال للبلدية</h3>
+                            <p class="text-xs text-blue-400 font-bold">متابعة حتى الاعتماد</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="path-col col-commercial com-theme fade-in-item" style="animation-delay: 0.3s">
+            <div class="path-inner">
+                <div class="path-head">
+                    <i class="fa-solid fa-city"></i> المسار التجاري
+                </div>
+                
+                <div class="steps-wrapper">
+                    <div class="connecting-line"></div> <div class="step-card">
+                        <div class="s-icon"><i class="fa-solid fa-ruler-combined"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">رفع المقاسات</h3>
+                            <p class="text-xs text-amber-200">مطابقة دقيقة للواقع</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="s-icon"><i class="fa-solid fa-layer-group"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">مخطط الوضع القائم</h3>
+                            <p class="text-xs text-amber-200">رسم تفصيلي دقيق</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="s-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">مخطط مقترح</h3>
+                            <p class="text-xs text-amber-200">تعديلات معمارية تجارية</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="s-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">تقرير فني</h3>
+                            <p class="text-xs text-amber-200">السلامة الإنشائية</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="s-icon"><i class="fa-solid fa-cube"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">واجهة 3D</h3>
+                            <p class="text-xs text-amber-200">تصميم واجهة عصرية</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card" style="border-right: 4px solid #f59e0b;">
+                        <div class="s-icon"><i class="fa-solid fa-building-columns"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">إرسال للأمانة</h3>
+                            <p class="text-xs text-amber-500 font-bold">متابعة المعاملة بالكامل</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="dock-container">
+        <div class="glass-dock">
+            <a href="tel:0569982526" class="action-btn btn-green">
+                <div class="absolute inset-0 rounded-full animate-ping opacity-20 bg-green-500"></div>
+                <i class="fa-solid fa-phone"></i>
+            </a>
+            
+            <div class="w-px h-8 bg-white/20"></div>
+            
+            <a href="#" onclick="openMap(event)" id="map-btn" class="action-btn btn-blue">
+                <i class="fa-solid fa-location-dot"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function openMap(e) {
+            e.preventDefault();
+            const btn = document.getElementById('map-btn');
+            btn.classList.add('shake');
+            
+            setTimeout(() => {
+                btn.classList.remove('shake');
+                // رابط الخريطة الصحيح
+                window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59";
+            }, 600);
+        }
+    </script>
+</body>
+</html>
