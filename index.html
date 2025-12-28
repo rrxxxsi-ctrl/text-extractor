@@ -27,8 +27,7 @@
             background-color: var(--bg-dark);
             color: var(--text-white);
             margin: 0;
-            /* زيادة المساحة السفلية قليلاً لاستيعاب الفوتر الجديد والبار العائم */
-            padding-bottom: 200px; 
+            padding-bottom: 200px;
             min-height: 100vh;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
@@ -37,7 +36,7 @@
         /* --- 2. الهيدر --- */
         header {
             text-align: center;
-            padding: 60px 20px 20px;
+            padding: 80px 20px 20px; /* زيادة المساحة العلوية */
             animation: fadeInDown 0.8s ease;
         }
 
@@ -52,7 +51,55 @@
             padding: 10px 20px; border-radius: 50px; display: inline-block; font-weight: 700;
         }
 
-        /* --- 3. أزرار المسارات --- */
+        /* --- 3. صورة الحقوق (Brand Image - Top Right) --- */
+        .brand-corner {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* وضعها في أقصى اليمين */
+            width: 60px; /* حجم مبدئي أنيق */
+            height: 60px;
+            border-radius: 18px;
+            overflow: hidden;
+            z-index: 1000;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(5px);
+            /* أنيميشن */
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: slideInCorner 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.5s, floatImage 6s infinite ease-in-out 1.5s;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .brand-corner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* لملء المربع دون تشوه */
+            filter: brightness(0.9);
+            transition: 0.4s;
+        }
+
+        /* تفاعل عند اللمس/الماوس */
+        .brand-corner:hover {
+            width: 180px; /* تكبير العرض لإظهار الصورة كاملة */
+            height: auto; /* ارتفاع تلقائي */
+            transform: scale(1.05) translateX(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+            z-index: 2000;
+        }
+        
+        .brand-corner:hover img {
+            filter: brightness(1.1);
+        }
+
+        @keyframes slideInCorner { to { opacity: 1; transform: translateY(0); } }
+        @keyframes floatImage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+
+        /* --- 4. أزرار المسارات --- */
         .tabs-wrapper {
             display: flex; justify-content: center; gap: 15px;
             margin: 30px auto; padding: 0 20px; max-width: 600px;
@@ -76,7 +123,7 @@
         }
         .big-btn.active i, .big-btn.active span { color: white; }
 
-        /* --- 4. المحتوى --- */
+        /* --- 5. المحتوى --- */
         .content-container {
             max-width: 600px; margin: 0 auto; padding: 0 20px;
             display: flex; flex-direction: column; gap: 15px;
@@ -97,7 +144,7 @@
         .step-info h3 { font-weight: 700; margin: 0; font-size: 1.1rem; }
         .step-info p { color: #94a3b8; font-size: 0.9rem; margin: 5px 0 0; }
 
-        /* --- 5. الملاحظة --- */
+        /* --- 6. الملاحظة --- */
         .note-area { max-width: 600px; margin: 30px auto; padding: 0 20px; }
         .note-card {
             background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
@@ -105,57 +152,6 @@
         }
         .note-head { color: #f87171; font-weight: 800; margin-bottom: 5px; }
         .note-body { font-size: 0.9rem; color: #cbd5e1; }
-
-        /* --- 6. تصميم الحقوق الجديد والمميز (New Footer Design) --- */
-        .copyright-container {
-            max-width: 600px;
-            margin: 40px auto 20px; /* مسافات مناسبة */
-            padding: 0 20px;
-            display: flex;
-            justify-content: center;
-            /* أنيميشن الدخول */
-            opacity: 0;
-            transform: translateY(40px);
-            animation: footerEntrance 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 1s; /* تأخير بسيط */
-        }
-
-        .copyright-card {
-            background: rgba(30, 41, 59, 0.5); /* خلفية زجاجية داكنة */
-            backdrop-filter: blur(15px); /* تأثير الضباب */
-            border: 1px solid rgba(255, 255, 255, 0.1); /* حدود دقيقة */
-            border-radius: 25px;
-            padding: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* انتقال ناعم جداً */
-            overflow: hidden; /* لضمان عدم خروج الصورة عن الإطار عند التكبير */
-        }
-
-        .footer-image {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 18px; /* زوايا الصورة الداخلية */
-            /* تأثير مبدئي */
-            filter: brightness(0.9) grayscale(20%); 
-            transform: scale(1);
-            transition: all 0.5s ease;
-        }
-
-        /* تأثير عند التحويم على الكارت */
-        .copyright-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.4); /* حدود زرقاء مضيئة */
-            box-shadow: 0 20px 50px rgba(59, 130, 246, 0.2); /* وهج أزرق */
-        }
-
-        .copyright-card:hover .footer-image {
-            transform: scale(1.04); /* تكبير بسيط */
-            filter: brightness(1.1) grayscale(0%); /* زيادة السطوع وإزالة الرمادي */
-        }
-
-        @keyframes footerEntrance {
-            to { opacity: 1; transform: translateY(0); }
-        }
 
         /* --- 7. البار العائم --- */
         .dock-fixed-wrapper {
@@ -188,7 +184,17 @@
         .btn-map { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
         .btn-qr { background: #475569; }
 
-        /* --- 8. مودال QR --- */
+        /* --- 8. تحكم علوي --- */
+        .top-controls { position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; z-index: 100; }
+        html[dir="ltr"] .top-controls { right: 20px; left: auto; }
+        .ctrl-btn {
+            width: 42px; height: 42px; border-radius: 12px;
+            background: var(--glass-bg); border: 1px solid var(--border-color);
+            color: var(--text-white); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s;
+        }
+
+        /* --- 9. مودال QR --- */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000;
             display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s;
@@ -206,6 +212,19 @@
     </style>
 </head>
 <body>
+
+    <div class="brand-corner" title="مكتب بدر الحقيل">
+        <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Bader Al Huqail">
+    </div>
+
+    <div class="top-controls">
+        <button class="ctrl-btn" onclick="toggleTheme()" title="تغيير المظهر">
+            <i class="fa-regular fa-sun" id="theme-icon"></i>
+        </button>
+        <button class="ctrl-btn text-xs font-bold" onclick="toggleLang()" title="Language">
+            <span id="lang-txt">EN</span>
+        </button>
+    </div>
 
     <header>
         <div class="logo-icon"><i class="fa-solid fa-building-columns"></i></div>
@@ -231,14 +250,6 @@
             <div class="note-body">جميع المخططات والتقارير الفنية معتمدة وفق الكود السعودي، ويلزم توفر صك إلكتروني محدث للبدء في الإجراءات.</div>
         </div>
     </div>
-
-    <footer class="copyright-container">
-        <div class="copyright-card">
-            <div style="overflow: hidden; border-radius: 18px;">
-                <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="حقوق مكتب بدر الحقيل" class="footer-image">
-            </div>
-        </div>
-    </footer>
 
     <div class="dock-fixed-wrapper">
         <div class="contact-badge">تواصل معنا الآن</div>
@@ -305,6 +316,22 @@
             btnRes.className = 'big-btn res'; btnCom.className = 'big-btn com';
             if (path === 'res') { btnRes.classList.add('active'); } else { btnCom.classList.add('active'); }
             renderSteps(path);
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+        }
+
+        function toggleLang() {
+            const html = document.documentElement;
+            const current = html.getAttribute('dir');
+            if(current === 'rtl') {
+                html.setAttribute('dir', 'ltr');
+                document.getElementById('lang-txt').innerText = 'عربي';
+            } else {
+                html.setAttribute('dir', 'rtl');
+                document.getElementById('lang-txt').innerText = 'EN';
+            }
         }
 
         function openMap(e) {
