@@ -15,52 +15,36 @@
 
     body{
       margin:0;
-      font-family:'Cairo',sans-serif;
-      background:linear-gradient(135deg,var(--soft),#ffffff);
-      color:#333;
+      font-family:'Cairo',system-ui,-apple-system;
+      background:linear-gradient(180deg,#f5f7fa,#eef2f7);
+      color:#1f2937;
+      line-height:1.9;
     }
 
     header{
       text-align:center;
-      padding:45px 20px 55px;
-      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      padding:70px 20px 80px;
+      background:linear-gradient(135deg,#0f172a,#1e3a8a);
       color:white;
-      animation:fadeDown 1.2s ease;
+      position:relative;
+      overflow:hidden;
     }
 
-    .logo-text{
-      display:inline-flex;
-      gap:12px;
-      align-items:center;
-      justify-content:center;
-      margin-bottom:18px;
-      perspective:900px;
+    header::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at top,rgba(255,255,255,.18),transparent 55%);
     }
 
-    .logo-text span{
-      font-size:2.1rem;
-      font-weight:800;
-      letter-spacing:1px;
-      padding:8px 18px;
-      border-radius:14px;
-      animation:logoFloat 3.5s ease-in-out infinite;
-      box-shadow:0 10px 25px rgba(0,0,0,.25);
-    }
+    
+
+    
 
     /* مستوحى من لوحة المكتب */
-    .logo-text .name{
-      background:linear-gradient(135deg,#c62828,#e53935);
-      color:#fff;
-      border:2px solid #ffffff;
-      transform:translateZ(35px) rotateX(6deg);
-    }
+    
 
-    .logo-text .surname{
-      background:linear-gradient(135deg,#5c8fd6,#9fc5f8);
-      color:#0d2b55;
-      border:2px solid #ffffff;
-      transform:translateZ(20px) rotateX(-6deg);
-    }
+    
 
     header h1{
       margin:8px 0 6px;
@@ -96,14 +80,19 @@
     .card{
       background:white;
       border-radius:22px;
-      padding:28px;
-      box-shadow:0 18px 40px rgba(0,0,0,.15);
-      transition:transform .5s ease,box-shadow .5s ease;
+      padding:32px 30px 36px;
+      box-shadow:0 18px 45px rgba(0,0,0,.08);
       position:relative;
       overflow:hidden;
-      cursor:pointer;
-      transform-style:preserve-3d;
-      perspective:1000px;
+      transition:transform .4s ease,box-shadow .4s ease;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      top:0;left:0;right:0;
+      height:5px;
+      background:linear-gradient(90deg,#2563eb,#38bdf8);
     }
 
     .card::after{
@@ -115,14 +104,19 @@
       transition:.4s;
     }
 
-    .card:hover::after{opacity:1;}
+    .card:hover{
+      transform:translateY(-10px) scale(1.02);
+      box-shadow:0 26px 55px rgba(0,0,0,.22);
+    }
 
     .card:hover{
       transform:rotateX(6deg) rotateY(-6deg) translateY(-12px) scale(1.03);
       box-shadow:0 30px 60px rgba(0,0,0,.25);
     }
 
-    .card:active{animation:shake .35s;}
+    .card:active{
+      transform:scale(.98);
+    }
 
     .card h3{
       transform:translateZ(30px);
@@ -206,12 +200,7 @@
       100%{transform:translateX(0)}
     }
   </style></head>
-<body><header>
-  <div class="logo-text">
-    <span class="name">بدر</span>
-    <span class="surname">الحقيل</span>
-  </div>
-  <h1>مكتب بدر الحقبيل للعقارات</h1>
+<body><header>  <h1>مكتب بدر الحقبيل للعقارات</h1>
   <p>دليل خطوات تصحيح وضع المباني القائمة</p>
 </header><section>
   <h2>مسارات تصحيح وضع المباني</h2>
