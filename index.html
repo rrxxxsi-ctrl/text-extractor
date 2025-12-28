@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0f172a">
-    <title>مكتب بدر الحقيل | النسخة المصححة</title>
+    <title>مكتب بدر الحقيل | النسخة النهائية</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -16,7 +16,7 @@
         :root {
             --bg-dark: #0f172a;
             --text-white: #ffffff;
-            --glass-bg: rgba(30, 41, 59, 0.95); /* زيادة التعتيم للوضوح */
+            --glass-bg: rgba(30, 41, 59, 0.95);
             --border-color: rgba(255, 255, 255, 0.15);
             --primary: #3b82f6;
             --gold: #f59e0b;
@@ -27,7 +27,8 @@
             background-color: var(--bg-dark);
             color: var(--text-white);
             margin: 0;
-            padding-bottom: 180px; /* مساحة كافية للبار السفلي */
+            /* زيادة المساحة السفلية قليلاً لاستيعاب الفوتر الجديد والبار العائم */
+            padding-bottom: 200px; 
             min-height: 100vh;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
@@ -41,199 +42,160 @@
         }
 
         .logo-icon {
-            font-size: 3.5rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: inline-block;
+            font-size: 3.5rem; color: var(--primary); margin-bottom: 15px; display: inline-block;
         }
-
-        .main-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 5px;
-        }
-
-        .sub-title {
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
+        .main-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; }
+        .sub-title { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
         .guide-box {
-            margin-top: 20px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            color: #60a5fa;
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: inline-block;
-            font-weight: 700;
+            margin-top: 20px; background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa;
+            padding: 10px 20px; border-radius: 50px; display: inline-block; font-weight: 700;
         }
 
-        /* --- 3. أزرار المسارات (الأزرار الكبيرة) --- */
+        /* --- 3. أزرار المسارات --- */
         .tabs-wrapper {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px auto;
-            padding: 0 20px;
-            max-width: 600px;
+            display: flex; justify-content: center; gap: 15px;
+            margin: 30px auto; padding: 0 20px; max-width: 600px;
         }
-
         .big-btn {
-            flex: 1;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            flex: 1; padding: 20px; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color); border-radius: 20px;
+            text-align: center; cursor: pointer; transition: 0.3s;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
-
         .big-btn i { font-size: 2rem; color: #94a3b8; }
         .big-btn span { font-weight: 700; font-size: 1.1rem; color: #94a3b8; }
 
-        /* حالة التفعيل (Active State) */
         .big-btn.active.res {
-            background: var(--primary);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
-            transform: scale(1.05);
+            background: var(--primary); border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4); transform: scale(1.05);
         }
         .big-btn.active.com {
-            background: var(--gold);
-            border-color: var(--gold);
-            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
-            transform: scale(1.05);
+            background: var(--gold); border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4); transform: scale(1.05);
         }
         .big-btn.active i, .big-btn.active span { color: white; }
 
-        /* --- 4. منطقة المحتوى (الخطوات) --- */
+        /* --- 4. المحتوى --- */
         .content-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            max-width: 600px; margin: 0 auto; padding: 0 20px;
+            display: flex; flex-direction: column; gap: 15px;
         }
-
         .step-card {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid var(--border-color);
-            padding: 15px 20px;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            /* Animation */
-            opacity: 0;
-            transform: translateY(20px);
+            background: rgba(30, 41, 59, 0.6); border: 1px solid var(--border-color);
+            padding: 15px 20px; border-radius: 18px; display: flex; align-items: center;
+            gap: 15px; opacity: 0; transform: translateY(20px);
             animation: slideUp 0.5s ease forwards;
         }
-
         .icon-circle {
-            width: 50px; height: 50px;
-            border-radius: 15px;
+            width: 50px; height: 50px; border-radius: 15px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
+            font-size: 1.2rem; flex-shrink: 0;
         }
         .res-theme .icon-circle { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
         .com-theme .icon-circle { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-
         .step-info h3 { font-weight: 700; margin: 0; font-size: 1.1rem; }
         .step-info p { color: #94a3b8; font-size: 0.9rem; margin: 5px 0 0; }
 
         /* --- 5. الملاحظة --- */
-        .note-area {
-            max-width: 600px; margin: 30px auto; padding: 0 20px;
-        }
+        .note-area { max-width: 600px; margin: 30px auto; padding: 0 20px; }
         .note-card {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 15px; padding: 20px;
-            text-align: center;
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 15px; padding: 20px; text-align: center;
         }
         .note-head { color: #f87171; font-weight: 800; margin-bottom: 5px; }
         .note-body { font-size: 0.9rem; color: #cbd5e1; }
 
-        /* --- 6. البار العائم (الإصلاح الجذري للموقع) --- */
-        .dock-fixed-wrapper {
-            position: fixed;
-            bottom: 30px;
-            left: 0;
-            right: 0;
-            margin: auto; /* هذا السطر يضمن التوسيط */
-            width: 90%;
-            max-width: 400px;
-            z-index: 1000;
+        /* --- 6. تصميم الحقوق الجديد والمميز (New Footer Design) --- */
+        .copyright-container {
+            max-width: 600px;
+            margin: 40px auto 20px; /* مسافات مناسبة */
+            padding: 0 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            /* أنيميشن الدخول */
+            opacity: 0;
+            transform: translateY(40px);
+            animation: footerEntrance 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 1s; /* تأخير بسيط */
         }
 
-        /* شارة تواصل معنا */
+        .copyright-card {
+            background: rgba(30, 41, 59, 0.5); /* خلفية زجاجية داكنة */
+            backdrop-filter: blur(15px); /* تأثير الضباب */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* حدود دقيقة */
+            border-radius: 25px;
+            padding: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* انتقال ناعم جداً */
+            overflow: hidden; /* لضمان عدم خروج الصورة عن الإطار عند التكبير */
+        }
+
+        .footer-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 18px; /* زوايا الصورة الداخلية */
+            /* تأثير مبدئي */
+            filter: brightness(0.9) grayscale(20%); 
+            transform: scale(1);
+            transition: all 0.5s ease;
+        }
+
+        /* تأثير عند التحويم على الكارت */
+        .copyright-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.4); /* حدود زرقاء مضيئة */
+            box-shadow: 0 20px 50px rgba(59, 130, 246, 0.2); /* وهج أزرق */
+        }
+
+        .copyright-card:hover .footer-image {
+            transform: scale(1.04); /* تكبير بسيط */
+            filter: brightness(1.1) grayscale(0%); /* زيادة السطوع وإزالة الرمادي */
+        }
+
+        @keyframes footerEntrance {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 7. البار العائم --- */
+        .dock-fixed-wrapper {
+            position: fixed; bottom: 30px; left: 0; right: 0; margin: auto;
+            width: 90%; max-width: 400px; z-index: 1000;
+            display: flex; flex-direction: column; align-items: center;
+        }
         .contact-badge {
-            background: #22c55e;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
-            animation: bounce 2s infinite;
-            position: relative;
+            background: #22c55e; color: white; padding: 5px 15px; border-radius: 20px;
+            font-weight: 700; font-size: 0.8rem; margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4); animation: bounce 2s infinite; position: relative;
         }
         .contact-badge::after {
             content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
             border-width: 5px 5px 0; border-style: solid; border-color: #22c55e transparent transparent transparent;
         }
-
-        /* جسم البار */
         .glass-dock {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 50px;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between; /* توزيع الأزرار بالتساوي */
-            align-items: center;
+            width: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 50px;
+            padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-
         .dock-btn {
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: white; text-decoration: none; font-size: 1.4rem;
-            transition: 0.2s;
+            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; color: white; text-decoration: none; font-size: 1.4rem; transition: 0.2s;
         }
         .dock-btn:active { transform: scale(0.9); }
-
         .btn-call { background: linear-gradient(135deg, #10b981, #059669); }
         .btn-wa { background: #25d366; }
         .btn-map { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
         .btn-qr { background: #475569; }
 
-        /* --- 7. مودال QR --- */
+        /* --- 8. مودال QR --- */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000;
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: 0.3s;
+            display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s;
         }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-box {
-            background: #1e293b; padding: 30px; border-radius: 20px; text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: #1e293b; padding: 30px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
         }
 
         /* Animations */
@@ -246,56 +208,45 @@
 <body>
 
     <header>
-        <div class="logo-icon">
-            <i class="fa-solid fa-building-columns"></i>
-        </div>
+        <div class="logo-icon"><i class="fa-solid fa-building-columns"></i></div>
         <h1 class="main-title">مكتب بدر الحقيل</h1>
         <p class="sub-title">للعقارات والهندسة</p>
-        
-        <div class="guide-box">
-            دليل خطوات تصحيح وضع المباني القائمة
-        </div>
+        <div class="guide-box">دليل خطوات تصحيح وضع المباني القائمة</div>
     </header>
 
     <div class="tabs-wrapper">
         <div class="big-btn active res" id="btn-res" onclick="selectPath('res')">
-            <i class="fa-solid fa-house-chimney"></i>
-            <span>المسار السكني</span>
+            <i class="fa-solid fa-house-chimney"></i><span>المسار السكني</span>
         </div>
         <div class="big-btn com" id="btn-com" onclick="selectPath('com')">
-            <i class="fa-solid fa-city"></i>
-            <span>المسار التجاري</span>
+            <i class="fa-solid fa-city"></i><span>المسار التجاري</span>
         </div>
     </div>
 
-    <div id="steps-container" class="content-container">
-        </div>
+    <div id="steps-container" class="content-container"></div>
 
     <div class="note-area">
         <div class="note-card">
             <div class="note-head"><i class="fa-solid fa-triangle-exclamation"></i> ملاحظة هامة</div>
-            <div class="note-body">
-                جميع المخططات والتقارير الفنية معتمدة وفق الكود السعودي، ويلزم توفر صك إلكتروني محدث للبدء في الإجراءات.
-            </div>
+            <div class="note-body">جميع المخططات والتقارير الفنية معتمدة وفق الكود السعودي، ويلزم توفر صك إلكتروني محدث للبدء في الإجراءات.</div>
         </div>
     </div>
 
+    <footer class="copyright-container">
+        <div class="copyright-card">
+            <div style="overflow: hidden; border-radius: 18px;">
+                <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="حقوق مكتب بدر الحقيل" class="footer-image">
+            </div>
+        </div>
+    </footer>
+
     <div class="dock-fixed-wrapper">
         <div class="contact-badge">تواصل معنا الآن</div>
-        
         <div class="glass-dock">
-            <a href="tel:0569982526" class="dock-btn btn-call">
-                <i class="fa-solid fa-phone"></i>
-            </a>
-            <a href="https://wa.me/966569982526" target="_blank" class="dock-btn btn-wa">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
-            <a href="#" onclick="openMap(event)" class="dock-btn btn-map">
-                <i class="fa-solid fa-location-dot"></i>
-            </a>
-            <button onclick="toggleQR()" class="dock-btn btn-qr">
-                <i class="fa-solid fa-qrcode"></i>
-            </button>
+            <a href="tel:0569982526" class="dock-btn btn-call"><i class="fa-solid fa-phone"></i></a>
+            <a href="https://wa.me/966569982526" target="_blank" class="dock-btn btn-wa"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="#" onclick="openMap(event)" class="dock-btn btn-map"><i class="fa-solid fa-location-dot"></i></a>
+            <button onclick="toggleQR()" class="dock-btn btn-qr"><i class="fa-solid fa-qrcode"></i></button>
         </div>
     </div>
 
@@ -308,7 +259,6 @@
     </div>
 
     <script>
-        // --- البيانات ---
         const stepsData = {
             res: [
                 { t: "رفع المقاسات", d: "زيارة ميدانية لرفع المقاسات على الطبيعة", i: "fa-tape" },
@@ -327,87 +277,50 @@
             ]
         };
 
-        // --- دالة العرض (The Engine) ---
         function renderSteps(type) {
             const container = document.getElementById('steps-container');
             const data = stepsData[type];
             const themeClass = type === 'res' ? 'res-theme' : 'com-theme';
             const borderCol = type === 'res' ? '#3b82f6' : '#f59e0b';
-
-            // تفريغ المحتوى القديم
             container.innerHTML = '';
-
-            // إنشاء العناصر الجديدة
             data.forEach((step, index) => {
                 const div = document.createElement('div');
                 div.className = 'step-card';
-                div.style.animationDelay = `${index * 0.1}s`; // تتابع زمني
-                
-                // تمييز آخر خطوة بحدود ملونة
+                div.style.animationDelay = `${index * 0.1}s`;
                 let borderStyle = '';
-                if (index === data.length - 1) {
-                    borderStyle = `border-right: 4px solid ${borderCol};`;
-                }
-
+                if (index === data.length - 1) { borderStyle = `border-right: 4px solid ${borderCol};`; }
                 div.innerHTML = `
-                    <div class="icon-circle ${themeClass}">
-                        <i class="fa-solid ${step.i}"></i>
-                    </div>
+                    <div class="icon-circle ${themeClass}"><i class="fa-solid ${step.i}"></i></div>
                     <div class="step-info" style="${borderStyle} padding-right: 10px;">
-                        <h3>${step.t}</h3>
-                        <p>${step.d}</p>
+                        <h3>${step.t}</h3><p>${step.d}</p>
                     </div>
                 `;
                 container.appendChild(div);
             });
         }
 
-        // --- التبديل بين المسارات ---
         function selectPath(path) {
-            // تحديث الأزرار
             const btnRes = document.getElementById('btn-res');
             const btnCom = document.getElementById('btn-com');
-
-            // إزالة التفعيل
-            btnRes.className = 'big-btn res';
-            btnCom.className = 'big-btn com';
-
-            // تفعيل الزر المختار
-            if (path === 'res') {
-                btnRes.classList.add('active');
-            } else {
-                btnCom.classList.add('active');
-            }
-
-            // عرض المحتوى
+            btnRes.className = 'big-btn res'; btnCom.className = 'big-btn com';
+            if (path === 'res') { btnRes.classList.add('active'); } else { btnCom.classList.add('active'); }
             renderSteps(path);
         }
 
-        // --- الوظائف الإضافية ---
         function openMap(e) {
-            e.preventDefault();
-            // رابط الخريطة
-            window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59";
+            e.preventDefault(); window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59";
         }
 
         let qrGenerated = false;
         function toggleQR() {
             const modal = document.getElementById('qr-modal');
             modal.classList.toggle('active');
-            
             if (!qrGenerated && modal.classList.contains('active')) {
-                new QRCode(document.getElementById("qrcode"), {
-                    text: window.location.href,
-                    width: 150, height: 150
-                });
+                new QRCode(document.getElementById("qrcode"), { text: window.location.href, width: 150, height: 150 });
                 qrGenerated = true;
             }
         }
-
-        // --- التشغيل التلقائي ---
-        // نبدأ بالمسار السكني افتراضياً
         renderSteps('res');
-
     </script>
 </body>
 </html>
