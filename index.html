@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0f172a">
-    <title>مكتب بدر الحقيل</title>
+    <title>مكتب بدر الحقيل | النسخة الحيوية</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. متغيرات الألوان (محرك الثيمات) --- */
+        /* --- 1. الأساسيات --- */
         :root {
             /* الوضع الليلي (الافتراضي) */
             --bg-main: #0f172a;
@@ -21,11 +21,11 @@
             --glass-bg: rgba(30, 41, 59, 0.8);
             --glass-border: rgba(255, 255, 255, 0.1);
             --card-bg: rgba(255, 255, 255, 0.03);
-            --accent: #3b82f6;
+            --accent: #3b82f6; /* اللون الأزرق الرئيسي */
             --dock-bg: rgba(15, 23, 42, 0.9);
         }
 
-        /* الوضع النهاري (يتم تفعيله عبر الكلاس) */
+        /* الوضع النهاري */
         body.light-mode {
             --bg-main: #f0f9ff;
             --text-main: #0f172a;
@@ -37,7 +37,6 @@
             --dock-bg: rgba(255, 255, 255, 0.95);
         }
 
-        /* --- 2. إعدادات الصفحة --- */
         body {
             font-family: 'Cairo', sans-serif;
             background-color: var(--bg-main);
@@ -57,62 +56,91 @@
             pointer-events: none;
         }
 
-        /* --- 3. الشريط العلوي (الحل الجذري للتداخل) --- */
+        /* --- 2. الشريط العلوي --- */
         .top-navbar {
-            display: flex;
-            justify-content: space-between; /* يبعد العناصر عن بعضها */
-            align-items: center;
-            padding: 20px;
-            width: 100%;
-            position: relative;
-            z-index: 50;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px; width: 100%; position: relative; z-index: 50;
         }
 
-        /* مجموعة أزرار التحكم */
-        .nav-controls {
-            display: flex;
-            gap: 10px;
-        }
-
+        .nav-controls { display: flex; gap: 10px; }
         .nav-btn {
             width: 45px; height: 45px; border-radius: 12px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.3s;
-            backdrop-filter: blur(5px);
-            font-weight: bold;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            color: var(--text-main); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); font-weight: bold;
         }
         .nav-btn:active { transform: scale(0.9); }
 
-        /* صورة الشعار (Brand Image) - تصميم جديد */
-        .brand-logo {
-            width: 55px; height: 55px;
-            border-radius: 50%; /* دائري */
-            overflow: hidden;
-            border: 2px solid var(--glass-border);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            background: white; /* خلفية بيضاء للصورة */
-            transition: 0.3s;
+        /* =========================================
+           --- 3. صورة الشعار (مع أنيميشن الدوائر الجديد) ---
+           ========================================= */
+        .brand-logo-container {
+            position: relative;
+            width: 60px; height: 60px;
             display: flex; align-items: center; justify-content: center;
         }
+
+        .brand-logo {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--glass-border);
+            /* إضافة توهج نابض مستمر */
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+            background: white;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; z-index: 2; /* فوق الدوائر */
+            animation: logoPulseGlow 3s infinite alternate;
+        }
+        
         .brand-logo img {
             width: 100%; height: 100%; object-fit: cover;
         }
-        .brand-logo:hover {
-            transform: scale(1.1);
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+
+        /* تأثير الدوائر المنبعثة (Ripples) */
+        .brand-logo-container::before,
+        .brand-logo-container::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--accent); /* لون الدائرة */
+            opacity: 0;
+            z-index: 1; /* خلف الصورة */
         }
+
+        .brand-logo-container::before {
+            animation: rippleEffect 3s linear infinite;
+        }
+        .brand-logo-container::after {
+            animation: rippleEffect 3s linear infinite 1.5s; /* تأخير للدائرة الثانية */
+        }
+
+        /* تعريف الأنيميشن */
+        @keyframes rippleEffect {
+            0% { width: 100%; height: 100%; opacity: 0.6; border-width: 3px; }
+            100% { width: 220%; height: 220%; opacity: 0; border-width: 1px; }
+        }
+        @keyframes logoPulseGlow {
+            0% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+            100% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 10px rgba(59, 130, 246, 0.4) inset; }
+        }
+
+        /* تفاعل عند التحويم */
+        .brand-logo-container:hover .brand-logo {
+            transform: scale(1.15);
+            border-color: var(--accent);
+        }
+        /* ========================================= */
+
 
         /* --- 4. الهيدر الرئيسي --- */
         header { text-align: center; padding: 40px 20px 20px; animation: fadeIn 0.8s ease; }
-        
         .main-icon { font-size: 3.5rem; color: var(--accent); margin-bottom: 15px; display: inline-block; }
         .main-title { font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; }
         .sub-title { color: var(--accent); font-weight: 700; font-size: 1.2rem; }
-        
         .guide-pill {
             margin-top: 20px; background: rgba(59, 130, 246, 0.1);
             border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa;
@@ -131,32 +159,26 @@
             display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
         body.light-mode .big-tab { box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-
         .big-tab i { font-size: 2rem; color: var(--text-sub); }
         .big-tab span { font-weight: 700; font-size: 1.1rem; color: var(--text-sub); }
-
-        /* Active States */
         .big-tab.active.res { background: var(--accent); border-color: var(--accent); transform: scale(1.03); }
         .big-tab.active.com { background: #f59e0b; border-color: #f59e0b; transform: scale(1.03); }
         .big-tab.active i, .big-tab.active span { color: white; }
 
         /* --- 6. المحتوى --- */
         .content-area { max-width: 600px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
-        
         .step-item {
             background: var(--card-bg); border: 1px solid var(--glass-border);
             padding: 15px; border-radius: 18px; display: flex; align-items: center; gap: 15px;
             opacity: 0; transform: translateY(20px); animation: slideUp 0.5s ease forwards;
         }
         body.light-mode .step-item { box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-
         .icon-box {
             width: 45px; height: 45px; border-radius: 14px;
             display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem;
         }
         .res-theme .icon-box { background: rgba(59,130,246,0.1); color: #3b82f6; }
         .com-theme .icon-box { background: rgba(245,158,11,0.1); color: #f59e0b; }
-        
         .step-text h3 { margin: 0; font-weight: 700; font-size: 1rem; }
         .step-text p { margin: 3px 0 0; color: var(--text-sub); font-size: 0.85rem; }
 
@@ -169,7 +191,7 @@
         .note-head { color: #f87171; font-weight: 800; margin-bottom: 5px; font-size: 0.95rem; }
         .note-body { font-size: 0.85rem; color: var(--text-sub); }
 
-        /* --- 8. البار العائم (الوسط) --- */
+        /* --- 8. البار العائم --- */
         .dock-fixed {
             position: fixed; bottom: 30px; left: 0; right: 0; margin: auto;
             width: 90%; max-width: 400px; z-index: 1000;
@@ -191,7 +213,6 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
         body.light-mode .glass-dock { box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
-
         .action-btn {
             width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center;
             justify-content: center; color: white; text-decoration: none; font-size: 1.4rem; transition: 0.2s;
@@ -224,16 +245,14 @@
 
     <nav class="top-navbar">
         <div class="nav-controls">
-            <button class="nav-btn" onclick="toggleTheme()" id="theme-btn">
-                <i class="fa-regular fa-sun"></i>
-            </button>
-            <button class="nav-btn text-xs" onclick="toggleLang()" id="lang-btn">
-                EN
-            </button>
+            <button class="nav-btn" onclick="toggleTheme()" id="theme-btn"><i class="fa-regular fa-sun"></i></button>
+            <button class="nav-btn text-xs" onclick="toggleLang()" id="lang-btn">EN</button>
         </div>
 
-        <div class="brand-logo">
-            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo">
+        <div class="brand-logo-container">
+            <div class="brand-logo">
+                <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo">
+            </div>
         </div>
     </nav>
 
@@ -246,12 +265,10 @@
 
     <div class="tabs-wrapper">
         <div class="big-tab active res" id="tab-res" onclick="switchPath('res')">
-            <i class="fa-solid fa-house-chimney"></i>
-            <span data-i18n="res_tab">المسار السكني</span>
+            <i class="fa-solid fa-house-chimney"></i><span data-i18n="res_tab">المسار السكني</span>
         </div>
         <div class="big-tab com" id="tab-com" onclick="switchPath('com')">
-            <i class="fa-solid fa-city"></i>
-            <span data-i18n="com_tab">المسار التجاري</span>
+            <i class="fa-solid fa-city"></i><span data-i18n="com_tab">المسار التجاري</span>
         </div>
     </div>
 
@@ -259,12 +276,8 @@
 
     <div class="note-wrap">
         <div class="note-card">
-            <div class="note-head">
-                <i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="note_title">ملاحظة هامة</span>
-            </div>
-            <div class="note-body" data-i18n="note_body">
-                جميع المخططات والتقارير الفنية معتمدة وفق الكود السعودي، ويلزم توفر صك إلكتروني محدث للبدء في الإجراءات.
-            </div>
+            <div class="note-head"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="note_title">ملاحظة هامة</span></div>
+            <div class="note-body" data-i18n="note_body">جميع المخططات والتقارير الفنية معتمدة وفق الكود السعودي، ويلزم توفر صك إلكتروني محدث للبدء في الإجراءات.</div>
         </div>
     </div>
 
@@ -287,137 +300,37 @@
     </div>
 
     <script>
-        // --- البيانات ---
         const content = {
             ar: {
-                title: "مكتب بدر الحقيل", subtitle: "للعقارات والهندسة",
-                guide: "دليل خطوات تصحيح وضع المباني القائمة",
-                res_tab: "المسار السكني", com_tab: "المسار التجاري",
-                note_title: "ملاحظة هامة", note_body: "جميع المخططات والتقارير الفنية معتمدة وفق الكود السعودي، ويلزم توفر صك إلكتروني محدث للبدء في الإجراءات.",
-                contact: "تواصل معنا الآن",
-                steps_res: [
-                    { t: "رفع المقاسات", d: "زيارة ميدانية لرفع المقاسات على الطبيعة", i: "fa-tape" },
-                    { t: "مخطط الوضع القائم", d: "رسم مخطط هندسي يوضح الوضع الحالي", i: "fa-compass-drafting" },
-                    { t: "إنشاء مخطط مقترح", d: "عمل التصاميم والتعديلات المطلوبة", i: "fa-pen-ruler" },
-                    { t: "إعداد تقرير فني", d: "تقرير سلامة إنشائية معتمد", i: "fa-file-contract" },
-                    { t: "إرسال للبلدية", d: "رفع المعاملة ومتابعتها حتى الاعتماد", i: "fa-paper-plane" }
-                ],
-                steps_com: [
-                    { t: "رفع المقاسات", d: "مطابقة دقيقة للمساحات على الواقع", i: "fa-ruler-combined" },
-                    { t: "مخطط الوضع القائم", d: "رسم تفصيلي لكامل المبنى التجاري", i: "fa-layer-group" },
-                    { t: "مخطط مقترح", d: "تعديلات معمارية للمحلات والمكاتب", i: "fa-wand-magic-sparkles" },
-                    { t: "تقرير فني", d: "إثبات السلامة الإنشائية للمبنى", i: "fa-clipboard-check" },
-                    { t: "واجهة 3D", d: "تصميم واجهة عصرية حسب الاشتراطات", i: "fa-cube" },
-                    { t: "إرسال للأمانة", d: "متابعة المعاملة بالكامل", i: "fa-building-columns" }
-                ]
+                title: "مكتب بدر الحقيل", subtitle: "للعقارات والهندسة", guide: "دليل خطوات تصحيح وضع المباني القائمة",
+                res_tab: "المسار السكني", com_tab: "المسار التجاري", note_title: "ملاحظة هامة", note_body: "جميع المخططات والتقارير الفنية معتمدة وفق الكود السعودي، ويلزم توفر صك إلكتروني محدث للبدء في الإجراءات.", contact: "تواصل معنا الآن",
+                steps_res: [{ t: "رفع المقاسات", d: "زيارة ميدانية لرفع المقاسات على الطبيعة", i: "fa-tape" }, { t: "مخطط الوضع القائم", d: "رسم مخطط هندسي يوضح الوضع الحالي", i: "fa-compass-drafting" }, { t: "إنشاء مخطط مقترح", d: "عمل التصاميم والتعديلات المطلوبة", i: "fa-pen-ruler" }, { t: "إعداد تقرير فني", d: "تقرير سلامة إنشائية معتمد", i: "fa-file-contract" }, { t: "إرسال للبلدية", d: "رفع المعاملة ومتابعتها حتى الاعتماد", i: "fa-paper-plane" }],
+                steps_com: [{ t: "رفع المقاسات", d: "مطابقة دقيقة للمساحات على الواقع", i: "fa-ruler-combined" }, { t: "مخطط الوضع القائم", d: "رسم تفصيلي لكامل المبنى التجاري", i: "fa-layer-group" }, { t: "مخطط مقترح", d: "تعديلات معمارية للمحلات والمكاتب", i: "fa-wand-magic-sparkles" }, { t: "تقرير فني", d: "إثبات السلامة الإنشائية للمبنى", i: "fa-clipboard-check" }, { t: "واجهة 3D", d: "تصميم واجهة عصرية حسب الاشتراطات", i: "fa-cube" }, { t: "إرسال للأمانة", d: "متابعة المعاملة بالكامل", i: "fa-building-columns" }]
             },
             en: {
-                title: "Bader Al Huqail", subtitle: "Real Estate & Engineering",
-                guide: "Guide to Correcting Existing Buildings",
-                res_tab: "Residential", com_tab: "Commercial",
-                note_title: "Important Note", note_body: "All plans are certified per Saudi Code. Updated electronic deed required.",
-                contact: "Contact Us Now",
-                steps_res: [
-                    { t: "Measurements", d: "On-site inspection", i: "fa-tape" },
-                    { t: "As-Built Plan", d: "Current status drawing", i: "fa-compass-drafting" },
-                    { t: "Proposal Plan", d: "Design modifications", i: "fa-pen-ruler" },
-                    { t: "Technical Report", d: "Certified safety report", i: "fa-file-contract" },
-                    { t: "Submission", d: "To Municipality", i: "fa-paper-plane" }
-                ],
-                steps_com: [
-                    { t: "Measurements", d: "Exact reality matching", i: "fa-ruler-combined" },
-                    { t: "As-Built Plan", d: "Detailed plan", i: "fa-layer-group" },
-                    { t: "Proposal Plan", d: "Commercial edits", i: "fa-wand-magic-sparkles" },
-                    { t: "Technical Report", d: "Structural safety", i: "fa-clipboard-check" },
-                    { t: "3D Facade", d: "Modern design", i: "fa-cube" },
-                    { t: "Submission", d: "Complete follow-up", i: "fa-building-columns" }
-                ]
+                title: "Bader Al Huqail", subtitle: "Real Estate & Engineering", guide: "Guide to Correcting Existing Buildings",
+                res_tab: "Residential", com_tab: "Commercial", note_title: "Important Note", note_body: "All plans are certified per Saudi Code. Updated electronic deed required.", contact: "Contact Us Now",
+                steps_res: [{ t: "Measurements", d: "On-site inspection", i: "fa-tape" }, { t: "As-Built Plan", d: "Current status drawing", i: "fa-compass-drafting" }, { t: "Proposal Plan", d: "Design modifications", i: "fa-pen-ruler" }, { t: "Technical Report", d: "Certified safety report", i: "fa-file-contract" }, { t: "Submission", d: "To Municipality", i: "fa-paper-plane" }],
+                steps_com: [{ t: "Measurements", d: "Exact reality matching", i: "fa-ruler-combined" }, { t: "As-Built Plan", d: "Detailed plan", i: "fa-layer-group" }, { t: "Proposal Plan", d: "Commercial edits", i: "fa-wand-magic-sparkles" }, { t: "Technical Report", d: "Structural safety", i: "fa-clipboard-check" }, { t: "3D Facade", d: "Modern design", i: "fa-cube" }, { t: "Submission", d: "Complete follow-up", i: "fa-building-columns" }]
             }
         };
-
-        let lang = 'ar';
-        let currentType = 'res';
-
-        // --- وظيفة الرسم ---
+        let lang = 'ar', currentType = 'res';
         function render(type) {
-            const container = document.getElementById('content-box');
-            const d = content[lang];
-            const data = type === 'res' ? d.steps_res : d.steps_com;
-            const theme = type === 'res' ? 'res-theme' : 'com-theme';
-            const borderCol = type === 'res' ? '#3b82f6' : '#f59e0b';
-
+            const container = document.getElementById('content-box'); const d = content[lang]; const data = type === 'res' ? d.steps_res : d.steps_com; const theme = type === 'res' ? 'res-theme' : 'com-theme'; const borderCol = type === 'res' ? '#3b82f6' : '#f59e0b';
             container.innerHTML = '';
-
             data.forEach((step, index) => {
-                const el = document.createElement('div');
-                el.className = 'step-item';
-                el.style.animationDelay = `${index * 0.08}s`;
-                
-                // خط ملون للعنصر الأخير
-                const borderStyle = (index === data.length - 1) 
-                    ? `border-${lang==='ar'?'right':'left'}: 4px solid ${borderCol}; padding-${lang==='ar'?'right':'left'}: 10px;` 
-                    : '';
-
-                el.innerHTML = `
-                    <div class="icon-box ${theme}"><i class="fa-solid ${step.i}"></i></div>
-                    <div class="step-text" style="${borderStyle}">
-                        <h3>${step.t}</h3>
-                        <p>${step.d}</p>
-                    </div>
-                `;
+                const el = document.createElement('div'); el.className = 'step-item'; el.style.animationDelay = `${index * 0.08}s`;
+                const borderStyle = (index === data.length - 1) ? `border-${lang==='ar'?'right':'left'}: 4px solid ${borderCol}; padding-${lang==='ar'?'right':'left'}: 10px;` : '';
+                el.innerHTML = `<div class="icon-box ${theme}"><i class="fa-solid ${step.i}"></i></div><div class="step-text" style="${borderStyle}"><h3>${step.t}</h3><p>${step.d}</p></div>`;
                 container.appendChild(el);
             });
         }
-
-        // --- التبديل ---
-        function switchPath(type) {
-            currentType = type;
-            document.getElementById('tab-res').className = `big-tab res ${type === 'res' ? 'active' : ''}`;
-            document.getElementById('tab-com').className = `big-tab com ${type === 'com' ? 'active' : ''}`;
-            render(type);
-        }
-
-        function toggleLang() {
-            lang = lang === 'ar' ? 'en' : 'ar';
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            document.getElementById('lang-btn').innerText = lang === 'ar' ? 'EN' : 'عربي';
-            
-            // تحديث النصوص
-            const d = content[lang];
-            document.querySelectorAll('[data-i18n]').forEach(e => {
-                const key = e.getAttribute('data-i18n');
-                if(d[key]) e.innerText = d[key];
-            });
-            render(currentType);
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            const icon = document.querySelector('#theme-btn i');
-            icon.className = isLight ? 'fa-solid fa-moon' : 'fa-regular fa-sun';
-        }
-
-        function openMap(e) {
-            e.preventDefault();
-            window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59";
-        }
-
-        let qrGenerated = false;
-        function toggleQR() {
-            const modal = document.getElementById('qr-modal');
-            modal.classList.toggle('active');
-            if (!qrGenerated && modal.classList.contains('active')) {
-                new QRCode(document.getElementById("qrcode"), {
-                    text: window.location.href, width: 128, height: 128
-                });
-                qrGenerated = true;
-            }
-        }
-
-        // بدء التشغيل
+        function switchPath(type) { currentType = type; document.getElementById('tab-res').className = `big-tab res ${type === 'res' ? 'active' : ''}`; document.getElementById('tab-com').className = `big-tab com ${type === 'com' ? 'active' : ''}`; render(type); }
+        function toggleLang() { lang = lang === 'ar' ? 'en' : 'ar'; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'; document.getElementById('lang-btn').innerText = lang === 'ar' ? 'EN' : 'عربي'; const d = content[lang]; document.querySelectorAll('[data-i18n]').forEach(e => { const key = e.getAttribute('data-i18n'); if(d[key]) e.innerText = d[key]; }); render(currentType); }
+        function toggleTheme() { document.body.classList.toggle('light-mode'); const icon = document.querySelector('#theme-btn i'); icon.className = document.body.classList.contains('light-mode') ? 'fa-solid fa-moon' : 'fa-regular fa-sun'; }
+        function openMap(e) { e.preventDefault(); window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59"; }
+        let qrGenerated = false; function toggleQR() { const modal = document.getElementById('qr-modal'); modal.classList.toggle('active'); if (!qrGenerated && modal.classList.contains('active')) { new QRCode(document.getElementById("qrcode"), { text: window.location.href, width: 150, height: 150 }); qrGenerated = true; } }
         render('res');
-
     </script>
 </body>
 </html>
