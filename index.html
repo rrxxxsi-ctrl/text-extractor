@@ -3,214 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة عبدالإله فلاته - OCR PRO</title>
+    <meta name="theme-color" content="#0f172a" id="theme-color-meta">
+    <title>مكتب بدر الحقيل للعقارات</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --bg: #070708; --card-bg: #121214; --text: #ffffff;
-            --primary: #9d4edd; --accent: #00d4ff; --border: rgba(255, 255, 255, 0.1);
-        }
-        
-        /* أنيميشن الخلفية */
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(255, 255, 255, 0.08);
+            --dock-bg: rgba(15, 23, 42, 0.85);
+            --tab-bg: rgba(30, 41, 59, 0.6);
+            --tab-text: #94a3b8;
+            --active-text: #ffffff;
         }
 
-        body { 
-            margin: 0; 
-            background: linear-gradient(-45deg, #070708, #1a1a2e, #070708, #0f0f1a);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: var(--text); 
-            font-family: 'Cairo', sans-serif; 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
+        body.light-mode {
+            --bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-border: rgba(255, 255, 255, 0.6);
+            --card-hover: #ffffff;
+            --dock-bg: rgba(255, 255, 255, 0.9);
+            --tab-bg: rgba(226, 232, 240, 0.8);
+            --tab-text: #64748b;
+            --active-text: #ffffff;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            /* التعديل هنا لجعل المحتوى متوسطاً */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; 
+            padding-bottom: 100px;
             overflow-x: hidden;
+            transition: all 0.5s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* دخول ناعم للعناصر */
-        .fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .main-container {
+            width: 100%;
+            max-width: 550px; /* حجم متوسط ومناسب */
+            position: relative;
+            z-index: 10;
         }
 
-        .header-profile { 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 15px 6%; background: rgba(18, 18, 20, 0.8); 
-            backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); 
+        .controls-wrapper {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 50;
+        }
+        html[dir="ltr"] .controls-wrapper { right: 20px; left: auto; }
+
+        .ctrl-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .ctrl-btn:active { transform: scale(0.95); }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card:hover {
+            background: var(--card-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
         }
 
-        .user-brand { display: flex; align-items: center; gap: 12px; }
-        .avatar-box { 
-            width: 50px; height: 50px; border-radius: 50%; 
-            border: 2px solid var(--primary); overflow: hidden; position: relative;
-            transition: transform 0.3s ease;
+        .text-main { color: var(--text-primary); }
+        .text-sub { color: var(--text-secondary); }
+
+        .tabs-box {
+            background: var(--tab-bg);
+            padding: 6px;
+            border-radius: 18px;
+            display: flex;
+            gap: 5px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
         }
-        .avatar-box:hover { transform: rotate(5deg) scale(1.1); }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+        .tab-item {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--tab-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .tab-active-res { background: #3b82f6; color: var(--active-text); box-shadow: 0 4px 15px rgba(59,130,246,0.3); }
+        .tab-active-com { background: #f59e0b; color: var(--active-text); box-shadow: 0 4px 15px rgba(245,158,11,0.3); }
+
+        .floating-dock {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dock-bg);
+            backdrop-filter: blur(20px);
+            padding: 10px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+
+        .icon-wrap {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .theme-res .icon-wrap { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+        .theme-com .icon-wrap { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
         
-        /* نبض التوثيق */
-        .v-badge { 
-            position: absolute; bottom: 12px; right: calc(6% + 45px); 
-            color: var(--accent); font-size: 0.9rem; z-index: 10;
-            animation: pulse-blue 2s infinite;
-        }
-        @keyframes pulse-blue {
-            0% { text-shadow: 0 0 0 rgba(0, 212, 255, 0.7); }
-            70% { text-shadow: 0 0 10px rgba(0, 212, 255, 0.7); }
-            100% { text-shadow: 0 0 0 rgba(0, 212, 255, 0); }
-        }
+        body.light-mode .theme-res .icon-wrap { background: rgba(59,130,246,0.1); color: #2563eb; }
+        body.light-mode .theme-com .icon-wrap { background: rgba(245,158,11,0.1); color: #d97706; }
 
-        .site-description { text-align: center; padding: 30px 20px 10px; }
-        .site-description h1 { 
-            font-size: 1.8rem; margin: 0; 
-            background: linear-gradient(45deg, #fff, var(--accent), var(--primary)); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .dock-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.2s;
+            position: relative;
         }
-
-        .main-content { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 20px; }
+        .dock-btn:active { transform: scale(0.9); }
         
-        .super-card { 
-            width: 100%; max-width: 550px; background: var(--card-bg); 
-            border-radius: 25px; padding: 25px; border: 1px solid var(--border); 
-            text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-        .super-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .btn-call { background: linear-gradient(135deg, #10b981 0%, #047857 100%); box-shadow: 0 8px 20px -5px rgba(16, 185, 129, 0.4); }
+        .btn-map { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); box-shadow: 0 8px 20px -5px rgba(59, 130, 246, 0.4); }
 
-        .upload-box { 
-            border: 2px dashed var(--border); border-radius: 20px; padding: 35px; 
-            margin-bottom: 20px; cursor: pointer; transition: all 0.3s ease; 
-        }
-        .upload-box:hover { 
-            border-color: var(--accent); background: rgba(0, 212, 255, 0.05);
-            box-shadow: inset 0 0 20px rgba(0, 212, 255, 0.1);
-        }
+        .fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(30px); }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        
+        .shake-active { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
 
-        .action-btn { 
-            background: linear-gradient(135deg, var(--primary), var(--accent)); 
-            border: none; padding: 18px; border-radius: 15px; color: #fff; 
-            font-weight: 900; cursor: pointer; width: 100%; font-size: 1.1rem;
-            transition: all 0.3s ease; position: relative; overflow: hidden;
-        }
-        .action-btn:hover { filter: brightness(1.2); transform: scale(1.02); }
-
-        textarea { 
-            width: 100%; height: 320px; background: #000; color: #fff; 
-            border: 1px solid var(--primary); border-radius: 15px; padding: 20px; 
-            margin-top: 20px; box-sizing: border-box; outline: none; resize: none; 
-            text-align: right; font-size: 1.3rem; line-height: 2; font-family: 'Amiri', serif;
-            transition: all 0.3s ease;
-        }
-        textarea:focus { box-shadow: 0 0 15px rgba(157, 78, 221, 0.3); }
-
-        .footer-section { padding: 20px; background: rgba(18, 18, 20, 0.8); border-top: 1px solid var(--border); }
-        .contact-grid { display: flex; gap: 15px; max-width: 550px; margin: 0 auto 15px; }
-        .c-item { 
-            flex: 1; background: rgba(255,255,255,0.05); padding: 12px; 
-            border-radius: 12px; border: 1px solid var(--border); color: #fff; 
-            text-decoration: none; font-size: 0.85rem; display: flex; 
-            align-items: center; justify-content: center; gap: 8px;
-            transition: all 0.3s ease;
-        }
-        .c-item:hover { background: var(--primary); transform: translateY(-3px); }
-
-        #status { display: none; margin: 20px 0; color: var(--accent); font-weight: bold; }
+        .hidden { display: none; }
     </style>
 </head>
-<body class="fade-in">
+<body class="px-5">
 
-    <header class="header-profile">
-        <div class="user-brand">
-            <div class="avatar-box"><img src="https://www2.0zz0.com/2025/12/17/06/790723590.jpg" alt="عبدالإله"></div>
-            <span style="font-weight: 900;">عبدالإله فلاته</span>
-        </div>
-        <i class="fas fa-check-circle v-badge"></i>
-    </header>
+    <div class="controls-wrapper">
+        <button class="ctrl-btn" onclick="toggleTheme()" id="theme-icon">
+            <i class="fa-regular fa-sun"></i>
+        </button>
+        <button class="ctrl-btn" onclick="toggleLang()" id="lang-text">
+            EN
+        </button>
+    </div>
 
-    <section class="site-description fade-in">
-        <h1>مستخرج الخواطر الذكي</h1>
-        <p>تحويل صور الاقتباسات إلى نصوص نقية ومرتبة بلمسة واحدة، مع تصحيح تلقائي فوري.</p>
-    </section>
-
-    <main class="main-content fade-in">
-        <div class="super-card">
-            <div class="upload-box" onclick="document.getElementById('imageInput').click()">
-                <i class="fas fa-wand-magic-sparkles fa-3x" style="color: var(--primary); margin-bottom: 15px; transition: 0.5s;" id="magicIcon"></i>
-                <h3>ارفع صورة الخاطرة</h3>
-                <p style="font-size: 0.85rem; opacity: 0.6;">دقة عالية في استخراج النصوص العربية</p>
+    <div class="main-container">
+        
+        <header class="text-center mb-8 fade-up">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-bold text-blue-400 mb-4 backdrop-blur-md">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                <span data-i18n="certified">عقارات معتمدة</span>
             </div>
+            <h1 class="text-3xl md:text-5xl font-black mb-3 text-main leading-tight">
+                <span data-i18n="office_name">مكتب بدر الحقيل</span> <br> 
+                <span class="text-blue-500" data-i18n="real_estate">للعقارات</span>
+            </h1>
+            <p class="text-sub font-medium text-lg leading-relaxed" data-i18n="description">
+                بوابتك الموثوقة لتصحيح أوضاع المباني <br> (سكني وتجاري) بخطوات نظامية
+            </p>
+        </header>
+
+        <div class="tabs-box fade-up" style="animation-delay: 0.1s;">
+            <div id="tab-res" class="tab-item tab-active-res" onclick="switchTab('residential')">
+                <i class="fa-solid fa-house-chimney"></i> <span data-i18n="residential">السكني</span>
+            </div>
+            <div id="tab-com" class="tab-item" onclick="switchTab('commercial')">
+                <i class="fa-solid fa-building"></i> <span data-i18n="commercial">التجاري</span>
+            </div>
+        </div>
+
+        <div id="content-area">
             
-            <input type="file" id="imageInput" hidden accept="image/*">
-            <div id="status"><i class="fas fa-spinner fa-spin"></i> جاري الاستخراج والترتيب...</div>
-
-            <div id="resultArea" style="display:none;">
-                <textarea id="output" spellcheck="false"></textarea>
-                <button class="action-btn" style="background:#27ae60; margin-top:15px;" onclick="copyResult()">
-                    <i class="fas fa-copy"></i> نسخ النص المرتب
-                </button>
+            <div id="content-residential" class="theme-res">
+                <div class="glass-card fade-up" style="animation-delay: 0.1s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-tape"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="res_step1_title">رفع المقاسات</h3>
+                        <p class="text-sub text-sm" data-i18n="res_step1_desc">معاينة ميدانية دقيقة للطبيعة</p>
+                    </div>
+                </div>
+                <div class="glass-card fade-up" style="animation-delay: 0.15s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-compass-drafting"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="res_step2_title">مخطط الوضع القائم</h3>
+                        <p class="text-sub text-sm" data-i18n="res_step2_desc">رسم هندسي للواقع الحالي</p>
+                    </div>
+                </div>
+                <div class="glass-card fade-up" style="animation-delay: 0.2s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-pen-ruler"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="res_step3_title">إنشاء مخطط مقترح</h3>
+                        <p class="text-sub text-sm" data-i18n="res_step3_desc">حلول هندسية مثالية</p>
+                    </div>
+                </div>
+                <div class="glass-card fade-up" style="animation-delay: 0.25s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-file-contract"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="res_step4_title">إعداد تقرير فني</h3>
+                        <p class="text-sub text-sm" data-i18n="res_step4_desc">تقرير شامل ومعتمد</p>
+                    </div>
+                </div>
+                <div class="glass-card fade-up border-r-4 border-blue-500" style="animation-delay: 0.3s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-paper-plane"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="res_step5_title">إرسال للبلدية</h3>
+                        <p class="text-blue-500 text-sm font-bold" data-i18n="res_step5_desc">نتابع المعاملة حتى النهاية</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </main>
 
-    <div class="footer-section">
-        <div class="contact-grid">
-            <a href="mailto:iioe@outlook.sa" class="c-item"><i class="fas fa-envelope"></i> iioe@outlook.sa</a>
-            <a href="tel:0591388202" class="c-item"><i class="fas fa-phone"></i> 0591388202</a>
+            <div id="content-commercial" class="theme-com hidden">
+                <div class="glass-card fade-up" style="animation-delay: 0.1s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-ruler-combined"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="com_step1_title">رفع المقاسات</h3>
+                        <p class="text-sub text-sm" data-i18n="com_step1_desc">مطابقة دقيقة للواقع</p>
+                    </div>
+                </div>
+                <div class="glass-card fade-up" style="animation-delay: 0.15s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-layer-group"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="com_step2_title">مخطط الوضع القائم</h3>
+                        <p class="text-sub text-sm" data-i18n="com_step2_desc">رسم هندسي تفصيلي</p>
+                    </div>
+                </div>
+                <div class="glass-card fade-up" style="animation-delay: 0.2s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="com_step3_title">إنشاء مخطط مقترح</h3>
+                        <p class="text-sub text-sm" data-i18n="com_step3_desc">تعديلات معمارية تجارية</p>
+                    </div>
+                </div>
+                <div class="glass-card fade-up" style="animation-delay: 0.25s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-clipboard-check"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="com_step4_title">تقرير فني</h3>
+                        <p class="text-sub text-sm" data-i18n="com_step4_desc">إثبات السلامة الإنشائية</p>
+                    </div>
+                </div>
+                <div class="glass-card fade-up" style="animation-delay: 0.3s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-cube"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="com_step5_title">تصميم واجهة 3D</h3>
+                        <p class="text-sub text-sm" data-i18n="com_step5_desc">واجهة عصرية مميزة</p>
+                    </div>
+                </div>
+                <div class="glass-card fade-up border-r-4 border-amber-500" style="animation-delay: 0.35s;">
+                    <div class="icon-wrap"><i class="fa-solid fa-building-columns"></i></div>
+                    <div>
+                        <h3 class="font-bold text-main text-lg" data-i18n="com_step6_title">إرسال للأمانة</h3>
+                        <p class="text-amber-500 text-sm font-bold" data-i18n="com_step6_desc">متابعة شاملة للإجراءات</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div style="text-align:center; opacity:0.6; font-size:0.8rem;">جميع الحقوق محفوظة لعبدالإله فلاته © 2025</div>
+    </div>
+
+    <div class="floating-dock">
+        <a href="tel:0569982526" class="dock-btn btn-call">
+            <i class="fa-solid fa-phone"></i>
+            <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            </span>
+        </a>
+        <div class="w-px h-8 bg-white/20"></div>
+        <a href="#" onclick="openMap(event)" id="map-trigger" class="dock-btn btn-map">
+            <i class="fa-solid fa-location-dot"></i>
+        </a>
     </div>
 
     <script>
-        document.getElementById('imageInput').addEventListener('change', async function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        const i18n = {
+            ar: {
+                certified: "عقارات معتمدة",
+                office_name: "مكتب بدر الحقيل",
+                real_estate: "للعقارات",
+                description: "بوابتك الموثوقة لتصحيح أوضاع المباني <br> (سكني وتجاري) بخطوات نظامية",
+                residential: "السكني",
+                commercial: "التجاري",
+                res_step1_title: "رفع المقاسات", res_step1_desc: "معاينة ميدانية دقيقة للطبيعة",
+                res_step2_title: "مخطط الوضع القائم", res_step2_desc: "رسم هندسي للواقع الحالي",
+                res_step3_title: "إنشاء مخطط مقترح", res_step3_desc: "حلول هندسية مثالية",
+                res_step4_title: "إعداد تقرير فني", res_step4_desc: "تقرير شامل ومعتمد",
+                res_step5_title: "إرسال للبلدية", res_step5_desc: "نتابع المعاملة حتى النهاية",
+                com_step1_title: "رفع المقاسات", com_step1_desc: "مطابقة دقيقة للواقع",
+                com_step2_title: "مخطط الوضع القائم", com_step2_desc: "رسم هندسي تفصيلي",
+                com_step3_title: "إنشاء مخطط مقترح", com_step3_desc: "تعديلات معمارية تجارية",
+                com_step4_title: "تقرير فني", com_step4_desc: "إثبات السلامة الإنشائية",
+                com_step5_title: "تصميم واجهة 3D", com_step5_desc: "واجهة عصرية مميزة",
+                com_step6_title: "إرسال للأمانة", com_step6_desc: "متابعة شاملة للإجراءات"
+            },
+            en: {
+                certified: "Certified Real Estate",
+                office_name: "Bader Al Huqail",
+                real_estate: "Office",
+                description: "Your trusted gateway for building correction <br> (Residential & Commercial)",
+                residential: "Residential",
+                commercial: "Commercial",
+                res_step1_title: "Site Measurements", res_step1_desc: "Precise on-site inspection",
+                res_step2_title: "As-Built Drawing", res_step2_desc: "Current status engineering plan",
+                res_step3_title: "Proposal Plan", res_step3_desc: "Optimal engineering solutions",
+                res_step4_title: "Technical Report", res_step4_desc: "Comprehensive certified report",
+                res_step5_title: "Submit to Municipality", res_step5_desc: "We follow up until approval",
+                com_step1_title: "Site Measurements", com_step1_desc: "Exact reality matching",
+                com_step2_title: "As-Built Drawing", com_step2_desc: "Detailed engineering plan",
+                com_step3_title: "Proposal Plan", com_step3_desc: "Commercial architectural edits",
+                com_step4_title: "Technical Report", com_step4_desc: "Structural safety proof",
+                com_step5_title: "3D Facade Design", com_step5_desc: "Modern distinctive facade",
+                com_step6_title: "Submit to Municipality", com_step6_desc: "Comprehensive procedure follow-up"
+            }
+        };
 
-            document.getElementById('status').style.display = 'block';
-            document.getElementById('resultArea').style.display = 'none';
-            document.getElementById('magicIcon').style.color = 'var(--accent)';
-
-            const worker = await Tesseract.createWorker('ara');
-            const { data: { text } } = await worker.recognize(file);
-            await worker.terminate();
-
-            document.getElementById('output').value = formatText(text);
-            document.getElementById('status').style.display = 'none';
-            document.getElementById('resultArea').style.display = 'block';
-            document.getElementById('magicIcon').style.color = 'var(--primary)';
-        });
-
-        function formatText(raw) {
-            return raw.split('\n')
-                .map(line => line.trim())
-                .filter(line => {
-                    const isNoise = /بحث|إضافة|تعليق|مشاركة|tikt|@|#|[0-9]{4}/i.test(line);
-                    return line.length > 4 && !isNoise;
-                })
-                .join('\n\n')
-                .replace(/يظتون/g, 'يظنون')
-                .replace(/تالفه/g, 'تألفه')
-                .replace(/هيئه/g, 'هيئة')
-                .replace(/[^\u0600-\u06FF\s\.\،\!\؟]/g, '')
-                .trim();
+        let isLight = false;
+        function toggleTheme() {
+            isLight = !isLight;
+            const body = document.body;
+            const icon = document.querySelector('#theme-icon i');
+            const metaTheme = document.getElementById('theme-color-meta');
+            
+            if (isLight) {
+                body.classList.add('light-mode');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                metaTheme.setAttribute('content', '#f0f9ff');
+            } else {
+                body.classList.remove('light-mode');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                metaTheme.setAttribute('content', '#0f172a');
+            }
         }
 
-        function copyResult() {
-            const out = document.getElementById('output');
-            out.select();
-            document.execCommand('copy');
-            alert('تم النسخ بنجاح!');
+        let lang = 'ar';
+        function toggleLang() {
+            lang = lang === 'ar' ? 'en' : 'ar';
+            const html = document.documentElement;
+            const btn = document.getElementById('lang-text');
+            
+            if (lang === 'en') {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'en');
+                btn.textContent = 'عربي';
+            } else {
+                html.setAttribute('dir', 'rtl');
+                html.setAttribute('lang', 'ar');
+                btn.textContent = 'EN';
+            }
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+            });
         }
-    </script>
-</body>
-</html>
+
+        function switchTab(type) {
+            const resTab = document.getElementById('tab-res');
+            const comTab = document.getElementById('tab-com');
+            const resContent = document.getElementById('
