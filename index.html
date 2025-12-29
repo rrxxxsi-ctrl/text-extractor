@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0f172a">
-    <title>مكتب بدر الحقيل</title>
+    <title>مكتب بدر الحقيل | النسخة الفاخرة</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -12,57 +12,79 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. الأساسيات --- */
+        /* --- 1. الأساسيات وحماية المحتوى --- */
         :root {
             --bg-dark: #0f172a; --text-white: #ffffff;
             --glass-bg: rgba(30, 41, 59, 0.95);
             --glass-border: rgba(255, 255, 255, 0.15);
             --primary: #3b82f6; --gold: #f59e0b;
         }
+        
+        /* منع النسخ والتحديد */
         body {
             font-family: 'Cairo', sans-serif;
             background-color: var(--bg-dark); color: var(--text-white);
-            margin: 0; padding-bottom: 250px; /* مساحة كافية للأسفل */
+            margin: 0; padding-bottom: 250px;
             min-height: 100vh; overflow-x: hidden;
+            user-select: none; /* منع تحديد النص */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
+        
+        /* منع سحب الصور */
+        img { pointer-events: none; -webkit-user-drag: none; user-select: none; }
+
         body.light-mode {
             --bg-dark: #f8fafc; --text-white: #0f172a;
             --glass-bg: rgba(255, 255, 255, 0.9); --glass-border: rgba(0, 0, 0, 0.1);
         }
 
-        /* الخلفية */
         .bg-gradient {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: radial-gradient(circle at 50% 0%, rgba(59,130,246,0.15), transparent 70%);
         }
 
-        /* --- 2. الشريط العلوي --- */
+        /* --- 2. الشريط العلوي واللوجو المطور --- */
         .top-nav {
             display: flex; justify-content: space-between; align-items: center; padding: 20px;
+            position: relative; z-index: 50;
         }
         .nav-btn {
             width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.1);
             border: 1px solid var(--glass-border); color: var(--text-white); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; /* للأزرار فقط */
         }
         
-        /* شعار الزاوية */
+        /* تأثيرات اللوجو الفاخرة (الدوائر والنبض) */
+        .brand-corner-wrapper {
+            position: relative; width: 60px; height: 60px;
+            display: flex; justify-content: center; align-items: center;
+        }
         .brand-corner {
-            width: 55px; height: 55px; border-radius: 50%; overflow: hidden;
-            border: 2px solid var(--glass-border); background: white;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+            width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.2); background: white;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); z-index: 2;
             position: relative;
         }
-        .brand-corner::after { /* تأثير الدوائر */
-            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-            width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--primary);
-            animation: ripple 2s infinite; z-index: -1;
-        }
         .brand-corner img { width: 100%; height: 100%; object-fit: cover; }
-        @keyframes ripple { 0% { width: 100%; opacity: 1; } 100% { width: 200%; opacity: 0; } }
+        
+        /* الدوائر المتحركة حول اللوجو */
+        .pulse-ring {
+            position: absolute; width: 100%; height: 100%; border-radius: 50%;
+            border: 2px solid var(--primary); opacity: 0; z-index: 1;
+            animation: pulse-ring 3s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        .pulse-ring:nth-child(2) { animation-delay: 1s; border-color: var(--gold); }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
 
         /* --- 3. الهيدر --- */
         header { text-align: center; padding: 30px 20px; }
-        .main-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 10px; display: inline-block; }
+        .main-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 10px; display: inline-block; filter: drop-shadow(0 0 10px rgba(59,130,246,0.4)); }
         .main-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; }
         .sub-title { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
         .guide-box {
@@ -70,10 +92,8 @@
             color: #60a5fa; padding: 8px 20px; border-radius: 50px; display: inline-block; margin-top: 15px; font-weight: bold;
         }
 
-        /* --- 4. التبويبات (المسارات) --- */
-        .tabs-wrap {
-            display: flex; justify-content: center; gap: 15px; margin: 30px auto; padding: 0 20px; max-width: 600px;
-        }
+        /* --- 4. التبويبات --- */
+        .tabs-wrap { display: flex; justify-content: center; gap: 15px; margin: 30px auto; padding: 0 20px; max-width: 600px; }
         .tab-btn {
             flex: 1; padding: 15px; background: rgba(255,255,255,0.05);
             border: 1px solid var(--glass-border); border-radius: 18px; text-align: center; cursor: pointer;
@@ -81,52 +101,66 @@
         }
         .tab-btn i { font-size: 1.8rem; color: #94a3b8; }
         .tab-btn span { font-weight: 700; font-size: 1rem; color: #94a3b8; }
-        
-        /* التفعيل */
-        .tab-btn.active.res { background: var(--primary); border-color: var(--primary); transform: scale(1.05); }
-        .tab-btn.active.com { background: var(--gold); border-color: var(--gold); transform: scale(1.05); }
+        .tab-btn.active.res { background: var(--primary); border-color: var(--primary); transform: scale(1.05); box-shadow: 0 10px 30px rgba(59,130,246,0.3); }
+        .tab-btn.active.com { background: var(--gold); border-color: var(--gold); transform: scale(1.05); box-shadow: 0 10px 30px rgba(245,158,11,0.3); }
         .tab-btn.active i, .tab-btn.active span { color: white; }
 
-        /* --- 5. قائمة الخطوات --- */
+        /* --- 5. الخطوات --- */
         .steps-container { max-width: 600px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
         .step-item {
             background: var(--glass-bg); border: 1px solid var(--glass-border);
             padding: 15px; border-radius: 16px; display: flex; align-items: center; gap: 15px;
             animation: fadeIn 0.5s ease forwards;
         }
-        .step-icon {
-            width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; flex-shrink: 0;
-        }
+        .step-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
         .res-theme .step-icon { background: rgba(59,130,246,0.15); color: #3b82f6; }
         .com-theme .step-icon { background: rgba(245,158,11,0.15); color: #f59e0b; }
-        
         .step-txt h3 { font-weight: 700; font-size: 1rem; margin: 0; }
         .step-txt p { font-size: 0.85rem; color: #94a3b8; margin: 2px 0 0; }
 
-        /* --- 6. معرض الصور (Slideshow) --- */
+        /* --- 6. معرض الصور الفخم (The Luxury Gallery) --- */
         .gallery-box {
-            max-width: 600px; margin: 40px auto; padding: 0 20px;
+            max-width: 600px; margin: 50px auto; padding: 0 20px;
+            position: relative;
         }
+        /* إطار خارجي متوهج */
+        .gallery-glow-wrapper {
+            padding: 3px; border-radius: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--gold), var(--primary));
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+            animation: borderRotate 4s linear infinite;
+        }
+        @keyframes borderRotate { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+
         .gallery-frame {
-            position: relative; width: 100%; height: 350px; /* ارتفاع كافي للصورة كاملة */
+            position: relative; width: 100%; height: 350px;
             border-radius: 20px; overflow: hidden;
-            border: 2px solid var(--glass-border);
-            background: rgba(0,0,0,0.3); /* خلفية داكنة للصور الشفافة */
+            background: #000; /* خلفية سوداء لإبراز الصور */
         }
+        
         .slide-image {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: contain; /* أهم خاصية: تظهر الصورة كاملة دون قص */
-            opacity: 0; transition: opacity 1s ease-in-out; padding: 5px;
+            object-fit: contain; /* إظهار الصورة كاملة */
+            opacity: 0; transition: opacity 1.5s ease-in-out, transform 6s ease;
+            transform: scale(1.1);
         }
-        .slide-image.active { opacity: 1; }
+        .slide-image.active { opacity: 1; transform: scale(1); }
         
-        .gallery-label {
-            position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6);
-            color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;
-            display: flex; align-items: center; gap: 5px; z-index: 10;
+        /* زوايا جمالية (Decorations) */
+        .decor-corner {
+            position: absolute; width: 40px; height: 40px;
+            border: 2px solid rgba(255,255,255,0.5); z-index: 20; pointer-events: none;
         }
-        .dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; }
+        .top-left { top: 15px; left: 15px; border-bottom: 0; border-right: 0; border-radius: 10px 0 0 0; }
+        .bottom-right { bottom: 15px; right: 15px; border-top: 0; border-left: 0; border-radius: 0 0 10px 0; }
+
+        .gallery-label {
+            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            color: white; padding: 6px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: bold;
+            display: flex; align-items: center; gap: 8px; z-index: 10; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: blink 1s infinite; }
 
         /* --- 7. البار العائم --- */
         .dock-wrapper {
@@ -138,7 +172,7 @@
             background: #22c55e; color: white; padding: 5px 15px; border-radius: 20px;
             font-weight: bold; font-size: 0.85rem; margin-bottom: 10px;
             box-shadow: 0 5px 15px rgba(34,197,94,0.4); position: relative;
-            animation: bounce 2s infinite;
+            animation: bounce 2s infinite; cursor: pointer;
         }
         .contact-badge::after {
             content:''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
@@ -152,7 +186,7 @@
         }
         .action-btn {
             width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 1.4rem; transition: 0.2s;
+            color: white; font-size: 1.4rem; transition: 0.2s; cursor: pointer;
         }
         .action-btn:active { transform: scale(0.9); }
         .btn-call { background: linear-gradient(135deg, #10b981, #059669); }
@@ -162,12 +196,13 @@
 
         /* QR Modal */
         #qr-modal {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
             z-index: 2000; justify-content: center; align-items: center;
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes blink { 50% { opacity: 0; } }
 
     </style>
 </head>
@@ -180,8 +215,13 @@
             <button class="nav-btn" onclick="toggleTheme()"><i class="fa-regular fa-sun"></i></button>
             <button class="nav-btn text-xs font-bold" onclick="toggleLang()" id="lang-btn">EN</button>
         </div>
-        <div class="brand-corner">
-            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo">
+        
+        <div class="brand-corner-wrapper">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="brand-corner">
+                <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo">
+            </div>
         </div>
     </div>
 
@@ -204,9 +244,14 @@
     <div id="steps-list" class="steps-container"></div>
 
     <div class="gallery-box">
-        <div class="gallery-frame" id="gallery-container">
-            <div class="gallery-label"><div class="dot"></div> نماذج الأعمال</div>
-            </div>
+        <div class="gallery-glow-wrapper">
+            <div class="gallery-frame" id="gallery-container">
+                <div class="decor-corner top-left"></div>
+                <div class="decor-corner bottom-right"></div>
+                
+                <div class="gallery-label"><span class="live-dot"></span> نماذج الأعمال</div>
+                </div>
+        </div>
     </div>
 
     <div class="dock-wrapper">
@@ -227,12 +272,20 @@
     </div>
 
     <script>
+        // --- حماية المحتوى (Anti-Copy Script) ---
+        document.addEventListener('contextmenu', event => event.preventDefault()); // منع الزر الأيمن
+        document.addEventListener('keydown', function(e) {
+            // منع اختصارات النسخ واللصق وعرض المصدر
+            if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'c' || e.key === 'p')) {
+                e.preventDefault();
+            }
+        });
+
         // --- 1. بيانات المحتوى ---
         const content = {
             ar: {
                 title: "مكتب بدر الحقيل", subtitle: "للعقارات والهندسة", guide: "دليل خطوات تصحيح وضع المباني القائمة",
                 res_tab: "المسار السكني", com_tab: "المسار التجاري", contact: "تواصل معنا الآن",
-                // خطوات السكني
                 steps_res: [
                     { t: "رفع المقاسات", d: "زيارة ميدانية لرفع المقاسات على الطبيعة", i: "fa-tape" },
                     { t: "مخطط الوضع القائم", d: "رسم مخطط هندسي يوضح الوضع الحالي", i: "fa-compass-drafting" },
@@ -240,7 +293,6 @@
                     { t: "إعداد تقرير فني", d: "تقرير سلامة إنشائية معتمد", i: "fa-file-contract" },
                     { t: "إرسال للبلدية", d: "رفع المعاملة ومتابعتها حتى الاعتماد", i: "fa-paper-plane" }
                 ],
-                // خطوات التجاري
                 steps_com: [
                     { t: "رفع المقاسات", d: "مطابقة دقيقة للمساحات على الواقع", i: "fa-ruler-combined" },
                     { t: "مخطط الوضع القائم", d: "رسم تفصيلي لكامل المبنى التجاري", i: "fa-layer-group" },
@@ -253,12 +305,12 @@
             en: {
                 title: "Bader Al Huqail", subtitle: "Real Estate & Engineering", guide: "Guide to Correcting Existing Buildings",
                 res_tab: "Residential", com_tab: "Commercial", contact: "Contact Us Now",
-                steps_res: [{ t: "Measurements", d: "On-site check", i: "fa-tape" }, { t: "As-Built Plan", d: "Current status drawing", i: "fa-compass-drafting" }, { t: "Proposal Plan", d: "Design modifications", i: "fa-pen-ruler" }, { t: "Technical Report", d: "Certified safety report", i: "fa-file-contract" }, { t: "Submission", d: "To Municipality", i: "fa-paper-plane" }],
+                steps_res: [{ t: "Measurements", d: "On-site inspection", i: "fa-tape" }, { t: "As-Built Plan", d: "Current status drawing", i: "fa-compass-drafting" }, { t: "Proposal Plan", d: "Design modifications", i: "fa-pen-ruler" }, { t: "Technical Report", d: "Certified safety report", i: "fa-file-contract" }, { t: "Submission", d: "To Municipality", i: "fa-paper-plane" }],
                 steps_com: [{ t: "Measurements", d: "Exact reality matching", i: "fa-ruler-combined" }, { t: "As-Built Plan", d: "Detailed plan", i: "fa-layer-group" }, { t: "Proposal Plan", d: "Commercial edits", i: "fa-wand-magic-sparkles" }, { t: "Technical Report", d: "Structural safety", i: "fa-clipboard-check" }, { t: "3D Facade", d: "Modern design", i: "fa-cube" }, { t: "Submission", d: "Complete follow-up", i: "fa-building-columns" }]
             }
         };
 
-        // --- 2. روابط الصور الثمانية (القائمة الكاملة) ---
+        // --- 2. صور المعرض ---
         const galleryImages = [
             "https://d.top4top.io/p_3649ok3630.jpg",
             "https://e.top4top.io/p_36497uwu41.jpg",
@@ -273,10 +325,9 @@
         let lang = 'ar';
         let currentType = 'res';
 
-        // --- 3. تهيئة السلايدر (المعرض) ---
+        // --- 3. تهيئة السلايدر (4 ثواني كما طلبت) ---
         function initGallery() {
             const container = document.getElementById('gallery-container');
-            // إنشاء عناصر الصور
             galleryImages.forEach((src, index) => {
                 const img = document.createElement('img');
                 img.src = src;
@@ -284,17 +335,16 @@
                 container.appendChild(img);
             });
 
-            // تشغيل التناوب
             let currentIdx = 0;
-            const images = document.querySelectorAll('.slide-image');
+            const images = document.getElementsByClassName('slide-image');
             setInterval(() => {
                 images[currentIdx].classList.remove('active');
                 currentIdx = (currentIdx + 1) % images.length;
                 images[currentIdx].classList.add('active');
-            }, 4000); // كل 4 ثواني
+            }, 4000); 
         }
 
-        // --- 4. عرض المحتوى (المسارات) ---
+        // --- 4. عرض المحتوى ---
         function renderContent(type) {
             const container = document.getElementById('steps-list');
             const d = content[lang];
@@ -317,10 +367,9 @@
             });
         }
 
-        // --- 5. التحكم والتبديل ---
+        // --- 5. الوظائف ---
         function setPath(type) {
             currentType = type;
-            // تحديث الأزرار
             document.getElementById('btn-res').className = `tab-btn res ${type==='res'?'active':''}`;
             document.getElementById('btn-com').className = `tab-btn com ${type==='com'?'active':''}`;
             renderContent(type);
@@ -330,7 +379,6 @@
             lang = lang === 'ar' ? 'en' : 'ar';
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             document.getElementById('lang-btn').innerText = lang === 'ar' ? 'EN' : 'عربي';
-            // تحديث النصوص
             const d = content[lang];
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
@@ -339,26 +387,9 @@
             renderContent(currentType);
         }
 
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-        }
-
+        function toggleTheme() { document.body.classList.toggle('light-mode'); }
         function openMap(e) { e.preventDefault(); window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59"; }
 
         let qrDone = false;
         function toggleQR() {
-            const modal = document.getElementById('qr-modal');
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-            if(!qrDone && modal.style.display === 'flex') {
-                new QRCode(document.getElementById("qrcode"), { text: window.location.href, width: 128, height: 128 });
-                qrDone = true;
-            }
-        }
-
-        // --- بدء التشغيل ---
-        initGallery();   // تشغيل الصور
-        renderContent('res'); // عرض المسار السكني افتراضياً
-
-    </script>
-</body>
-</html>
+            const modal = document.getEle
