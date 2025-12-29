@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0f172a">
-    <title>مكتب بدر الحقيل | النسخة الحيوية</title>
+    <title>مكتب بدر الحقيل</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -12,27 +12,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. الأساسيات --- */
+        /* --- 1. المتغيرات --- */
         :root {
-            /* الوضع الليلي (الافتراضي) */
             --bg-main: #0f172a;
             --text-main: #ffffff;
             --text-sub: #94a3b8;
-            --glass-bg: rgba(30, 41, 59, 0.8);
+            --glass-bg: rgba(30, 41, 59, 0.85);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --accent: #3b82f6; /* اللون الأزرق الرئيسي */
-            --dock-bg: rgba(15, 23, 42, 0.9);
+            --accent: #3b82f6;
+            --dock-bg: rgba(15, 23, 42, 0.95);
         }
 
-        /* الوضع النهاري */
         body.light-mode {
-            --bg-main: #f0f9ff;
+            --bg-main: #f8fafc;
             --text-main: #0f172a;
             --text-sub: #475569;
             --glass-bg: rgba(255, 255, 255, 0.9);
             --glass-border: rgba(0, 0, 0, 0.1);
-            --card-bg: #ffffff;
             --accent: #2563eb;
             --dock-bg: rgba(255, 255, 255, 0.95);
         }
@@ -41,218 +37,177 @@
             font-family: 'Cairo', sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
-            margin: 0;
-            padding-bottom: 200px;
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background-color 0.5s ease, color 0.5s ease;
-            -webkit-tap-highlight-color: transparent;
+            margin: 0; padding-bottom: 200px;
+            min-height: 100vh; overflow-x: hidden;
+            transition: 0.5s ease;
         }
 
-        /* خلفية ناعمة */
-        .bg-gradient {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: radial-gradient(circle at 50% 0%, rgba(59,130,246,0.1), transparent 70%);
-            pointer-events: none;
-        }
-
-        /* --- 2. الشريط العلوي --- */
-        .top-navbar {
+        /* --- 2. الشريط العلوي (تم حل مشكلة التداخل) --- */
+        .navbar {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 20px; width: 100%; position: relative; z-index: 50;
+            padding: 25px 20px; width: 100%; position: relative; z-index: 50;
         }
 
-        .nav-controls { display: flex; gap: 10px; }
+        .nav-actions { display: flex; gap: 10px; }
         .nav-btn {
-            width: 45px; height: 45px; border-radius: 12px;
+            width: 45px; height: 45px; border-radius: 14px;
             background: var(--glass-bg); border: 1px solid var(--glass-border);
             color: var(--text-main); display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); font-weight: bold;
+            cursor: pointer; font-weight: bold; transition: 0.3s;
         }
         .nav-btn:active { transform: scale(0.9); }
 
-        /* =========================================
-           --- 3. صورة الشعار (مع أنيميشن الدوائر الجديد) ---
-           ========================================= */
-        .brand-logo-container {
-            position: relative;
-            width: 60px; height: 60px;
-            display: flex; align-items: center; justify-content: center;
+        /* صورة الشعار في الزاوية */
+        .brand-box {
+            width: 55px; height: 55px; border-radius: 18px; overflow: hidden;
+            border: 2px solid var(--glass-border); background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: 0.4s;
         }
+        .brand-box img { width: 100%; height: 100%; object-fit: cover; }
+        .brand-box:hover { transform: scale(1.1) rotate(-5deg); border-color: var(--accent); }
 
-        .brand-logo {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid var(--glass-border);
-            /* إضافة توهج نابض مستمر */
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
-            background: white;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative; z-index: 2; /* فوق الدوائر */
-            animation: logoPulseGlow 3s infinite alternate;
-        }
-        
-        .brand-logo img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-
-        /* تأثير الدوائر المنبعثة (Ripples) */
-        .brand-logo-container::before,
-        .brand-logo-container::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--accent); /* لون الدائرة */
-            opacity: 0;
-            z-index: 1; /* خلف الصورة */
-        }
-
-        .brand-logo-container::before {
-            animation: rippleEffect 3s linear infinite;
-        }
-        .brand-logo-container::after {
-            animation: rippleEffect 3s linear infinite 1.5s; /* تأخير للدائرة الثانية */
-        }
-
-        /* تعريف الأنيميشن */
-        @keyframes rippleEffect {
-            0% { width: 100%; height: 100%; opacity: 0.6; border-width: 3px; }
-            100% { width: 220%; height: 220%; opacity: 0; border-width: 1px; }
-        }
-        @keyframes logoPulseGlow {
-            0% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
-            100% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 10px rgba(59, 130, 246, 0.4) inset; }
-        }
-
-        /* تفاعل عند التحويم */
-        .brand-logo-container:hover .brand-logo {
-            transform: scale(1.15);
-            border-color: var(--accent);
-        }
-        /* ========================================= */
-
-
-        /* --- 4. الهيدر الرئيسي --- */
-        header { text-align: center; padding: 40px 20px 20px; animation: fadeIn 0.8s ease; }
-        .main-icon { font-size: 3.5rem; color: var(--accent); margin-bottom: 15px; display: inline-block; }
+        /* --- 3. الهيدر --- */
+        header { text-align: center; padding: 40px 20px 20px; animation: fadeIn 0.8s; }
         .main-title { font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; }
         .sub-title { color: var(--accent); font-weight: 700; font-size: 1.2rem; }
-        .guide-pill {
-            margin-top: 20px; background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3); color: #60a5fa;
-            padding: 8px 20px; border-radius: 50px; display: inline-block; font-weight: 700; font-size: 0.9rem;
-        }
 
-        /* --- 5. أزرار المسارات --- */
-        .tabs-wrapper {
+        /* --- 4. التبويبات --- */
+        .tabs-wrap {
             display: flex; justify-content: center; gap: 15px; margin: 30px auto;
             padding: 0 20px; max-width: 600px;
         }
-        .big-tab {
-            flex: 1; padding: 20px; background: var(--card-bg);
+        .tab-btn {
+            flex: 1; padding: 20px; background: rgba(255,255,255,0.03);
             border: 1px solid var(--glass-border); border-radius: 20px;
             text-align: center; cursor: pointer; transition: 0.3s;
             display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
-        body.light-mode .big-tab { box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-        .big-tab i { font-size: 2rem; color: var(--text-sub); }
-        .big-tab span { font-weight: 700; font-size: 1.1rem; color: var(--text-sub); }
-        .big-tab.active.res { background: var(--accent); border-color: var(--accent); transform: scale(1.03); }
-        .big-tab.active.com { background: #f59e0b; border-color: #f59e0b; transform: scale(1.03); }
-        .big-tab.active i, .big-tab.active span { color: white; }
+        .tab-btn i { font-size: 2rem; color: var(--text-sub); }
+        .tab-btn span { font-weight: 700; font-size: 1.1rem; color: var(--text-sub); }
+        
+        .tab-btn.active.res { background: var(--accent); border-color: var(--accent); transform: scale(1.03); }
+        .tab-btn.active.com { background: #f59e0b; border-color: #f59e0b; transform: scale(1.03); }
+        .tab-btn.active i, .tab-btn.active span { color: white; }
 
-        /* --- 6. المحتوى --- */
+        /* --- 5. المحتوى --- */
         .content-area { max-width: 600px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
-        .step-item {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
+        .step-card {
+            background: rgba(30, 41, 59, 0.6); border: 1px solid var(--glass-border);
             padding: 15px; border-radius: 18px; display: flex; align-items: center; gap: 15px;
             opacity: 0; transform: translateY(20px); animation: slideUp 0.5s ease forwards;
         }
-        body.light-mode .step-item { box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .icon-box {
-            width: 45px; height: 45px; border-radius: 14px;
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem;
-        }
+        body.light-mode .step-card { background: white; border-color: rgba(0,0,0,0.05); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        
+        .icon-box { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
         .res-theme .icon-box { background: rgba(59,130,246,0.1); color: #3b82f6; }
         .com-theme .icon-box { background: rgba(245,158,11,0.1); color: #f59e0b; }
         .step-text h3 { margin: 0; font-weight: 700; font-size: 1rem; }
-        .step-text p { margin: 3px 0 0; color: var(--text-sub); font-size: 0.85rem; }
+        .step-text p { margin: 2px 0 0; color: var(--text-sub); font-size: 0.85rem; }
 
-        /* --- 7. الملاحظة --- */
-        .note-wrap { max-width: 600px; margin: 20px auto; padding: 0 20px; }
-        .note-card {
-            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 15px; padding: 15px; text-align: center;
+        /* --- 6. الإنفوجرافيك (الميزة الجديدة) --- */
+        .infographic-teaser {
+            max-width: 600px; margin: 40px auto 20px; padding: 0 20px;
+            animation: fadeIn 1s ease 0.5s backwards;
         }
-        .note-head { color: #f87171; font-weight: 800; margin-bottom: 5px; font-size: 0.95rem; }
-        .note-body { font-size: 0.85rem; color: var(--text-sub); }
+        .info-card {
+            position: relative; height: 180px; border-radius: 25px; overflow: hidden;
+            border: 2px solid var(--glass-border); cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: 0.4s;
+        }
+        .info-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        
+        /* الصورة الخلفية للكارت */
+        .info-bg {
+            width: 100%; height: 100%; object-fit: cover; filter: blur(3px) brightness(0.6);
+            transition: 0.5s;
+        }
+        .info-card:hover .info-bg { filter: blur(0) brightness(0.8); transform: scale(1.05); }
 
-        /* --- 8. البار العائم --- */
+        /* المحتوى فوق الكارت */
+        .info-overlay {
+            position: absolute; inset: 0; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
+            z-index: 10;
+        }
+        .info-icon {
+            font-size: 3rem; color: white; margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(59,130,246,0.8));
+            animation: pulseGlow 2s infinite;
+        }
+        .info-btn {
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            padding: 8px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.4);
+            color: white; font-weight: bold; font-size: 0.9rem; margin-top: 10px;
+        }
+
+        /* --- 7. مودال العرض الكامل (Lightbox) --- */
+        .lightbox-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: 0.4s;
+        }
+        .lightbox-modal.active { opacity: 1; pointer-events: auto; }
+        
+        .lightbox-content {
+            width: 100%; height: 100%; overflow-y: auto; padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .lightbox-img {
+            max-width: 100%; height: auto; border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5); margin-top: 50px;
+        }
+        .close-lightbox {
+            position: fixed; top: 20px; right: 20px; width: 40px; height: 40px;
+            background: rgba(255,255,255,0.2); border-radius: 50%; color: white;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2001;
+        }
+
+        /* --- 8. البار العائم (الوسط) --- */
         .dock-fixed {
             position: fixed; bottom: 30px; left: 0; right: 0; margin: auto;
             width: 90%; max-width: 400px; z-index: 1000;
             display: flex; flex-direction: column; align-items: center;
         }
-        .badge-contact {
-            background: #22c55e; color: white; padding: 6px 16px; border-radius: 20px;
-            font-weight: 700; font-size: 0.85rem; margin-bottom: 12px;
-            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4); animation: bounce 2s infinite; position: relative;
-        }
-        .badge-contact::after {
-            content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
-            border-width: 6px 6px 0; border-style: solid; border-color: #22c55e transparent transparent transparent;
+        .contact-badge {
+            background: #22c55e; color: white; padding: 5px 15px; border-radius: 20px;
+            font-weight: 700; font-size: 0.8rem; margin-bottom: 12px;
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4); animation: bounce 2s infinite;
         }
         .glass-dock {
             width: 100%; background: var(--dock-bg); backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 50px;
-            padding: 12px 25px; display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
-        body.light-mode .glass-dock { box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
-        .action-btn {
+        .dock-btn {
             width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center;
             justify-content: center; color: white; text-decoration: none; font-size: 1.4rem; transition: 0.2s;
         }
-        .action-btn:active { transform: scale(0.9); }
+        .dock-btn:active { transform: scale(0.9); }
         .btn-call { background: linear-gradient(135deg, #10b981, #059669); }
         .btn-wa { background: #25d366; }
         .btn-map { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-        .btn-qr { background: #64748b; }
+        .btn-qr { background: #475569; }
 
-        /* --- 9. مودال QR --- */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000;
-            display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s;
-        }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content {
-            background: var(--bg-main); padding: 30px; border-radius: 20px; text-align: center; border: 1px solid var(--glass-border);
-        }
-
+        /* Animations */
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes pulseGlow { 0% { opacity: 0.8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0.8; transform: scale(1); } }
 
     </style>
 </head>
 <body>
 
-    <div class="bg-gradient"></div>
-
-    <nav class="top-navbar">
-        <div class="nav-controls">
-            <button class="nav-btn" onclick="toggleTheme()" id="theme-btn"><i class="fa-regular fa-sun"></i></button>
+    <nav class="navbar">
+        <div class="nav-actions">
+            <button class="nav-btn" onclick="toggleTheme()"><i class="fa-regular fa-sun"></i></button>
             <button class="nav-btn text-xs" onclick="toggleLang()" id="lang-btn">EN</button>
         </div>
-
-        <div class="brand-logo-container">
-            <div class="brand-logo">
-                <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo">
-            </div>
+        
+        <div class="brand-box">
+            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo">
         </div>
     </nav>
 
@@ -260,76 +215,110 @@
         <div class="main-icon"><i class="fa-solid fa-building-columns"></i></div>
         <h1 class="main-title" data-i18n="title">مكتب بدر الحقيل</h1>
         <p class="sub-title" data-i18n="subtitle">للعقارات والهندسة</p>
-        <div class="guide-pill" data-i18n="guide">دليل خطوات تصحيح وضع المباني القائمة</div>
     </header>
 
-    <div class="tabs-wrapper">
-        <div class="big-tab active res" id="tab-res" onclick="switchPath('res')">
+    <div class="tabs-wrap">
+        <div class="tab-btn active res" id="tab-res" onclick="switchPath('res')">
             <i class="fa-solid fa-house-chimney"></i><span data-i18n="res_tab">المسار السكني</span>
         </div>
-        <div class="big-tab com" id="tab-com" onclick="switchPath('com')">
+        <div class="tab-btn com" id="tab-com" onclick="switchPath('com')">
             <i class="fa-solid fa-city"></i><span data-i18n="com_tab">المسار التجاري</span>
         </div>
     </div>
 
     <div id="content-box" class="content-area"></div>
 
-    <div class="note-wrap">
-        <div class="note-card">
-            <div class="note-head"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="note_title">ملاحظة هامة</span></div>
-            <div class="note-body" data-i18n="note_body">جميع المخططات والتقارير الفنية معتمدة وفق الكود السعودي، ويلزم توفر صك إلكتروني محدث للبدء في الإجراءات.</div>
+    <div class="infographic-teaser">
+        <div class="info-card" onclick="openLightbox()">
+            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" class="info-bg" alt="Guide Preview">
+            <div class="info-overlay">
+                <i class="fa-solid fa-file-invoice info-icon"></i>
+                <h3 class="text-white text-xl font-bold mb-1">الدليل الشامل للتصحيح</h3>
+                <p class="text-gray-300 text-sm mb-3">اضغط لعرض الخطوات التفصيلية</p>
+                <div class="info-btn">عرض الدليل <i class="fa-solid fa-expand mr-1"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox-modal" id="lightbox">
+        <div class="close-lightbox" onclick="closeLightbox()"><i class="fa-solid fa-xmark text-xl"></i></div>
+        <div class="lightbox-content">
+            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" class="lightbox-img" alt="Full Guide">
         </div>
     </div>
 
     <div class="dock-fixed">
-        <div class="badge-contact" data-i18n="contact">تواصل معنا الآن</div>
+        <div class="contact-badge" data-i18n="contact">تواصل معنا الآن</div>
         <div class="glass-dock">
-            <a href="tel:0569982526" class="action-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-            <a href="https://wa.me/966569982526" target="_blank" class="action-btn btn-wa"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href="#" onclick="openMap(event)" class="action-btn btn-map"><i class="fa-solid fa-location-dot"></i></a>
-            <button onclick="toggleQR()" class="action-btn btn-qr"><i class="fa-solid fa-qrcode"></i></button>
-        </div>
-    </div>
-
-    <div id="qr-modal" class="modal-overlay" onclick="toggleQR()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h3 class="font-bold mb-4 text-xl" style="color:var(--text-main)">QR Code</h3>
-            <div id="qrcode" class="bg-white p-2 rounded-lg mb-4 flex justify-center"></div>
-            <button onclick="toggleQR()" class="bg-red-500 text-white px-6 py-2 rounded-full font-bold">إغلاق</button>
+            <a href="tel:0569982526" class="dock-btn btn-call"><i class="fa-solid fa-phone"></i></a>
+            <a href="https://wa.me/966569982526" target="_blank" class="dock-btn btn-wa"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="#" onclick="openMap(event)" class="dock-btn btn-map"><i class="fa-solid fa-location-dot"></i></a>
+            <button onclick="toggleQR()" class="dock-btn btn-qr"><i class="fa-solid fa-qrcode"></i></button>
         </div>
     </div>
 
     <script>
         const content = {
             ar: {
-                title: "مكتب بدر الحقيل", subtitle: "للعقارات والهندسة", guide: "دليل خطوات تصحيح وضع المباني القائمة",
-                res_tab: "المسار السكني", com_tab: "المسار التجاري", note_title: "ملاحظة هامة", note_body: "جميع المخططات والتقارير الفنية معتمدة وفق الكود السعودي، ويلزم توفر صك إلكتروني محدث للبدء في الإجراءات.", contact: "تواصل معنا الآن",
+                title: "مكتب بدر الحقيل", subtitle: "للعقارات والهندسة",
+                res_tab: "المسار السكني", com_tab: "المسار التجاري", contact: "تواصل معنا الآن",
                 steps_res: [{ t: "رفع المقاسات", d: "زيارة ميدانية لرفع المقاسات على الطبيعة", i: "fa-tape" }, { t: "مخطط الوضع القائم", d: "رسم مخطط هندسي يوضح الوضع الحالي", i: "fa-compass-drafting" }, { t: "إنشاء مخطط مقترح", d: "عمل التصاميم والتعديلات المطلوبة", i: "fa-pen-ruler" }, { t: "إعداد تقرير فني", d: "تقرير سلامة إنشائية معتمد", i: "fa-file-contract" }, { t: "إرسال للبلدية", d: "رفع المعاملة ومتابعتها حتى الاعتماد", i: "fa-paper-plane" }],
                 steps_com: [{ t: "رفع المقاسات", d: "مطابقة دقيقة للمساحات على الواقع", i: "fa-ruler-combined" }, { t: "مخطط الوضع القائم", d: "رسم تفصيلي لكامل المبنى التجاري", i: "fa-layer-group" }, { t: "مخطط مقترح", d: "تعديلات معمارية للمحلات والمكاتب", i: "fa-wand-magic-sparkles" }, { t: "تقرير فني", d: "إثبات السلامة الإنشائية للمبنى", i: "fa-clipboard-check" }, { t: "واجهة 3D", d: "تصميم واجهة عصرية حسب الاشتراطات", i: "fa-cube" }, { t: "إرسال للأمانة", d: "متابعة المعاملة بالكامل", i: "fa-building-columns" }]
             },
             en: {
-                title: "Bader Al Huqail", subtitle: "Real Estate & Engineering", guide: "Guide to Correcting Existing Buildings",
-                res_tab: "Residential", com_tab: "Commercial", note_title: "Important Note", note_body: "All plans are certified per Saudi Code. Updated electronic deed required.", contact: "Contact Us Now",
+                title: "Bader Al Huqail", subtitle: "Real Estate & Engineering",
+                res_tab: "Residential", com_tab: "Commercial", contact: "Contact Us Now",
                 steps_res: [{ t: "Measurements", d: "On-site inspection", i: "fa-tape" }, { t: "As-Built Plan", d: "Current status drawing", i: "fa-compass-drafting" }, { t: "Proposal Plan", d: "Design modifications", i: "fa-pen-ruler" }, { t: "Technical Report", d: "Certified safety report", i: "fa-file-contract" }, { t: "Submission", d: "To Municipality", i: "fa-paper-plane" }],
                 steps_com: [{ t: "Measurements", d: "Exact reality matching", i: "fa-ruler-combined" }, { t: "As-Built Plan", d: "Detailed plan", i: "fa-layer-group" }, { t: "Proposal Plan", d: "Commercial edits", i: "fa-wand-magic-sparkles" }, { t: "Technical Report", d: "Structural safety", i: "fa-clipboard-check" }, { t: "3D Facade", d: "Modern design", i: "fa-cube" }, { t: "Submission", d: "Complete follow-up", i: "fa-building-columns" }]
             }
         };
+
         let lang = 'ar', currentType = 'res';
+
         function render(type) {
-            const container = document.getElementById('content-box'); const d = content[lang]; const data = type === 'res' ? d.steps_res : d.steps_com; const theme = type === 'res' ? 'res-theme' : 'com-theme'; const borderCol = type === 'res' ? '#3b82f6' : '#f59e0b';
+            const container = document.getElementById('content-box');
+            const d = content[lang];
+            const data = type === 'res' ? d.steps_res : d.steps_com;
+            const theme = type === 'res' ? 'res-theme' : 'com-theme';
+            const borderCol = type === 'res' ? '#3b82f6' : '#f59e0b';
+            
             container.innerHTML = '';
             data.forEach((step, index) => {
-                const el = document.createElement('div'); el.className = 'step-item'; el.style.animationDelay = `${index * 0.08}s`;
+                const el = document.createElement('div');
+                el.className = 'step-card';
+                el.style.animationDelay = `${index * 0.08}s`;
                 const borderStyle = (index === data.length - 1) ? `border-${lang==='ar'?'right':'left'}: 4px solid ${borderCol}; padding-${lang==='ar'?'right':'left'}: 10px;` : '';
                 el.innerHTML = `<div class="icon-box ${theme}"><i class="fa-solid ${step.i}"></i></div><div class="step-text" style="${borderStyle}"><h3>${step.t}</h3><p>${step.d}</p></div>`;
                 container.appendChild(el);
             });
         }
-        function switchPath(type) { currentType = type; document.getElementById('tab-res').className = `big-tab res ${type === 'res' ? 'active' : ''}`; document.getElementById('tab-com').className = `big-tab com ${type === 'com' ? 'active' : ''}`; render(type); }
-        function toggleLang() { lang = lang === 'ar' ? 'en' : 'ar'; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'; document.getElementById('lang-btn').innerText = lang === 'ar' ? 'EN' : 'عربي'; const d = content[lang]; document.querySelectorAll('[data-i18n]').forEach(e => { const key = e.getAttribute('data-i18n'); if(d[key]) e.innerText = d[key]; }); render(currentType); }
-        function toggleTheme() { document.body.classList.toggle('light-mode'); const icon = document.querySelector('#theme-btn i'); icon.className = document.body.classList.contains('light-mode') ? 'fa-solid fa-moon' : 'fa-regular fa-sun'; }
+
+        function switchPath(type) {
+            currentType = type;
+            document.getElementById('tab-res').className = `tab-btn res ${type === 'res' ? 'active' : ''}`;
+            document.getElementById('tab-com').className = `tab-btn com ${type === 'com' ? 'active' : ''}`;
+            render(type);
+        }
+
+        function toggleTheme() { document.body.classList.toggle('light-mode'); }
+        
+        function toggleLang() {
+            lang = lang === 'ar' ? 'en' : 'ar';
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('lang-btn').innerText = lang === 'ar' ? 'EN' : 'عربي';
+            const d = content[lang];
+            document.querySelectorAll('[data-i18n]').forEach(e => {
+                const k = e.getAttribute('data-i18n'); if(d[k]) e.innerText = d[k];
+            });
+            render(currentType);
+        }
+
         function openMap(e) { e.preventDefault(); window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59"; }
-        let qrGenerated = false; function toggleQR() { const modal = document.getElementById('qr-modal'); modal.classList.toggle('active'); if (!qrGenerated && modal.classList.contains('active')) { new QRCode(document.getElementById("qrcode"), { text: window.location.href, width: 150, height: 150 }); qrGenerated = true; } }
+
+        // وظائف عارض الصور (Lightbox)
+        function openLightbox() { document.getElementById('lightbox').classList.add('active'); }
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+
         render('res');
     </script>
 </body>
