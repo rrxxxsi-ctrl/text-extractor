@@ -1,310 +1,329 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مكتب بدر الحقيل للعقارات</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f172a">
+    <title>مكتب بدر الحقيل | المعرض الحيوي</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- الأساسيات --- */
+        :root {
+            --bg-dark: #0f172a; --text-white: #ffffff;
+            --glass-bg: rgba(30, 41, 59, 0.9); --glass-border: rgba(255, 255, 255, 0.1);
+            --primary: #3b82f6; --gold: #f59e0b;
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark); color: var(--text-white);
+            margin: 0; padding-bottom: 220px; /* مساحة للفوتر والبار */
+            min-height: 100vh; overflow-x: hidden; transition: 0.5s ease;
+        }
+        body.light-mode {
+            --bg-dark: #f8fafc; --text-white: #0f172a;
+            --glass-bg: rgba(255, 255, 255, 0.9); --glass-border: rgba(0, 0, 0, 0.1);
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+        /* --- الهيدر --- */
+        header { text-align: center; padding: 70px 20px 20px; animation: fadeIn 0.8s; }
+        .logo-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 10px; display: inline-block; }
+        .main-title { font-size: 2.5rem; font-weight: 900; }
+        .sub-title { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
 
-<style>
-:root{
-  --primary:#0f172a;
-  --secondary:#1e3a8a;
-  --accent:#38bdf8;
-  --soft:#f5f7fa;
-}
+        /* --- التبويبات --- */
+        .tabs-wrapper { display: flex; justify-content: center; gap: 15px; margin: 30px auto; padding: 0 20px; max-width: 600px; }
+        .big-btn {
+            flex: 1; padding: 20px; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border); border-radius: 20px; cursor: pointer; transition: 0.3s;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+        .big-btn i { font-size: 2rem; color: #94a3b8; }
+        .big-btn span { font-weight: 700; font-size: 1.1rem; color: #94a3b8; }
+        .big-btn.active.res { background: var(--primary); border-color: var(--primary); transform: scale(1.03); }
+        .big-btn.active.com { background: var(--gold); border-color: var(--gold); transform: scale(1.03); }
+        .big-btn.active i, .big-btn.active span { color: white; }
 
-body{
-  margin:0;
-  font-family:'Cairo',Tahoma;
-  background:linear-gradient(180deg,var(--soft),#eef2f7);
-  color:#1f2937;
-  line-height:1.9;
-}
+        /* --- المحتوى --- */
+        .content-container { max-width: 600px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
+        .step-card {
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            padding: 15px 20px; border-radius: 18px; display: flex; align-items: center;
+            gap: 15px; opacity: 0; transform: translateY(20px); animation: slideUp 0.5s ease forwards;
+        }
+        .icon-circle { width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .res-theme .icon-circle { background: rgba(59,130,246,0.15); color: #3b82f6; }
+        .com-theme .icon-circle { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .step-info h3 { font-weight: 700; margin: 0; font-size: 1rem; }
+        .step-info p { color: #94a3b8; font-size: 0.85rem; margin: 3px 0 0; }
 
-/* ===== HEADER ===== */
-header{
-  padding:140px 20px 110px;
-  text-align:center;
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  color:#fff;
-  position:relative;
-  overflow:hidden;
-}
-header h1{
-  font-size:2.7rem;
-  margin-bottom:15px;
-}
-header p{
-  font-size:1.15rem;
-  opacity:.95;
-}
+        /* --- معرض الصور المتحرك (Gallery Slider) - الإضافة الجديدة --- */
+        .gallery-section {
+            max-width: 600px; margin: 40px auto 20px; padding: 0 20px;
+            position: relative; opacity: 0; animation: fadeIn 1s ease 0.5s forwards;
+        }
+        
+        .gallery-frame {
+            position: relative;
+            width: 100%; height: 280px; /* ارتفاع مناسب للصورة */
+            border-radius: 25px;
+            overflow: hidden;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            background: #000;
+        }
+        
+        /* الصور داخل المعرض */
+        .slide-img {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; /* يملأ الإطار بالكامل */
+            opacity: 0;
+            transform: scale(1.1); /* تأثير الزووم */
+            transition: opacity 1s ease-in-out, transform 4s linear;
+        }
+        .slide-img.active {
+            opacity: 1;
+            transform: scale(1); /* تعود للحجم الطبيعي ببطء */
+            z-index: 1;
+        }
 
-/* ===== SECTIONS ===== */
-section{
-  max-width:1250px;
-  margin:90px auto;
-  padding:0 20px;
-}
-h2{
-  text-align:center;
-  margin-bottom:70px;
-  font-size:1.9rem;
-  color:var(--primary);
-}
+        /* شارة المعرض */
+        .gallery-badge {
+            position: absolute; top: 15px; right: 15px; z-index: 10;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+            padding: 5px 15px; border-radius: 20px;
+            color: white; font-size: 0.8rem; font-weight: bold;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: blink 1s infinite; }
 
-/* ===== CARDS ===== */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:50px;
-}
-.card{
-  background:#fff;
-  border-radius:28px;
-  padding:45px;
-  box-shadow:0 25px 70px rgba(0,0,0,.18);
-  transition:.5s;
-}
-.card:hover{
-  transform:translateY(-20px) scale(1.05);
-}
-.card h3{
-  font-size:1.5rem;
-  margin-bottom:25px;
-}
-.card ul{
-  padding:0;
-  list-style:none;
-}
-.card li{
-  padding:14px 0;
-  border-bottom:1px dashed #ddd;
-}
+        /* شريط التقدم السفلي */
+        .progress-bar {
+            position: absolute; bottom: 0; left: 0; height: 4px;
+            background: var(--primary); width: 0%; z-index: 10;
+            transition: width 0.1s linear;
+        }
 
-/* ===== SLIDER ===== */
-.slider{
-  position:relative;
-  width:90%;
-  max-width:950px;
-  height:500px;
-  margin:80px auto;
-  overflow:hidden;
-  border-radius:22px;
-  box-shadow:0 30px 70px rgba(0,0,0,.6);
-}
-.slide{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  transform:scale(1.08);
-  transition:1.2s ease;
-}
-.slide.active{
-  opacity:1;
-  transform:scale(1);
-}
-.slide img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.dots{
-  position:absolute;
-  bottom:18px;
-  width:100%;
-  text-align:center;
-}
-.dot{
-  width:11px;
-  height:11px;
-  background:rgba(255,255,255,.4);
-  display:inline-block;
-  margin:0 5px;
-  border-radius:50%;
-  transition:.3s;
-}
-.dot.active{
-  background:#fff;
-  transform:scale(1.4);
-}
+        /* --- البار العائم --- */
+        .dock-fixed {
+            position: fixed; bottom: 30px; left: 0; right: 0; margin: auto;
+            width: 90%; max-width: 400px; z-index: 1000;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .contact-badge {
+            background: #22c55e; color: white; padding: 5px 15px; border-radius: 20px;
+            font-weight: 700; font-size: 0.8rem; margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4); animation: bounce 2s infinite; position: relative;
+        }
+        .contact-badge::after {
+            content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
+            border-width: 5px 5px 0; border-style: solid; border-color: #22c55e transparent transparent transparent;
+        }
+        .glass-dock {
+            width: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 50px;
+            padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .dock-btn {
+            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; color: white; text-decoration: none; font-size: 1.4rem; transition: 0.2s;
+        }
+        .dock-btn:active { transform: scale(0.9); }
+        .btn-call { background: linear-gradient(135deg, #10b981, #059669); }
+        .btn-wa { background: #25d366; }
+        .btn-map { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .btn-qr { background: #475569; }
 
-/* ===== GALLERY ===== */
-.gallery{
-  width:90%;
-  max-width:1200px;
-  margin:90px auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:16px;
-}
-.gallery img{
-  width:100%;
-  height:200px;
-  object-fit:cover;
-  border-radius:16px;
-  cursor:pointer;
-  transition:.4s;
-}
-.gallery img:hover{
-  transform:scale(1.08);
-  box-shadow:0 18px 45px rgba(0,0,0,.5);
-}
+        /* التحكم العلوي */
+        .top-navbar { display: flex; justify-content: space-between; padding: 20px; }
+        .nav-btn {
+            width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.1);
+            border: 1px solid var(--glass-border); color: var(--text-white);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .brand-corner {
+            width: 50px; height: 50px; border-radius: 50%; overflow: hidden;
+            border: 2px solid var(--glass-border); background: white;
+            animation: pulseGlow 3s infinite;
+        }
+        .brand-corner img { width: 100%; height: 100%; object-fit: cover; }
 
-/* ===== LIGHTBOX ===== */
-.lightbox{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.88);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-}
-.lightbox img{
-  max-width:90%;
-  max-height:90%;
-  border-radius:18px;
-}
+        /* أنيميشن */
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 0 rgba(59,130,246,0); } 50% { box-shadow: 0 0 20px rgba(59,130,246,0.3); } 100% { box-shadow: 0 0 0 rgba(59,130,246,0); } }
+        @keyframes blink { 50% { opacity: 0; } }
 
-/* ===== CONTACT ===== */
-.contact{
-  text-align:center;
-  margin-top:120px;
-}
-.contact a{
-  display:inline-block;
-  margin:15px;
-  padding:18px 40px;
-  border-radius:60px;
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  color:#fff;
-  text-decoration:none;
-  font-weight:700;
-  transition:.4s;
-}
-.contact a:hover{
-  transform:translateY(-6px) scale(1.05);
-}
-
-/* ===== FOOTER ===== */
-footer{
-  background:linear-gradient(135deg,var(--primary),#020617);
-  color:#fff;
-  text-align:center;
-  padding:45px;
-  margin-top:120px;
-}
-</style>
+    </style>
 </head>
-
 <body>
 
-<header>
-  <h1>مكتب بدر الحقيل للعقارات</h1>
-  <p>دليل احترافي لتصحيح وضع المباني والمسارات النظامية</p>
-</header>
+    <nav class="top-navbar">
+        <div style="display:flex; gap:10px;">
+            <button class="nav-btn" onclick="toggleTheme()"><i class="fa-regular fa-sun"></i></button>
+            <button class="nav-btn text-xs" onclick="toggleLang()" id="lang-btn">EN</button>
+        </div>
+        <div class="brand-corner">
+            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo">
+        </div>
+    </nav>
 
-<section>
-<h2>مسارات تصحيح وضع المباني</h2>
-<div class="cards">
-  <div class="card">
-    <h3>المسار السكني</h3>
-    <ul>
-      <li>رفع المقاسات على الطبيعة</li>
-      <li>مخطط الوضع القائم</li>
-      <li>مخطط مقترح</li>
-      <li>تقرير فني</li>
-      <li>إرسال للبلدية</li>
-    </ul>
-  </div>
-  <div class="card">
-    <h3>المسار التجاري</h3>
-    <ul>
-      <li>رفع المقاسات</li>
-      <li>مخطط قائم</li>
-      <li>مخطط مقترح</li>
-      <li>تقرير فني</li>
-      <li>واجهة ثلاثية الأبعاد 3D</li>
-      <li>إرسال للأمانة</li>
-    </ul>
-  </div>
-</div>
-</section>
+    <header>
+        <div class="logo-icon"><i class="fa-solid fa-building-columns"></i></div>
+        <h1 class="main-title" data-i18n="title">مكتب بدر الحقيل</h1>
+        <p class="sub-title" data-i18n="subtitle">للعقارات والهندسة</p>
+    </header>
 
-<!-- ===== SLIDER ===== -->
-<div class="slider">
-  <div class="slide active"><img src="https://d.top4top.io/p_3649ok3630.jpg"></div>
-  <div class="slide"><img src="https://e.top4top.io/p_36497uwu41.jpg"></div>
-  <div class="slide"><img src="https://f.top4top.io/p_3649v04062.jpg"></div>
-  <div class="slide"><img src="https://b.top4top.io/p_364945ycg0.jpg"></div>
-  <div class="slide"><img src="https://d.top4top.io/p_3649tiaea2.jpg"></div>
-  <div class="slide"><img src="https://j.top4top.io/p_36494lyce0.jpg"></div>
-  <div class="slide"><img src="https://k.top4top.io/p_3649b4ek11.jpg"></div>
-  <div class="slide"><img src="https://l.top4top.io/p_3649pt8yo2.jpg"></div>
-  <div class="dots"></div>
-</div>
+    <div class="tabs-wrapper">
+        <div class="big-btn active res" id="tab-res" onclick="selectPath('res')">
+            <i class="fa-solid fa-house-chimney"></i><span data-i18n="res_tab">المسار السكني</span>
+        </div>
+        <div class="big-btn com" id="tab-com" onclick="switchPath('com')">
+            <i class="fa-solid fa-city"></i><span data-i18n="com_tab">المسار التجاري</span>
+        </div>
+    </div>
 
-<!-- ===== GALLERY ===== -->
-<div class="gallery">
-  <img src="https://d.top4top.io/p_3649ok3630.jpg">
-  <img src="https://e.top4top.io/p_36497uwu41.jpg">
-  <img src="https://f.top4top.io/p_3649v04062.jpg">
-  <img src="https://b.top4top.io/p_364945ycg0.jpg">
-  <img src="https://d.top4top.io/p_3649tiaea2.jpg">
-  <img src="https://j.top4top.io/p_36494lyce0.jpg">
-  <img src="https://k.top4top.io/p_3649b4ek11.jpg">
-  <img src="https://l.top4top.io/p_3649pt8yo2.jpg">
-</div>
+    <div id="steps-container" class="content-container"></div>
 
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox">
-  <img id="lightbox-img">
-</div>
+    <div class="gallery-section">
+        <div class="gallery-frame" id="slider-box">
+            <div class="gallery-badge"><span class="live-dot"></span> معرض الأعمال</div>
+            
+            <img src="https://d.top4top.io/p_3649ok3630.jpg" class="slide-img active">
+            <img src="https://e.top4top.io/p_36497uwu41.jpg" class="slide-img">
+            <img src="https://f.top4top.io/p_3649v04062.jpg" class="slide-img">
+            <img src="https://b.top4top.io/p_364945ycg0.jpg" class="slide-img">
+            <img src="https://d.top4top.io/p_3649tiaea2.jpg" class="slide-img">
+            <img src="https://j.top4top.io/p_36494lyce0.jpg" class="slide-img">
+            <img src="https://k.top4top.io/p_3649b4ek11.jpg" class="slide-img">
+            <img src="https://l.top4top.io/p_3649pt8yo2.jpg" class="slide-img">
+            
+            <div class="progress-bar" id="slider-progress"></div>
+        </div>
+    </div>
 
-<div class="contact">
-  <a href="tel:0569982526">📞 اتصال مباشر</a>
-  <a href="https://maps.app.goo.gl/RYLgqqXsVnbptV1UA" target="_blank">📍 موقع المكتب</a>
-</div>
+    <div class="dock-fixed">
+        <div class="contact-badge" data-i18n="contact">تواصل معنا الآن</div>
+        <div class="glass-dock">
+            <a href="tel:0569982526" class="dock-btn btn-call"><i class="fa-solid fa-phone"></i></a>
+            <a href="https://wa.me/966569982526" target="_blank" class="dock-btn btn-wa"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="#" onclick="openMap(event)" class="dock-btn btn-map"><i class="fa-solid fa-location-dot"></i></a>
+            <button onclick="toggleQR()" class="dock-btn btn-qr"><i class="fa-solid fa-qrcode"></i></button>
+        </div>
+    </div>
 
-<footer>
-© جميع الحقوق محفوظة – مكتب بدر الحقيل للعقارات
-</footer>
+    <div id="qr-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:2000; justify-content:center; align-items:center;" onclick="toggleQR()">
+        <div style="background:#1e293b; padding:30px; border-radius:20px; text-align:center;" onclick="event.stopPropagation()">
+            <h3 style="color:white; font-weight:bold; margin-bottom:15px;">QR Code</h3>
+            <div id="qrcode" style="background:white; padding:10px; border-radius:10px;"></div>
+        </div>
+    </div>
 
-<script>
-/* Slider */
-const slides=document.querySelectorAll('.slide');
-const dotsBox=document.querySelector('.dots');
-let i=0;
+    <script>
+        // --- 1. إعدادات السلايدر (Slideshow Logic) ---
+        const slides = document.querySelectorAll('.slide-img');
+        const progressBar = document.getElementById('slider-progress');
+        let currentSlide = 0;
+        const slideInterval = 1500; // كل 1.5 ثانية (سريع وحيوي)
 
-slides.forEach((_,n)=>{
-  let d=document.createElement('span');
-  d.className='dot'+(n==0?' active':'');
-  dotsBox.appendChild(d);
-});
-const dots=document.querySelectorAll('.dot');
+        function nextSlide() {
+            // إخفاء الصورة الحالية
+            slides[currentSlide].classList.remove('active');
+            
+            // الانتقال للصورة التالية
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            // إظهار الصورة الجديدة
+            slides[currentSlide].classList.add('active');
+            
+            // إعادة شريط التقدم
+            progressBar.style.width = '0%';
+            setTimeout(() => progressBar.style.width = '100%', 50);
+        }
 
-setInterval(()=>{
-  slides[i].classList.remove('active');
-  dots[i].classList.remove('active');
-  i=(i+1)%slides.length;
-  slides[i].classList.add('active');
-  dots[i].classList.add('active');
-},4000);
+        // تشغيل السلايدر
+        setInterval(nextSlide, slideInterval);
+        // بدء شريط التقدم فوراً
+        setTimeout(() => progressBar.style.width = '100%', 50);
 
-/* Lightbox */
-const lightbox=document.getElementById('lightbox');
-const lightImg=document.getElementById('lightbox-img');
 
-document.querySelectorAll('.gallery img').forEach(img=>{
-  img.onclick=()=>{
-    lightImg.src=img.src;
-    lightbox.style.display='flex';
-  };
-});
-lightbox.onclick=()=>lightbox.style.display='none';
-</script>
+        // --- 2. باقي وظائف الموقع (المسارات واللغة) ---
+        const content = {
+            ar: {
+                title: "مكتب بدر الحقيل", subtitle: "للعقارات والهندسة",
+                res_tab: "المسار السكني", com_tab: "المسار التجاري", contact: "تواصل معنا الآن",
+                steps_res: [{ t: "رفع المقاسات", d: "زيارة ميدانية لرفع المقاسات على الطبيعة", i: "fa-tape" }, { t: "مخطط الوضع القائم", d: "رسم مخطط هندسي يوضح الوضع الحالي", i: "fa-compass-drafting" }, { t: "إنشاء مخطط مقترح", d: "عمل التصاميم والتعديلات المطلوبة", i: "fa-pen-ruler" }, { t: "إعداد تقرير فني", d: "تقرير سلامة إنشائية معتمد", i: "fa-file-contract" }, { t: "إرسال للبلدية", d: "رفع المعاملة ومتابعتها حتى الاعتماد", i: "fa-paper-plane" }],
+                steps_com: [{ t: "رفع المقاسات", d: "مطابقة دقيقة للمساحات على الواقع", i: "fa-ruler-combined" }, { t: "مخطط الوضع القائم", d: "رسم تفصيلي لكامل المبنى التجاري", i: "fa-layer-group" }, { t: "مخطط مقترح", d: "تعديلات معمارية للمحلات والمكاتب", i: "fa-wand-magic-sparkles" }, { t: "تقرير فني", d: "إثبات السلامة الإنشائية للمبنى", i: "fa-clipboard-check" }, { t: "واجهة 3D", d: "تصميم واجهة عصرية حسب الاشتراطات", i: "fa-cube" }, { t: "إرسال للأمانة", d: "متابعة المعاملة بالكامل", i: "fa-building-columns" }]
+            },
+            en: {
+                title: "Bader Al Huqail", subtitle: "Real Estate & Engineering",
+                res_tab: "Residential", com_tab: "Commercial", contact: "Contact Us Now",
+                steps_res: [{ t: "Measurements", d: "On-site inspection", i: "fa-tape" }, { t: "As-Built Plan", d: "Current status drawing", i: "fa-compass-drafting" }, { t: "Proposal Plan", d: "Design modifications", i: "fa-pen-ruler" }, { t: "Technical Report", d: "Certified safety report", i: "fa-file-contract" }, { t: "Submission", d: "To Municipality", i: "fa-paper-plane" }],
+                steps_com: [{ t: "Measurements", d: "Exact reality matching", i: "fa-ruler-combined" }, { t: "As-Built Plan", d: "Detailed plan", i: "fa-layer-group" }, { t: "Proposal Plan", d: "Commercial edits", i: "fa-wand-magic-sparkles" }, { t: "Technical Report", d: "Structural safety", i: "fa-clipboard-check" }, { t: "3D Facade", d: "Modern design", i: "fa-cube" }, { t: "Submission", d: "Complete follow-up", i: "fa-building-columns" }]
+            }
+        };
 
+        let lang = 'ar', currentType = 'res';
+
+        function render(type) {
+            const container = document.getElementById('steps-container');
+            const d = content[lang];
+            const data = type === 'res' ? d.steps_res : d.steps_com;
+            const theme = type === 'res' ? 'res-theme' : 'com-theme';
+            const borderCol = type === 'res' ? '#3b82f6' : '#f59e0b';
+            
+            container.innerHTML = '';
+            data.forEach((step, index) => {
+                const el = document.createElement('div');
+                el.className = 'step-card';
+                el.style.animationDelay = `${index * 0.08}s`;
+                const borderStyle = (index === data.length - 1) ? `border-${lang==='ar'?'right':'left'}: 4px solid ${borderCol}; padding-${lang==='ar'?'right':'left'}: 10px;` : '';
+                el.innerHTML = `<div class="icon-circle ${theme}"><i class="fa-solid ${step.i}"></i></div><div class="step-info" style="${borderStyle}"><h3>${step.t}</h3><p>${step.d}</p></div>`;
+                container.appendChild(el);
+            });
+        }
+
+        function selectPath(type) {
+            currentType = type;
+            document.getElementById('tab-res').className = `big-btn res ${type === 'res' ? 'active' : ''}`;
+            document.getElementById('tab-com').className = `big-btn com ${type === 'com' ? 'active' : ''}`;
+            render(type);
+        }
+
+        function toggleTheme() { document.body.classList.toggle('light-mode'); }
+        
+        function toggleLang() {
+            lang = lang === 'ar' ? 'en' : 'ar';
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('lang-btn').innerText = lang === 'ar' ? 'EN' : 'عربي';
+            const d = content[lang];
+            document.querySelectorAll('[data-i18n]').forEach(e => {
+                const k = e.getAttribute('data-i18n'); if(d[k]) e.innerText = d[k];
+            });
+            render(currentType);
+        }
+
+        function openMap(e) { e.preventDefault(); window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59"; }
+
+        let qrGenerated = false;
+        function toggleQR() {
+            const modal = document.getElementById('qr-modal');
+            modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
+            if (!qrGenerated && modal.style.display === 'flex') {
+                new QRCode(document.getElementById("qrcode"), { text: window.location.href, width: 150, height: 150 });
+                qrGenerated = true;
+            }
+        }
+
+        render('res');
+    </script>
 </body>
 </html>
