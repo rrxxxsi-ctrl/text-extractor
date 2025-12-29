@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0f172a">
-    <title>مكتب بدر الحقيل | النسخة الفاخرة</title>
+    <title>مكتب بدر الحقيل | النسخة الماسية</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -12,79 +12,81 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. الأساسيات وحماية المحتوى --- */
+        /* --- 1. الأساسيات --- */
         :root {
-            --bg-dark: #0f172a; --text-white: #ffffff;
+            /* الوضع الليلي (الافتراضي) */
+            --bg-dark: #0f172a; 
+            --text-white: #ffffff;
             --glass-bg: rgba(30, 41, 59, 0.95);
             --glass-border: rgba(255, 255, 255, 0.15);
-            --primary: #3b82f6; --gold: #f59e0b;
+            --primary: #3b82f6; 
+            --gold: #f59e0b;
+            --icon-bg: rgba(255, 255, 255, 0.1);
         }
         
-        /* منع النسخ والتحديد */
+        /* الوضع النهاري (Override) */
+        body.light-mode {
+            --bg-dark: #f8fafc; 
+            --text-white: #0f172a;
+            --glass-bg: rgba(255, 255, 255, 0.95); 
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --icon-bg: rgba(0, 0, 0, 0.05);
+        }
+        
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-dark); color: var(--text-white);
+            background-color: var(--bg-dark); 
+            color: var(--text-white);
             margin: 0; padding-bottom: 250px;
             min-height: 100vh; overflow-x: hidden;
-            user-select: none; /* منع تحديد النص */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
+            user-select: none; transition: background-color 0.3s ease, color 0.3s ease;
         }
         
-        /* منع سحب الصور */
-        img { pointer-events: none; -webkit-user-drag: none; user-select: none; }
-
-        body.light-mode {
-            --bg-dark: #f8fafc; --text-white: #0f172a;
-            --glass-bg: rgba(255, 255, 255, 0.9); --glass-border: rgba(0, 0, 0, 0.1);
-        }
+        img { pointer-events: none; -webkit-user-drag: none; }
 
         .bg-gradient {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: radial-gradient(circle at 50% 0%, rgba(59,130,246,0.15), transparent 70%);
         }
 
-        /* --- 2. الشريط العلوي واللوجو المطور --- */
+        /* --- 2. الشريط العلوي (تم رفع الطبقة للإصلاح) --- */
         .top-nav {
             display: flex; justify-content: space-between; align-items: center; padding: 20px;
-            position: relative; z-index: 50;
+            position: relative; z-index: 9999; /* رفع الطبقة لتكون فوق كل شيء */
         }
         .nav-btn {
-            width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.1);
-            border: 1px solid var(--glass-border); color: var(--text-white); display: flex; align-items: center; justify-content: center;
-            cursor: pointer; /* للأزرار فقط */
+            width: 40px; height: 40px; border-radius: 12px; 
+            background: var(--icon-bg);
+            border: 1px solid var(--glass-border); 
+            color: var(--text-white); 
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s;
         }
-        
-        /* تأثيرات اللوجو الفاخرة (الدوائر والنبض) */
+        .nav-btn:active { transform: scale(0.9); }
+
+        /* اللوجو */
         .brand-corner-wrapper {
             position: relative; width: 60px; height: 60px;
             display: flex; justify-content: center; align-items: center;
         }
         .brand-corner {
             width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.2); background: white;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); z-index: 2;
-            position: relative;
+            border: 1px solid rgba(255,255,255,0.3); background: white;
+            z-index: 2; position: relative;
         }
         .brand-corner img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* الدوائر المتحركة حول اللوجو */
-        .pulse-ring {
+        .soft-ring {
             position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            border: 2px solid var(--primary); opacity: 0; z-index: 1;
-            animation: pulse-ring 3s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            border: 1px solid var(--primary); opacity: 0; z-index: 1;
+            animation: softPulse 3s infinite ease-out;
         }
-        .pulse-ring:nth-child(2) { animation-delay: 1s; border-color: var(--gold); }
-        
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 0.8; }
-            100% { transform: scale(2.5); opacity: 0; }
-        }
+        .soft-ring:nth-child(2) { animation-delay: 1.5s; border-color: var(--gold); }
+        @keyframes softPulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.6); opacity: 0; } }
 
         /* --- 3. الهيدر --- */
         header { text-align: center; padding: 30px 20px; }
-        .main-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 10px; display: inline-block; filter: drop-shadow(0 0 10px rgba(59,130,246,0.4)); }
+        .main-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 10px; display: inline-block; }
         .main-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; }
         .sub-title { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
         .guide-box {
@@ -99,18 +101,21 @@
             border: 1px solid var(--glass-border); border-radius: 18px; text-align: center; cursor: pointer;
             transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
+        body.light-mode .tab-btn { background: rgba(0,0,0,0.05); } /* تعديل للوضع النهاري */
+
         .tab-btn i { font-size: 1.8rem; color: #94a3b8; }
         .tab-btn span { font-weight: 700; font-size: 1rem; color: #94a3b8; }
-        .tab-btn.active.res { background: var(--primary); border-color: var(--primary); transform: scale(1.05); box-shadow: 0 10px 30px rgba(59,130,246,0.3); }
-        .tab-btn.active.com { background: var(--gold); border-color: var(--gold); transform: scale(1.05); box-shadow: 0 10px 30px rgba(245,158,11,0.3); }
+        
+        .tab-btn.active.res { background: var(--primary); border-color: var(--primary); transform: scale(1.05); }
+        .tab-btn.active.com { background: var(--gold); border-color: var(--gold); transform: scale(1.05); }
         .tab-btn.active i, .tab-btn.active span { color: white; }
 
-        /* --- 5. الخطوات --- */
+        /* --- 5. المسارات --- */
         .steps-container { max-width: 600px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
         .step-item {
             background: var(--glass-bg); border: 1px solid var(--glass-border);
             padding: 15px; border-radius: 16px; display: flex; align-items: center; gap: 15px;
-            animation: fadeIn 0.5s ease forwards;
+            animation: slideIn 0.5s ease forwards;
         }
         .step-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
         .res-theme .step-icon { background: rgba(59,130,246,0.15); color: #3b82f6; }
@@ -118,49 +123,25 @@
         .step-txt h3 { font-weight: 700; font-size: 1rem; margin: 0; }
         .step-txt p { font-size: 0.85rem; color: #94a3b8; margin: 2px 0 0; }
 
-        /* --- 6. معرض الصور الفخم (The Luxury Gallery) --- */
-        .gallery-box {
-            max-width: 600px; margin: 50px auto; padding: 0 20px;
-            position: relative;
-        }
-        /* إطار خارجي متوهج */
-        .gallery-glow-wrapper {
-            padding: 3px; border-radius: 24px;
-            background: linear-gradient(135deg, var(--primary), var(--gold), var(--primary));
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
-            animation: borderRotate 4s linear infinite;
-        }
-        @keyframes borderRotate { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
-
+        /* --- 6. معرض الصور --- */
+        .gallery-box { max-width: 600px; margin: 50px auto 20px; padding: 0 20px; }
         .gallery-frame {
             position: relative; width: 100%; height: 350px;
             border-radius: 20px; overflow: hidden;
-            background: #000; /* خلفية سوداء لإبراز الصور */
+            border: 2px solid var(--glass-border);
+            background: #000; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
-        
         .slide-image {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: contain; /* إظهار الصورة كاملة */
-            opacity: 0; transition: opacity 1.5s ease-in-out, transform 6s ease;
-            transform: scale(1.1);
+            object-fit: contain; opacity: 0; transition: opacity 1s ease-in-out;
         }
-        .slide-image.active { opacity: 1; transform: scale(1); }
-        
-        /* زوايا جمالية (Decorations) */
-        .decor-corner {
-            position: absolute; width: 40px; height: 40px;
-            border: 2px solid rgba(255,255,255,0.5); z-index: 20; pointer-events: none;
-        }
-        .top-left { top: 15px; left: 15px; border-bottom: 0; border-right: 0; border-radius: 10px 0 0 0; }
-        .bottom-right { bottom: 15px; right: 15px; border-top: 0; border-left: 0; border-radius: 0 0 10px 0; }
-
+        .slide-image.active { opacity: 1; }
         .gallery-label {
-            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
-            color: white; padding: 6px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: bold;
-            display: flex; align-items: center; gap: 8px; z-index: 10; border: 1px solid rgba(255,255,255,0.1);
+            position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6);
+            color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;
+            display: flex; align-items: center; gap: 5px; z-index: 10;
         }
-        .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: blink 1s infinite; }
+        .dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: blink 1s infinite; }
 
         /* --- 7. البار العائم --- */
         .dock-wrapper {
@@ -171,8 +152,7 @@
         .contact-badge {
             background: #22c55e; color: white; padding: 5px 15px; border-radius: 20px;
             font-weight: bold; font-size: 0.85rem; margin-bottom: 10px;
-            box-shadow: 0 5px 15px rgba(34,197,94,0.4); position: relative;
-            animation: bounce 2s infinite; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(34,197,94,0.4); animation: bounce 2s infinite;
         }
         .contact-badge::after {
             content:''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
@@ -184,6 +164,8 @@
             padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.4);
         }
+        body.light-mode .dock-bar { background: rgba(255, 255, 255, 0.95); border-color: rgba(0,0,0,0.1); }
+
         .action-btn {
             width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
             color: white; font-size: 1.4rem; transition: 0.2s; cursor: pointer;
@@ -200,9 +182,9 @@
             z-index: 2000; justify-content: center; align-items: center;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes blink { 50% { opacity: 0; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
     </style>
 </head>
@@ -212,13 +194,17 @@
 
     <div class="top-nav">
         <div class="flex gap-2">
-            <button class="nav-btn" onclick="toggleTheme()"><i class="fa-regular fa-sun"></i></button>
-            <button class="nav-btn text-xs font-bold" onclick="toggleLang()" id="lang-btn">EN</button>
+            <button class="nav-btn" onclick="toggleTheme()" id="theme-btn">
+                <i class="fa-regular fa-sun"></i>
+            </button>
+            <button class="nav-btn text-xs font-bold" onclick="toggleLang()" id="lang-btn">
+                EN
+            </button>
         </div>
         
         <div class="brand-corner-wrapper">
-            <div class="pulse-ring"></div>
-            <div class="pulse-ring"></div>
+            <div class="soft-ring"></div>
+            <div class="soft-ring"></div>
             <div class="brand-corner">
                 <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo">
             </div>
@@ -244,13 +230,8 @@
     <div id="steps-list" class="steps-container"></div>
 
     <div class="gallery-box">
-        <div class="gallery-glow-wrapper">
-            <div class="gallery-frame" id="gallery-container">
-                <div class="decor-corner top-left"></div>
-                <div class="decor-corner bottom-right"></div>
-                
-                <div class="gallery-label"><span class="live-dot"></span> نماذج الأعمال</div>
-                </div>
+        <div class="gallery-frame" id="gallery-container">
+            <div class="gallery-label"><div class="dot"></div> نماذج الأعمال</div>
         </div>
     </div>
 
@@ -272,16 +253,10 @@
     </div>
 
     <script>
-        // --- حماية المحتوى (Anti-Copy Script) ---
-        document.addEventListener('contextmenu', event => event.preventDefault()); // منع الزر الأيمن
-        document.addEventListener('keydown', function(e) {
-            // منع اختصارات النسخ واللصق وعرض المصدر
-            if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'c' || e.key === 'p')) {
-                e.preventDefault();
-            }
-        });
+        // --- حماية المحتوى ---
+        document.addEventListener('contextmenu', e => e.preventDefault());
 
-        // --- 1. بيانات المحتوى ---
+        // --- 1. البيانات ---
         const content = {
             ar: {
                 title: "مكتب بدر الحقيل", subtitle: "للعقارات والهندسة", guide: "دليل خطوات تصحيح وضع المباني القائمة",
@@ -325,7 +300,7 @@
         let lang = 'ar';
         let currentType = 'res';
 
-        // --- 3. تهيئة السلايدر (4 ثواني كما طلبت) ---
+        // --- 3. تهيئة السلايدر ---
         function initGallery() {
             const container = document.getElementById('gallery-container');
             galleryImages.forEach((src, index) => {
@@ -338,9 +313,11 @@
             let currentIdx = 0;
             const images = document.getElementsByClassName('slide-image');
             setInterval(() => {
-                images[currentIdx].classList.remove('active');
-                currentIdx = (currentIdx + 1) % images.length;
-                images[currentIdx].classList.add('active');
+                if(images.length > 0) {
+                    images[currentIdx].classList.remove('active');
+                    currentIdx = (currentIdx + 1) % images.length;
+                    images[currentIdx].classList.add('active');
+                }
             }, 4000); 
         }
 
@@ -367,7 +344,7 @@
             });
         }
 
-        // --- 5. الوظائف ---
+        // --- 5. الوظائف (تم إصلاحها) ---
         function setPath(type) {
             currentType = type;
             document.getElementById('btn-res').className = `tab-btn res ${type==='res'?'active':''}`;
@@ -380,16 +357,37 @@
             document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             document.getElementById('lang-btn').innerText = lang === 'ar' ? 'EN' : 'عربي';
             const d = content[lang];
+            // تحديث كل النصوص في الصفحة
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if(d[key]) el.innerText = d[key];
             });
+            // إعادة رسم الخطوات باللغة الجديدة
             renderContent(currentType);
         }
 
-        function toggleTheme() { document.body.classList.toggle('light-mode'); }
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const icon = document.querySelector('#theme-btn i');
+            icon.className = document.body.classList.contains('light-mode') ? 'fa-solid fa-moon' : 'fa-regular fa-sun';
+        }
+
         function openMap(e) { e.preventDefault(); window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59"; }
 
         let qrDone = false;
         function toggleQR() {
-            const modal = document.getEle
+            const modal = document.getElementById('qr-modal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+            if(!qrDone && modal.style.display === 'flex') {
+                new QRCode(document.getElementById("qrcode"), { text: window.location.href, width: 150, height: 150 });
+                qrDone = true;
+            }
+        }
+
+        // تشغيل مباشر
+        initGallery();
+        renderContent('res');
+
+    </script>
+</body>
+</html>
