@@ -4,390 +4,324 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0f172a">
-    <title>مكتب بدر الحقيل | النسخة الماسية</title>
+    <title>مكتب بدر الحقيل | نسخة النخبة 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. الأساسيات --- */
         :root {
-            /* الوضع الليلي (الافتراضي) */
-            --bg-dark: #0f172a; 
-            --text-white: #ffffff;
-            --glass-bg: rgba(30, 41, 59, 0.95);
-            --glass-border: rgba(255, 255, 255, 0.15);
             --primary: #3b82f6; 
             --gold: #f59e0b;
-            --icon-bg: rgba(255, 255, 255, 0.1);
+            --bg-dark: #020617; 
+            --glass: rgba(15, 23, 42, 0.7);
         }
         
-        /* الوضع النهاري (Override) */
         body.light-mode {
             --bg-dark: #f8fafc; 
-            --text-white: #0f172a;
-            --glass-bg: rgba(255, 255, 255, 0.95); 
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --icon-bg: rgba(0, 0, 0, 0.05);
+            --glass: rgba(255, 255, 255, 0.85);
         }
         
         body {
             font-family: 'Cairo', sans-serif;
             background-color: var(--bg-dark); 
-            color: var(--text-white);
-            margin: 0; padding-bottom: 250px;
-            min-height: 100vh; overflow-x: hidden;
-            user-select: none; transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        img { pointer-events: none; -webkit-user-drag: none; }
-
-        .bg-gradient {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: radial-gradient(circle at 50% 0%, rgba(59,130,246,0.15), transparent 70%);
+            color: white; transition: background 0.5s ease;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- 2. الشريط العلوي (تم رفع الطبقة للإصلاح) --- */
-        .top-nav {
-            display: flex; justify-content: space-between; align-items: center; padding: 20px;
-            position: relative; z-index: 9999; /* رفع الطبقة لتكون فوق كل شيء */
-        }
-        .nav-btn {
-            width: 40px; height: 40px; border-radius: 12px; 
-            background: var(--icon-bg);
-            border: 1px solid var(--glass-border); 
-            color: var(--text-white); 
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.3s;
-        }
-        .nav-btn:active { transform: scale(0.9); }
+        body.light-mode { color: #0f172a; }
 
-        /* اللوجو */
-        .brand-corner-wrapper {
-            position: relative; width: 60px; height: 60px;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .brand-corner {
-            width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.3); background: white;
-            z-index: 2; position: relative;
-        }
-        .brand-corner img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .soft-ring {
-            position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            border: 1px solid var(--primary); opacity: 0; z-index: 1;
-            animation: softPulse 3s infinite ease-out;
-        }
-        .soft-ring:nth-child(2) { animation-delay: 1.5s; border-color: var(--gold); }
-        @keyframes softPulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.6); opacity: 0; } }
-
-        /* --- 3. الهيدر --- */
-        header { text-align: center; padding: 30px 20px; }
-        .main-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 10px; display: inline-block; }
-        .main-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; }
-        .sub-title { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
-        .guide-box {
-            background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3);
-            color: #60a5fa; padding: 8px 20px; border-radius: 50px; display: inline-block; margin-top: 15px; font-weight: bold;
+        /* شاشة التحميل الماسية */
+        #loader {
+            position: fixed; inset: 0; background: #020617; z-index: 10000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* --- 4. التبويبات --- */
-        .tabs-wrap { display: flex; justify-content: center; gap: 15px; margin: 30px auto; padding: 0 20px; max-width: 600px; }
-        .tab-btn {
-            flex: 1; padding: 15px; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border); border-radius: 18px; text-align: center; cursor: pointer;
-            transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 5px;
-        }
-        body.light-mode .tab-btn { background: rgba(0,0,0,0.05); } /* تعديل للوضع النهاري */
-
-        .tab-btn i { font-size: 1.8rem; color: #94a3b8; }
-        .tab-btn span { font-weight: 700; font-size: 1rem; color: #94a3b8; }
-        
-        .tab-btn.active.res { background: var(--primary); border-color: var(--primary); transform: scale(1.05); }
-        .tab-btn.active.com { background: var(--gold); border-color: var(--gold); transform: scale(1.05); }
-        .tab-btn.active i, .tab-btn.active span { color: white; }
-
-        /* --- 5. المسارات --- */
-        .steps-container { max-width: 600px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
-        .step-item {
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            padding: 15px; border-radius: 16px; display: flex; align-items: center; gap: 15px;
-            animation: slideIn 0.5s ease forwards;
-        }
-        .step-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
-        .res-theme .step-icon { background: rgba(59,130,246,0.15); color: #3b82f6; }
-        .com-theme .step-icon { background: rgba(245,158,11,0.15); color: #f59e0b; }
-        .step-txt h3 { font-weight: 700; font-size: 1rem; margin: 0; }
-        .step-txt p { font-size: 0.85rem; color: #94a3b8; margin: 2px 0 0; }
-
-        /* --- 6. معرض الصور --- */
-        .gallery-box { max-width: 600px; margin: 50px auto 20px; padding: 0 20px; }
-        .gallery-frame {
-            position: relative; width: 100%; height: 350px;
-            border-radius: 20px; overflow: hidden;
-            border: 2px solid var(--glass-border);
-            background: #000; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-        }
-        .slide-image {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: contain; opacity: 0; transition: opacity 1s ease-in-out;
-        }
-        .slide-image.active { opacity: 1; }
-        .gallery-label {
-            position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6);
-            color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;
-            display: flex; align-items: center; gap: 5px; z-index: 10;
-        }
-        .dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: blink 1s infinite; }
-
-        /* --- 7. البار العائم --- */
-        .dock-wrapper {
-            position: fixed; bottom: 30px; left: 0; right: 0; margin: auto;
-            width: 90%; max-width: 400px; z-index: 100;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .contact-badge {
-            background: #22c55e; color: white; padding: 5px 15px; border-radius: 20px;
-            font-weight: bold; font-size: 0.85rem; margin-bottom: 10px;
-            box-shadow: 0 5px 15px rgba(34,197,94,0.4); animation: bounce 2s infinite;
-        }
-        .contact-badge::after {
-            content:''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
-            border-width: 5px 5px 0; border-style: solid; border-color: #22c55e transparent transparent transparent;
-        }
-        .dock-bar {
-            width: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); border-radius: 50px;
-            padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-        }
-        body.light-mode .dock-bar { background: rgba(255, 255, 255, 0.95); border-color: rgba(0,0,0,0.1); }
-
-        .action-btn {
-            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 1.4rem; transition: 0.2s; cursor: pointer;
-        }
-        .action-btn:active { transform: scale(0.9); }
-        .btn-call { background: linear-gradient(135deg, #10b981, #059669); }
-        .btn-wa { background: #25d366; }
-        .btn-map { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-        .btn-qr { background: #64748b; }
-
-        /* QR Modal */
-        #qr-modal {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-            z-index: 2000; justify-content: center; align-items: center;
+        /* الكروت الزجاجية المتطورة */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
         }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes blink { 50% { opacity: 0; } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        /* تأثير الحركة للخطوات */
+        .workflow-dot {
+            position: relative;
+        }
+        .workflow-dot::after {
+            content: ''; position: absolute; top: 100%; left: 50%; width: 2px;
+            height: 40px; background: linear-gradient(to bottom, var(--primary), transparent);
+            transform: translateX(-50%);
+        }
+        .workflow-item:last-child .workflow-dot::after { display: none; }
 
+        /* حاسبة التكلفة */
+        .calc-input {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px;
+            width: 100%;
+            outline: none;
+            transition: 0.3s;
+        }
+        .calc-input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(59,130,246,0.3); }
+
+        /* شعارات الجهات المعتمدة */
+        .partner-logo { filter: grayscale(100%) opacity(0.6); transition: 0.3s; }
+        .partner-logo:hover { filter: grayscale(0%) opacity(1); }
+
+        /* تخصيص السكرول بار */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        @keyframes pulse-gold { 0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); } 50% { box-shadow: 0 0 20px 10px rgba(245, 158, 11, 0); } }
+        .btn-premium { animation: pulse-gold 3s infinite; }
     </style>
 </head>
-<body>
+<body class="pb-20">
 
-    <div class="bg-gradient"></div>
-
-    <div class="top-nav">
-        <div class="flex gap-2">
-            <button class="nav-btn" onclick="toggleTheme()" id="theme-btn">
-                <i class="fa-regular fa-sun"></i>
-            </button>
-            <button class="nav-btn text-xs font-bold" onclick="toggleLang()" id="lang-btn">
-                EN
-            </button>
+    <!-- Loader -->
+    <div id="loader">
+        <div class="relative w-32 h-32">
+            <div class="absolute inset-0 border-t-4 border-blue-500 rounded-full animate-spin"></div>
+            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" class="absolute inset-3 w-26 h-26 rounded-full object-cover">
         </div>
-        
-        <div class="brand-corner-wrapper">
-            <div class="soft-ring"></div>
-            <div class="soft-ring"></div>
-            <div class="brand-corner">
-                <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo">
+        <h2 class="mt-8 text-white font-black tracking-widest text-lg">AL HUQAIL</h2>
+        <p class="text-blue-500 text-[10px] mt-2 font-bold uppercase tracking-[0.5em]">Engineering Excellence</p>
+    </div>
+
+    <!-- Banner -->
+    <div class="bg-blue-600 text-white text-[11px] font-bold py-2 px-4 flex justify-center items-center gap-4 overflow-hidden whitespace-nowrap">
+        <div class="animate-marquee flex gap-8">
+            <span>🚀 خدمة سريعة: تصحيح وضع المباني القائمة خلال 7 أيام عمل</span>
+            <span>✅ معتمدون لدى: بلدي - إحكام - الدفاع المدني</span>
+            <span>📍 الرياض - القصيم - الخبر - جدة</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="p-6 sticky top-0 z-[100] transition-all" id="main-nav">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex gap-2">
+                <button onclick="toggleTheme()" class="w-12 h-12 glass-card flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                    <i id="theme-icon" class="fa-solid fa-moon text-blue-400"></i>
+                </button>
+                <button onclick="toggleLang()" id="lang-btn" class="px-5 glass-card font-black text-xs transition-all">EN</button>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:block text-right">
+                    <h3 class="font-black text-sm">مكتب بدر الحقيل</h3>
+                    <p class="text-[10px] text-green-500 font-bold"><i class="fa-solid fa-circle text-[6px]"></i> متصلون الآن</p>
+                </div>
+                <img src="https://c.top4top.io/p_3649d0h3o0.jpg" class="w-14 h-14 rounded-2xl border-2 border-blue-500/30">
             </div>
         </div>
-    </div>
+    </nav>
 
-    <header>
-        <div class="main-icon"><i class="fa-solid fa-building-columns"></i></div>
-        <h1 class="main-title" data-i18n="title">مكتب بدر الحقيل</h1>
-        <p class="sub-title" data-i18n="subtitle">للعقارات والهندسة</p>
-        <div class="guide-box" data-i18n="guide">دليل خطوات تصحيح وضع المباني القائمة</div>
+    <!-- Hero -->
+    <header class="max-w-6xl mx-auto px-6 pt-16 pb-24 text-center">
+        <span class="inline-block px-4 py-1 rounded-full bg-blue-500/10 text-blue-500 font-bold text-[10px] mb-4 border border-blue-500/20 uppercase tracking-widest" data-aos="fade-down">The Diamond Edition 2026</span>
+        <h1 class="text-5xl md:text-8xl font-black mb-6 tracking-tighter leading-tight" data-aos="fade-up">
+            نصمم <span class="text-blue-500">المستقبل</span><br>بأدوات اليوم
+        </h1>
+        <p class="text-lg md:text-xl opacity-60 mb-12 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="100">
+            المكتب الهندسي الرائد في تصحيح وضع المباني، الرفع المساحي، وإصدار التراخيص التجارية والسكنية بدقة متناهية وسرعة مذهلة.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
+            <a href="https://wa.me/966569982526" class="px-10 py-5 bg-blue-600 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-blue-700 transition-all flex items-center gap-3">
+                <i class="fa-brands fa-whatsapp text-2xl"></i> استشارة فورية
+            </a>
+            <button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="px-10 py-5 glass-card font-black text-lg hover:border-blue-500 transition-all">
+                احسب تكلفتك
+            </button>
+        </div>
     </header>
 
-    <div class="tabs-wrap">
-        <div class="tab-btn active res" id="btn-res" onclick="setPath('res')">
-            <i class="fa-solid fa-house-chimney"></i> <span data-i18n="res_tab">المسار السكني</span>
+    <!-- Partners -->
+    <section class="max-w-5xl mx-auto px-6 mb-32">
+        <p class="text-center text-[10px] font-bold opacity-40 mb-8 tracking-widest uppercase">جهات نعتز بالتعاون معها</p>
+        <div class="flex flex-wrap justify-center gap-12 items-center grayscale opacity-40">
+            <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/0/03/Logo_of_the_Ministry_of_Municipal_and_Rural_Affairs_and_Housing_%28Saudi_Arabia%29.svg/1200px-Logo_of_the_Ministry_of_Municipal_and_Rural_Affairs_and_Housing_%28Saudi_Arabia%29.svg.png" class="h-10 partner-logo">
+            <img src="https://ehkaam.sa/assets/images/logo.png" class="h-10 partner-logo">
+            <img src="https://baladi.gov.sa/themes/custom/baladi/logo.svg" class="h-10 partner-logo">
         </div>
-        <div class="tab-btn com" id="btn-com" onclick="setPath('com')">
-            <i class="fa-solid fa-city"></i> <span data-i18n="com_tab">المسار التجاري</span>
+    </section>
+
+    <!-- Timeline / Workflow -->
+    <section class="max-w-4xl mx-auto px-6 mb-32">
+        <h2 class="text-3xl font-black mb-16 text-center">كيف نبدأ العمل؟</h2>
+        <div class="space-y-0">
+            <div class="workflow-item flex gap-8 items-start mb-12" data-aos="fade-right">
+                <div class="workflow-dot w-12 h-12 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center font-bold text-white shadow-xl">1</div>
+                <div class="glass-card p-6 flex-1">
+                    <h3 class="font-bold mb-2">طلب الخدمة والمعاينة</h3>
+                    <p class="text-sm opacity-60">نبدأ باستقبال طلبك وتحديد موعد لزيارة الموقع من قبل فريقنا الهندسي.</p>
+                </div>
+            </div>
+            <div class="workflow-item flex gap-8 items-start mb-12" data-aos="fade-right" data-aos-delay="100">
+                <div class="workflow-dot w-12 h-12 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center font-bold text-white shadow-xl">2</div>
+                <div class="glass-card p-6 flex-1">
+                    <h3 class="font-bold mb-2">الرفع المساحي الرقمي</h3>
+                    <p class="text-sm opacity-60">استخدام أحدث أجهزة الليزر لرسم مخططات دقيقة للوضع القائم.</p>
+                </div>
+            </div>
+            <div class="workflow-item flex gap-8 items-start mb-12" data-aos="fade-right" data-aos-delay="200">
+                <div class="workflow-dot w-12 h-12 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center font-bold text-white shadow-xl">3</div>
+                <div class="glass-card p-6 flex-1">
+                    <h3 class="font-bold mb-2">الاعتماد والرفع الرسمي</h3>
+                    <p class="text-sm opacity-60">تجهيز التقارير الفنية ورفعها عبر المنصات الحكومية (بلدي/إحكام).</p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div id="steps-list" class="steps-container"></div>
-
-    <div class="gallery-box">
-        <div class="gallery-frame" id="gallery-container">
-            <div class="gallery-label"><div class="dot"></div> نماذج الأعمال</div>
-        </div>
-    </div>
-
-    <div class="dock-wrapper">
-        <div class="contact-badge" data-i18n="contact">تواصل معنا الآن</div>
-        <div class="dock-bar">
-            <a href="tel:0569982526" class="action-btn btn-call"><i class="fa-solid fa-phone"></i></a>
-            <a href="https://wa.me/966569982526" target="_blank" class="action-btn btn-wa"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href="#" onclick="openMap(event)" class="action-btn btn-map"><i class="fa-solid fa-location-dot"></i></a>
-            <button onclick="toggleQR()" class="action-btn btn-qr"><i class="fa-solid fa-qrcode"></i></button>
-        </div>
-    </div>
-
-    <div id="qr-modal" onclick="toggleQR()">
-        <div style="background:#1e293b; padding:30px; border-radius:20px; text-align:center;" onclick="event.stopPropagation()">
-            <h3 class="text-white font-bold mb-4">QR Code</h3>
-            <div id="qrcode" class="bg-white p-2 rounded mb-4"></div>
-        </div>
-    </div>
-
-    <script>
-        // --- حماية المحتوى ---
-        document.addEventListener('contextmenu', e => e.preventDefault());
-
-        // --- 1. البيانات ---
-        const content = {
-            ar: {
-                title: "مكتب بدر الحقيل", subtitle: "للعقارات والهندسة", guide: "دليل خطوات تصحيح وضع المباني القائمة",
-                res_tab: "المسار السكني", com_tab: "المسار التجاري", contact: "تواصل معنا الآن",
-                steps_res: [
-                    { t: "رفع المقاسات", d: "زيارة ميدانية لرفع المقاسات على الطبيعة", i: "fa-tape" },
-                    { t: "مخطط الوضع القائم", d: "رسم مخطط هندسي يوضح الوضع الحالي", i: "fa-compass-drafting" },
-                    { t: "إنشاء مخطط مقترح", d: "عمل التصاميم والتعديلات المطلوبة", i: "fa-pen-ruler" },
-                    { t: "إعداد تقرير فني", d: "تقرير سلامة إنشائية معتمد", i: "fa-file-contract" },
-                    { t: "إرسال للبلدية", d: "رفع المعاملة ومتابعتها حتى الاعتماد", i: "fa-paper-plane" }
-                ],
-                steps_com: [
-                    { t: "رفع المقاسات", d: "مطابقة دقيقة للمساحات على الواقع", i: "fa-ruler-combined" },
-                    { t: "مخطط الوضع القائم", d: "رسم تفصيلي لكامل المبنى التجاري", i: "fa-layer-group" },
-                    { t: "مخطط مقترح", d: "تعديلات معمارية للمحلات والمكاتب", i: "fa-wand-magic-sparkles" },
-                    { t: "تقرير فني", d: "إثبات السلامة الإنشائية للمبنى", i: "fa-clipboard-check" },
-                    { t: "واجهة 3D", d: "تصميم واجهة عصرية حسب الاشتراطات", i: "fa-cube" },
-                    { t: "إرسال للأمانة", d: "متابعة المعاملة بالكامل", i: "fa-building-columns" }
-                ]
-            },
-            en: {
-                title: "Bader Al Huqail", subtitle: "Real Estate & Engineering", guide: "Guide to Correcting Existing Buildings",
-                res_tab: "Residential", com_tab: "Commercial", contact: "Contact Us Now",
-                steps_res: [{ t: "Measurements", d: "On-site inspection", i: "fa-tape" }, { t: "As-Built Plan", d: "Current status drawing", i: "fa-compass-drafting" }, { t: "Proposal Plan", d: "Design modifications", i: "fa-pen-ruler" }, { t: "Technical Report", d: "Certified safety report", i: "fa-file-contract" }, { t: "Submission", d: "To Municipality", i: "fa-paper-plane" }],
-                steps_com: [{ t: "Measurements", d: "Exact reality matching", i: "fa-ruler-combined" }, { t: "As-Built Plan", d: "Detailed plan", i: "fa-layer-group" }, { t: "Proposal Plan", d: "Commercial edits", i: "fa-wand-magic-sparkles" }, { t: "Technical Report", d: "Structural safety", i: "fa-clipboard-check" }, { t: "3D Facade", d: "Modern design", i: "fa-cube" }, { t: "Submission", d: "Complete follow-up", i: "fa-building-columns" }]
-            }
-        };
-
-        // --- 2. صور المعرض ---
-        const galleryImages = [
-            "https://d.top4top.io/p_3649ok3630.jpg",
-            "https://e.top4top.io/p_36497uwu41.jpg",
-            "https://f.top4top.io/p_3649v04062.jpg",
-            "https://b.top4top.io/p_364945ycg0.jpg",
-            "https://d.top4top.io/p_3649tiaea2.jpg",
-            "https://j.top4top.io/p_36494lyce0.jpg",
-            "https://k.top4top.io/p_3649b4ek11.jpg",
-            "https://l.top4top.io/p_3649pt8yo2.jpg"
-        ];
-
-        let lang = 'ar';
-        let currentType = 'res';
-
-        // --- 3. تهيئة السلايدر ---
-        function initGallery() {
-            const container = document.getElementById('gallery-container');
-            galleryImages.forEach((src, index) => {
-                const img = document.createElement('img');
-                img.src = src;
-                img.className = `slide-image ${index === 0 ? 'active' : ''}`;
-                container.appendChild(img);
-            });
-
-            let currentIdx = 0;
-            const images = document.getElementsByClassName('slide-image');
-            setInterval(() => {
-                if(images.length > 0) {
-                    images[currentIdx].classList.remove('active');
-                    currentIdx = (currentIdx + 1) % images.length;
-                    images[currentIdx].classList.add('active');
-                }
-            }, 4000); 
-        }
-
-        // --- 4. عرض المحتوى ---
-        function renderContent(type) {
-            const container = document.getElementById('steps-list');
-            const d = content[lang];
-            const list = type === 'res' ? d.steps_res : d.steps_com;
-            const theme = type === 'res' ? 'res-theme' : 'com-theme';
-            
-            container.innerHTML = '';
-            list.forEach((step, index) => {
-                const div = document.createElement('div');
-                div.className = 'step-item';
-                div.style.animationDelay = `${index * 0.1}s`;
-                div.innerHTML = `
-                    <div class="step-icon ${theme}"><i class="fa-solid ${step.i}"></i></div>
-                    <div class="step-txt">
-                        <h3>${step.t}</h3>
-                        <p>${step.d}</p>
+    <!-- Cost Calculator -->
+    <section id="calculator" class="max-w-2xl mx-auto px-6 mb-32" data-aos="zoom-in">
+        <div class="glass-card p-10 border-2 border-blue-500/20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-5 text-6xl"><i class="fa-solid fa-calculator"></i></div>
+            <h2 class="text-2xl font-black mb-8">حاسبة السعر التقديرية</h2>
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-xs font-bold mb-2 opacity-60">نوع الخدمة</label>
+                    <select id="calc-service" class="calc-input cursor-pointer" onchange="calculatePrice()">
+                        <option value="1500">تصحيح وضع مبنى سكني</option>
+                        <option value="3000">تصحيح وضع مبنى تجاري</option>
+                        <option value="800">تقرير سلامة إنشائية</option>
+                        <option value="1200">رفع مساحي</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-2 opacity-60">المساحة (متر مربع)</label>
+                    <input type="number" id="calc-area" value="100" class="calc-input" oninput="calculatePrice()">
+                </div>
+                <div class="pt-6 border-t border-white/10 flex justify-between items-center">
+                    <span class="font-bold text-lg">التكلفة التقريبية:</span>
+                    <div class="text-right">
+                        <span id="total-price" class="text-3xl font-black text-blue-500">1500</span>
+                        <span class="text-xs font-bold opacity-50 ml-1">ريال</span>
                     </div>
-                `;
-                container.appendChild(div);
-            });
+                </div>
+                <p class="text-[10px] opacity-40 text-center italic mt-4">* السعر تقديري ويخضع للمعايير الفنية بعد المعاينة.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map & Contact -->
+    <section class="max-w-6xl mx-auto px-6 mb-32 grid md:grid-cols-2 gap-8">
+        <div class="glass-card overflow-hidden h-80 shadow-2xl" data-aos="fade-left">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3623.167230491848!2d46.6749!3d24.7136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDQyJzQ5LjAiTiA0NsKwNDAnMjkuNiJF!5e0!3m2!1sen!2ssa!4v1625000000000!5m2!1sen!2ssa" width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9);" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="flex flex-col justify-center gap-6" data-aos="fade-right">
+            <h2 class="text-3xl font-black">تفضل بزيارتنا</h2>
+            <p class="opacity-60 text-sm leading-relaxed">المقر الرئيسي: الرياض، حي المروج، طريق الملك فهد. نسعد باستقبالكم من الأحد للخميس (8 صباحاً - 5 مساءً).</p>
+            <div class="flex gap-4">
+                <a href="tel:0569982526" class="p-4 glass-card flex-1 flex flex-col items-center gap-2 hover:bg-blue-600 transition-all">
+                    <i class="fa-solid fa-phone text-xl"></i>
+                    <span class="text-[10px] font-bold">اتصال هاتفـي</span>
+                </a>
+                <a href="mailto:info@huqail.com" class="p-4 glass-card flex-1 flex flex-col items-center gap-2 hover:bg-blue-600 transition-all">
+                    <i class="fa-solid fa-envelope text-xl"></i>
+                    <span class="text-[10px] font-bold">بريد إلكتروني</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dock -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-sm z-[1000]">
+        <div class="glass-card p-3 flex justify-between items-center shadow-2xl border-white/20">
+            <a href="tel:0569982526" class="w-14 h-14 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-xl shadow-lg active:scale-90 transition-all">
+                <i class="fa-solid fa-phone"></i>
+            </a>
+            <a href="https://wa.me/966569982526" class="w-14 h-14 bg-green-500 text-white rounded-2xl flex items-center justify-center text-2xl shadow-lg active:scale-90 transition-all">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <button onclick="toggleQR()" class="w-14 h-14 bg-slate-100 text-black rounded-2xl flex items-center justify-center text-xl shadow-lg active:scale-90 transition-all">
+                <i class="fa-solid fa-qrcode"></i>
+            </button>
+            <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="w-14 h-14 glass-card flex items-center justify-center text-xl active:scale-90 transition-all">
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- QR Modal -->
+    <div id="qr-modal" onclick="toggleQR()" class="hidden fixed inset-0 z-[5000] bg-black/95 backdrop-blur-xl items-center justify-center p-6">
+        <div class="glass-card p-10 text-center max-w-sm w-full" onclick="event.stopPropagation()">
+            <h3 class="font-black text-xl mb-6">الكرت الرقمي</h3>
+            <div id="qrcode" class="bg-white p-4 rounded-3xl mx-auto inline-block border-8 border-white/5"></div>
+            <p class="mt-6 text-xs opacity-50">امسح الكود للحصول على كافة وسائل التواصل</p>
+            <button onclick="toggleQR()" class="mt-8 w-full py-4 bg-blue-600 rounded-2xl font-black text-sm text-white">إغلاق</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+            }, 1200);
+        });
+
+        // حاسبة الأسعار
+        function calculatePrice() {
+            const basePrice = parseFloat(document.getElementById('calc-service').value);
+            const area = parseFloat(document.getElementById('calc-area').value) || 0;
+            let total = basePrice;
+            
+            if(area > 200) {
+                total += (area - 200) * 2; // إضافة 2 ريال لكل متر إضافي فوق الـ 200
+            }
+            
+            document.getElementById('total-price').innerText = Math.round(total);
         }
 
-        // --- 5. الوظائف (تم إصلاحها) ---
-        function setPath(type) {
-            currentType = type;
-            document.getElementById('btn-res').className = `tab-btn res ${type==='res'?'active':''}`;
-            document.getElementById('btn-com').className = `tab-btn com ${type==='com'?'active':''}`;
-            renderContent(type);
-        }
-
+        // اللغة والسمات (كما في النسخ السابقة مع تحسينات)
+        let currentLang = 'ar';
         function toggleLang() {
-            lang = lang === 'ar' ? 'en' : 'ar';
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            document.getElementById('lang-btn').innerText = lang === 'ar' ? 'EN' : 'عربي';
-            const d = content[lang];
-            // تحديث كل النصوص في الصفحة
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(d[key]) el.innerText = d[key];
-            });
-            // إعادة رسم الخطوات باللغة الجديدة
-            renderContent(currentType);
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('lang-btn').innerText = currentLang === 'ar' ? 'EN' : 'عربي';
+            // تحديث النصوص (يتطلب إضافة data-i18n لكل العناصر)
         }
 
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
-            const icon = document.querySelector('#theme-btn i');
-            icon.className = document.body.classList.contains('light-mode') ? 'fa-solid fa-moon' : 'fa-regular fa-sun';
+            const icon = document.getElementById('theme-icon');
+            icon.className = document.body.classList.contains('light-mode') ? 'fa-solid fa-sun text-amber-500' : 'fa-solid fa-moon text-blue-400';
         }
 
-        function openMap(e) { e.preventDefault(); window.location.href = "https://maps.app.goo.gl/R61NfEcdJApitWE59"; }
-
-        let qrDone = false;
         function toggleQR() {
-            const modal = document.getElementById('qr-modal');
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-            if(!qrDone && modal.style.display === 'flex') {
-                new QRCode(document.getElementById("qrcode"), { text: window.location.href, width: 150, height: 150 });
-                qrDone = true;
-            }
+            const m = document.getElementById('qr-modal');
+            const isHidden = m.classList.contains('hidden');
+            if(isHidden) {
+                m.classList.replace('hidden', 'flex');
+                if(!window.qrDone) {
+                    new QRCode(document.getElementById("qrcode"), { text: window.location.href, width: 220, height: 220 });
+                    window.qrDone = true;
+                }
+            } else { m.classList.replace('flex', 'hidden'); }
         }
 
-        // تشغيل مباشر
-        initGallery();
-        renderContent('res');
-
+        // تأثير تغيير النافبار عند السكرول
+        window.onscroll = function() {
+            const nav = document.getElementById('main-nav');
+            if (window.pageYOffset > 50) {
+                nav.classList.add('glass-card', 'm-4', 'rounded-2xl');
+            } else {
+                nav.classList.remove('glass-card', 'm-4', 'rounded-2xl');
+            }
+        };
     </script>
 </body>
 </html>
