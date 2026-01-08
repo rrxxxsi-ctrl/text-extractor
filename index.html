@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مكتب بدر الحقيل | للاستشارات الهندسية</title>
+    <title>مكتب بدر الحقيل للعقارات | للاستشارات الهندسية</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -13,6 +13,7 @@
         :root {
             --bg-black: #000000;
             --accent-blue: #3b82f6;
+            --soft-blue: #93c5fd;
         }
 
         body {
@@ -25,7 +26,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* خلفية الشبكة الهندسية */
         .bg-pattern {
             position: fixed; inset: 0; z-index: -1;
             background-image: linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
@@ -33,7 +33,6 @@
             background-size: 40px 40px;
         }
 
-        /* إزالة بياض اللوجو برمجياً */
         .logo-filter {
             filter: url(#white-remover) contrast(1.2);
             mix-blend-mode: screen;
@@ -41,25 +40,23 @@
         }
 
         .header-area {
-            padding: 60px 0 20px;
+            padding: 40px 0 25px;
             display: flex; flex-direction: column; align-items: center;
             position: relative;
         }
 
-        /* هالة خلف اللوجو */
         .logo-glow {
-            position: absolute; width: 150px; height: 150px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
-            top: 60px; z-index: 1; filter: blur(20px);
+            position: absolute; width: 160px; height: 160px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+            top: 35px; z-index: 1; filter: blur(25px);
         }
 
         .logo-box {
-            width: 160px; height: 160px; z-index: 10;
+            width: 130px; height: 130px; z-index: 10;
             display: flex; align-items: center; justify-content: center;
             position: relative;
         }
 
-        /* خط الليزر المتحرك */
         .laser {
             position: absolute; width: 100%; height: 1px;
             background: var(--accent-blue); box-shadow: 0 0 10px var(--accent-blue);
@@ -72,53 +69,90 @@
             100% { top: 90%; opacity: 0; }
         }
 
-        .brand-name { font-size: 2.5rem; font-weight: 900; margin-top: 15px; }
-        .brand-sub { color: var(--accent-blue); font-size: 0.7rem; letter-spacing: 5px; font-weight: 800; }
+        /* تحسين الاسم الطويل */
+        .brand-container {
+            text-align: center;
+            margin-top: 15px;
+            z-index: 20;
+            padding: 0 10px;
+        }
 
-        /* الأزرار */
+        .brand-name {
+            /* تصغير ذكي للخط ليناسب الاسم الطويل */
+            font-size: clamp(1.4rem, 6vw, 2.1rem); 
+            font-weight: 900;
+            line-height: 1.3;
+            background: linear-gradient(to bottom, #ffffff 50%, var(--soft-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 10px rgba(59, 130, 246, 0.3));
+            white-space: nowrap; /* بقاء الاسم على سطر واحد */
+        }
+
+        .brand-sub-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .sub-line {
+            height: 1px;
+            width: 20px;
+            background: linear-gradient(to left, var(--accent-blue), transparent);
+        }
+        .sub-line.rev { background: linear-gradient(to right, var(--accent-blue), transparent); }
+
+        .brand-sub {
+            color: var(--accent-blue);
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        /* التبويبات والبطاقات */
         .nav-tabs {
-            display: flex; gap: 8px; margin: 30px 20px;
+            display: flex; gap: 8px; margin: 20px 20px 30px;
             background: rgba(255,255,255,0.05); padding: 5px; border-radius: 20px;
         }
         .tab-btn {
             flex: 1; padding: 12px; border-radius: 16px; font-weight: 800;
-            color: #475569; transition: 0.3s; font-size: 0.9rem;
+            color: #475569; transition: 0.3s; font-size: 0.85rem;
         }
         .tab-btn.active {
             background: var(--accent-blue); color: #fff;
             box-shadow: 0 5px 15px rgba(59,130,246,0.4);
         }
 
-        /* البطاقات */
         .step-card {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.05);
-            margin: 0 20px 12px; padding: 20px; border-radius: 24px;
-            display: flex; align-items: center; gap: 15px;
+            margin: 0 20px 12px; padding: 18px; border-radius: 22px;
+            display: flex; align-items: flex-start; gap: 14px;
             animation: fadeIn 0.5s ease-out forwards;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .step-num {
-            width: 40px; height: 40px; background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            font-weight: 900; flex-shrink: 0; box-shadow: 0 4px 10px rgba(59,130,246,0.3);
+            width: 32px; height: 32px; background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 9px; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; flex-shrink: 0; font-size: 0.75rem;
         }
 
-        /* شريط التواصل السفلي */
         .dock {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 400px; background: rgba(15,15,15,0.95);
             backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1);
             border-radius: 25px; padding: 12px; display: flex; justify-content: space-around; z-index: 1000;
         }
-        .dock-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #475569; font-size: 0.7rem; font-weight: 700; }
+        .dock-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #475569; font-size: 0.7rem; font-weight: 700; text-decoration: none; }
         .dock-item.active { color: #fff; }
     </style>
 </head>
 <body>
 
-    <!-- فلتر إزالة البياض من اللوجو -->
     <svg width="0" height="0" style="position: absolute;">
       <filter id="white-remover">
         <feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 -1.5 -1.5 -1.5 4.5 0" />
@@ -131,11 +165,18 @@
         <div class="logo-glow"></div>
         <div class="logo-box">
             <div class="laser"></div>
-            <!-- اللوجو الجديد -->
-            <img src="https://d.top4top.io/p_3660ar88q0.jpg" class="logo-filter" alt="Logo">
+            <img src="https://d.top4top.io/p_3660ar88q0.jpg" class="logo-filter" alt="مكتب بدر الحقيل">
         </div>
-        <h1 class="brand-name">بدر الحقيل</h1>
-        <p class="brand-sub text-center">للعقارات والهندسة</p>
+        
+        <div class="brand-container">
+            <!-- الاسم المحدث للعقارات -->
+            <h1 class="brand-name">مكتب بدر الحقيل للعقارات</h1>
+            <div class="brand-sub-wrapper">
+                <div class="sub-line"></div>
+                <p class="brand-sub">استشارات هندسية معتمدة</p>
+                <div class="sub-line rev"></div>
+            </div>
+        </div>
     </header>
 
     <main class="max-w-xl mx-auto pb-40">
@@ -144,8 +185,16 @@
             <button onclick="renderContent('com')" id="com-btn" class="tab-btn">المسار التجاري</button>
         </div>
 
-        <!-- هذا هو المكان الذي تظهر فيه التفاصيل -->
         <div id="steps-container"></div>
+
+        <div class="mt-8 px-5">
+            <div class="bg-blue-600/10 border border-blue-500/20 rounded-3xl p-6 text-center">
+                <p class="text-gray-400 text-sm mb-4">أنا معك خطوة بخطوة للإشراف على معاملتك الهندسية وضمان قبولها نظاماً</p>
+                <a href="tel:0569982526" class="inline-block bg-blue-600 text-white px-10 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-blue-900/20 active:scale-95 transition-transform">
+                    ابدأ معاملتك الآن
+                </a>
+            </div>
+        </div>
     </main>
 
     <div class="dock">
@@ -164,41 +213,32 @@
     </div>
 
     <script>
-        // البيانات
         const siteData = {
             res: [
-                { t: "رفع المقاسات", d: "زيارة ميدانية لرفع المقاسات على الطبيعة بدقة ليزرية" },
-                { t: "مخطط الوضع القائم", d: "إعداد المخطط المعماري الذي يوضح الوضع الحالي" },
-                { t: "إنشاء مخطط مقترح", d: "عمل التصميم الهندسي والتعديلات المطلوبة نظاماً" },
-                { t: "إعداد تقرير فني", d: "إصدار تقرير سلامة إنشائية معتمد من مهندسين مرخصين" },
-                { t: "إرسال للبلدية", d: "رفع المعاملة ومتابعتها حتى الاعتماد النهائي" }
+                { t: "رفع المقاسات الميداني", d: "أقوم بزيارة موقعك شخصياً وفحصه بدقة عالية باستخدام أجهزة الليزر لضمان مطابقة المخططات للواقع الفعلي وتفادي أي ملاحظات من البلدية." },
+                { t: "مخطط الوضع القائم", d: "أعمل على إعداد رسومات هندسية دقيقة توضح الحالة الراهنة لمبناك، لتكون مستنداً نظامياً معتمداً في جميع الجهات." },
+                { t: "تصميم المخطط المقترح", d: "أقدم لك حلولاً هندسية مبتكرة تخدم احتياجاتك، مع حرصي الشخصي على التزام التصميم بكود البناء السعودي لضمان القبول الفوري." },
+                { t: "التقرير الفني المعتمد", d: "أصدر لك تقارير السلامة الإنشائية تحت إشرافي ومسؤوليتي المهنية، بعد التأكد التام من كفاءة وسلامة هيكل البناء." },
+                { t: "متابعة الاعتماد والترخيص", d: "أتولى بنفسي عملية رفع المعاملة عبر منصة بلدي ومتابعتها مع الموظف المختص حتى صدور الرخصة النهائية وتسليمها لك." }
             ],
             com: [
-                { t: "رفع المقاسات", d: "مطابقة المساحات الفعلية مع التراخيص والأنشطة" },
-                { t: "مخطط الوضع القائم", d: "رسم تفصيلي شامل لكامل المبنى التجاري ومرافقه" },
-                { t: "مخطط مقترح", d: "تعديلات معمارية متوافقة مع اشتراطات الأمانة" },
-                { t: "تقرير فني", d: "إثبات السلامة ومطابقة كود البناء السعودي" },
-                { t: "واجهة 3D", d: "تصميم واجهة عصرية مطابقة للهوية البصرية المطلوبة" },
-                { t: "إرسال للأمانة", d: "متابعة المعاملة بالكامل حتى صدور الرخصة" }
+                { t: "فحص المواقع التجارية", d: "أقوم بمعاينة الموقع التجاري ومطابقة المساحات مع الأنشطة المخصصة واشتراطات الدفاع المدني لضمان سلاسة استخراج التصاريح." },
+                { t: "مخططات الوضع القائم", d: "أوثق تفاصيل منشأتك التجارية بشكل هندسي متكامل يسهل عليك عملية التخطيط والتطوير المستقبلي للنشاط." },
+                { t: "التخطيط الهندسي المقترح", d: "أصمم لك توزيعاً هندسياً يحقق أقصى استفادة من المساحة التجارية بما يخدم نشاطك ويلتزم بكافة الأنظمة واللوائح المعمول بها." },
+                { t: "شهادات السلامة والكود", d: "أشرف على إعداد التقارير الفنية التي تثبت مطابقة منشأتك للمعايير الإنشائية الحديثة، مما يجنبك أي معوقات نظامية." },
+                { t: "تصميم الواجهات 3D", d: "أمنحك تصوراً عصرياً لواجهات نشاطك التجاري يجذب العملاء، مع الالتزام التام بتعليمات الأمانة بخصوص الهوية البصرية." },
+                { t: "إصدار الرخص التجارية", d: "أدير ملفك التقني لدى الأمانة والبلدية وأتابع المعاملة بصفة شخصية لضمان صدور رخصة التشغيل في وقت قياسي." }
             ]
         };
 
-        // دالة عرض التفاصيل
         function renderContent(path) {
             const container = document.getElementById('steps-container');
             const resBtn = document.getElementById('res-btn');
             const comBtn = document.getElementById('com-btn');
 
-            // تغيير حالة الأزرار
-            if(path === 'res') {
-                resBtn.classList.add('active');
-                comBtn.classList.remove('active');
-            } else {
-                comBtn.classList.add('active');
-                resBtn.classList.remove('active');
-            }
+            resBtn.classList.toggle('active', path === 'res');
+            comBtn.classList.toggle('active', path === 'com');
 
-            // رسم التفاصيل
             container.innerHTML = '';
             siteData[path].forEach((item, index) => {
                 const card = document.createElement('div');
@@ -206,24 +246,15 @@
                 card.innerHTML = `
                     <div class="step-num">${index + 1}</div>
                     <div>
-                        <h3 class="text-sm font-bold text-white">${item.t}</h3>
-                        <p class="text-[11px] text-gray-500 font-medium mt-1 leading-relaxed">${item.d}</p>
+                        <h3 class="text-sm font-bold text-white mb-1">${item.t}</h3>
+                        <p class="text-[11px] text-gray-400 font-medium leading-relaxed">${item.d}</p>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        // --- هذه هي الإضافة التي تضمن ظهور البيانات فوراً ---
-        function init() {
-            renderContent('res');
-        }
-
-        // تشغيل عند التحميل بأكثر من طريقة لضمان العمل على Vercel
-        window.onload = init;
-        document.addEventListener('DOMContentLoaded', init);
-        // تشغيل فوري احتياطي
-        init();
+        window.onload = () => renderContent('res');
     </script>
 </body>
 </html>
