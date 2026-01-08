@@ -2,326 +2,381 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0f172a">
-    <title>مكتب بدر الحقيل | نسخة النخبة 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="مكتب بدر الحقيل للاستشارات الهندسية - خدمات الرفع المساحي وتصحيح وضع المباني">
+    <title>مكتب بدر الحقيل للاستشارات الهندسية | الحوكمة والدقة الهندسية</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #3b82f6; 
-            --gold: #f59e0b;
-            --bg-dark: #020617; 
-            --glass: rgba(15, 23, 42, 0.7);
+            --corporate-blue: #0f172a; /* كحلي ملكي */
+            --engineering-blue: #1e40af; /* أزرق هندسي */
+            --steel-gray: #f1f5f9;
+            --border-color: #e2e8f0;
+            --gold-accent: #926c15; /* ذهبي مطفي وقور */
         }
-        
-        body.light-mode {
-            --bg-dark: #f8fafc; 
-            --glass: rgba(255, 255, 255, 0.85);
-        }
-        
+
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-dark); 
-            color: white; transition: background 0.5s ease;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
+            background-color: #ffffff;
+            color: var(--corporate-blue);
+            scroll-behavior: smooth;
         }
 
-        body.light-mode { color: #0f172a; }
-
-        /* شاشة التحميل الماسية */
-        #loader {
-            position: fixed; inset: 0; background: #020617; z-index: 10000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        /* نظام الشبكة الهندسية للخلفية */
+        .blueprint-bg {
+            background-image: radial-gradient(#e2e8f0 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
         }
 
-        /* الكروت الزجاجية المتطورة */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 32px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        /* الهيدر المؤسسي */
+        .header-top {
+            background: var(--corporate-blue);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        /* تأثير الحركة للخطوات */
-        .workflow-dot {
+        .main-nav {
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+        }
+
+        /* تأطير اللوجو الرسمي */
+        .brand-box {
+            border-right: 4px solid var(--engineering-blue);
+            padding-right: 20px;
+        }
+
+        .logo-frame {
+            width: 85px;
+            height: 85px;
+            padding: 5px;
+            border: 1px solid var(--border-color);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* أقسام الخدمات الاحترافية */
+        .service-grid-card {
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: white;
+        }
+
+        .service-grid-card:hover {
+            border-color: var(--engineering-blue);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            font-family: serif;
+            font-style: italic;
+            font-size: 3rem;
+            color: var(--steel-gray);
+            line-height: 1;
+        }
+
+        /* الفوتر المؤسسي العميق */
+        .footer-dark {
+            background: var(--corporate-blue);
+            color: #94a3b8;
+        }
+
+        .footer-title {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
             position: relative;
+            padding-bottom: 10px;
         }
-        .workflow-dot::after {
-            content: ''; position: absolute; top: 100%; left: 50%; width: 2px;
-            height: 40px; background: linear-gradient(to bottom, var(--primary), transparent);
-            transform: translateX(-50%);
-        }
-        .workflow-item:last-child .workflow-dot::after { display: none; }
 
-        /* حاسبة التكلفة */
-        .calc-input {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 12px;
-            width: 100%;
-            outline: none;
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0; width: 30px; height: 2px;
+            background: var(--engineering-blue);
+        }
+
+        /* الأزرار الرسمية */
+        .btn-primary {
+            background: var(--engineering-blue);
+            color: white;
+            padding: 15px 35px;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
             transition: 0.3s;
         }
-        .calc-input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(59,130,246,0.3); }
 
-        /* شعارات الجهات المعتمدة */
-        .partner-logo { filter: grayscale(100%) opacity(0.6); transition: 0.3s; }
-        .partner-logo:hover { filter: grayscale(0%) opacity(1); }
+        .btn-primary:hover {
+            background: var(--corporate-blue);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
 
-        /* تخصيص السكرول بار */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        /* قسم الاعتمادات */
+        .accreditation-bar {
+            background: var(--steel-gray);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
 
-        @keyframes pulse-gold { 0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); } 50% { box-shadow: 0 0 20px 10px rgba(245, 158, 11, 0); } }
-        .btn-premium { animation: pulse-gold 3s infinite; }
+        .gov-logo {
+            filter: grayscale(1);
+            opacity: 0.6;
+            transition: 0.3s;
+            max-height: 45px;
+        }
+
+        .gov-logo:hover { filter: grayscale(0); opacity: 1; }
+
     </style>
 </head>
-<body class="pb-20">
+<body class="blueprint-bg">
 
-    <!-- Loader -->
-    <div id="loader">
-        <div class="relative w-32 h-32">
-            <div class="absolute inset-0 border-t-4 border-blue-500 rounded-full animate-spin"></div>
-            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" class="absolute inset-3 w-26 h-26 rounded-full object-cover">
-        </div>
-        <h2 class="mt-8 text-white font-black tracking-widest text-lg">AL HUQAIL</h2>
-        <p class="text-blue-500 text-[10px] mt-2 font-bold uppercase tracking-[0.5em]">Engineering Excellence</p>
-    </div>
-
-    <!-- Banner -->
-    <div class="bg-blue-600 text-white text-[11px] font-bold py-2 px-4 flex justify-center items-center gap-4 overflow-hidden whitespace-nowrap">
-        <div class="animate-marquee flex gap-8">
-            <span>🚀 خدمة سريعة: تصحيح وضع المباني القائمة خلال 7 أيام عمل</span>
-            <span>✅ معتمدون لدى: بلدي - إحكام - الدفاع المدني</span>
-            <span>📍 الرياض - القصيم - الخبر - جدة</span>
-        </div>
-    </div>
-
-    <!-- Navbar -->
-    <nav class="p-6 sticky top-0 z-[100] transition-all" id="main-nav">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="flex gap-2">
-                <button onclick="toggleTheme()" class="w-12 h-12 glass-card flex items-center justify-center shadow-lg active:scale-90 transition-transform">
-                    <i id="theme-icon" class="fa-solid fa-moon text-blue-400"></i>
-                </button>
-                <button onclick="toggleLang()" id="lang-btn" class="px-5 glass-card font-black text-xs transition-all">EN</button>
+    <!-- شريط الاتصال العلوي -->
+    <div class="header-top py-2 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex gap-6">
+                <span><i class="fa-solid fa-phone-slash ml-2 text-blue-400"></i> الرقم الموحد: 0569982526</span>
+                <span class="hidden md:inline"><i class="fa-solid fa-clock ml-2 text-blue-400"></i> ساعات العمل: 08:00 ص - 05:00 م</span>
             </div>
-            <div class="flex items-center gap-4">
-                <div class="hidden sm:block text-right">
-                    <h3 class="font-black text-sm">مكتب بدر الحقيل</h3>
-                    <p class="text-[10px] text-green-500 font-bold"><i class="fa-solid fa-circle text-[6px]"></i> متصلون الآن</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-blue-400">LinkedIn</a>
+                <a href="#" class="hover:text-blue-400">X-Twitter</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- النافبار الرئيسي -->
+    <nav class="main-nav sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-6">
+                <div class="logo-frame">
+                    <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="بدر الحقيل">
                 </div>
-                <img src="https://c.top4top.io/p_3649d0h3o0.jpg" class="w-14 h-14 rounded-2xl border-2 border-blue-500/30">
+                <div class="brand-box">
+                    <h1 class="text-2xl font-black tracking-tighter text-slate-900 leading-none">بدر الحقيل</h1>
+                    <p class="text-[10px] font-bold uppercase tracking-[4px] mt-1 text-slate-500">للاستشارات الهندسية</p>
+                </div>
             </div>
+            
+            <div class="hidden lg:flex gap-10 font-bold text-xs uppercase tracking-widest text-slate-600">
+                <a href="#about" class="hover:text-blue-700 transition">عن المكتب</a>
+                <a href="#services" class="hover:text-blue-700 transition">الخدمات</a>
+                <a href="#portfolio" class="hover:text-blue-700 transition">المشاريع</a>
+                <a href="#contact" class="hover:text-blue-700 transition">اتصل بنا</a>
+            </div>
+
+            <a href="https://wa.me/966569982526" class="btn-primary">
+                تقديم طلب مشروع
+            </a>
         </div>
     </nav>
 
-    <!-- Hero -->
-    <header class="max-w-6xl mx-auto px-6 pt-16 pb-24 text-center">
-        <span class="inline-block px-4 py-1 rounded-full bg-blue-500/10 text-blue-500 font-bold text-[10px] mb-4 border border-blue-500/20 uppercase tracking-widest" data-aos="fade-down">The Diamond Edition 2026</span>
-        <h1 class="text-5xl md:text-8xl font-black mb-6 tracking-tighter leading-tight" data-aos="fade-up">
-            نصمم <span class="text-blue-500">المستقبل</span><br>بأدوات اليوم
-        </h1>
-        <p class="text-lg md:text-xl opacity-60 mb-12 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="100">
-            المكتب الهندسي الرائد في تصحيح وضع المباني، الرفع المساحي، وإصدار التراخيص التجارية والسكنية بدقة متناهية وسرعة مذهلة.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
-            <a href="https://wa.me/966569982526" class="px-10 py-5 bg-blue-600 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-blue-700 transition-all flex items-center gap-3">
-                <i class="fa-brands fa-whatsapp text-2xl"></i> استشارة فورية
-            </a>
-            <button onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="px-10 py-5 glass-card font-black text-lg hover:border-blue-500 transition-all">
-                احسب تكلفتك
-            </button>
-        </div>
-    </header>
-
-    <!-- Partners -->
-    <section class="max-w-5xl mx-auto px-6 mb-32">
-        <p class="text-center text-[10px] font-bold opacity-40 mb-8 tracking-widest uppercase">جهات نعتز بالتعاون معها</p>
-        <div class="flex flex-wrap justify-center gap-12 items-center grayscale opacity-40">
-            <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/0/03/Logo_of_the_Ministry_of_Municipal_and_Rural_Affairs_and_Housing_%28Saudi_Arabia%29.svg/1200px-Logo_of_the_Ministry_of_Municipal_and_Rural_Affairs_and_Housing_%28Saudi_Arabia%29.svg.png" class="h-10 partner-logo">
-            <img src="https://ehkaam.sa/assets/images/logo.png" class="h-10 partner-logo">
-            <img src="https://baladi.gov.sa/themes/custom/baladi/logo.svg" class="h-10 partner-logo">
-        </div>
-    </section>
-
-    <!-- Timeline / Workflow -->
-    <section class="max-w-4xl mx-auto px-6 mb-32">
-        <h2 class="text-3xl font-black mb-16 text-center">كيف نبدأ العمل؟</h2>
-        <div class="space-y-0">
-            <div class="workflow-item flex gap-8 items-start mb-12" data-aos="fade-right">
-                <div class="workflow-dot w-12 h-12 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center font-bold text-white shadow-xl">1</div>
-                <div class="glass-card p-6 flex-1">
-                    <h3 class="font-bold mb-2">طلب الخدمة والمعاينة</h3>
-                    <p class="text-sm opacity-60">نبدأ باستقبال طلبك وتحديد موعد لزيارة الموقع من قبل فريقنا الهندسي.</p>
-                </div>
-            </div>
-            <div class="workflow-item flex gap-8 items-start mb-12" data-aos="fade-right" data-aos-delay="100">
-                <div class="workflow-dot w-12 h-12 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center font-bold text-white shadow-xl">2</div>
-                <div class="glass-card p-6 flex-1">
-                    <h3 class="font-bold mb-2">الرفع المساحي الرقمي</h3>
-                    <p class="text-sm opacity-60">استخدام أحدث أجهزة الليزر لرسم مخططات دقيقة للوضع القائم.</p>
-                </div>
-            </div>
-            <div class="workflow-item flex gap-8 items-start mb-12" data-aos="fade-right" data-aos-delay="200">
-                <div class="workflow-dot w-12 h-12 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center font-bold text-white shadow-xl">3</div>
-                <div class="glass-card p-6 flex-1">
-                    <h3 class="font-bold mb-2">الاعتماد والرفع الرسمي</h3>
-                    <p class="text-sm opacity-60">تجهيز التقارير الفنية ورفعها عبر المنصات الحكومية (بلدي/إحكام).</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Cost Calculator -->
-    <section id="calculator" class="max-w-2xl mx-auto px-6 mb-32" data-aos="zoom-in">
-        <div class="glass-card p-10 border-2 border-blue-500/20 relative overflow-hidden">
-            <div class="absolute top-0 right-0 p-4 opacity-5 text-6xl"><i class="fa-solid fa-calculator"></i></div>
-            <h2 class="text-2xl font-black mb-8">حاسبة السعر التقديرية</h2>
-            <div class="space-y-6">
-                <div>
-                    <label class="block text-xs font-bold mb-2 opacity-60">نوع الخدمة</label>
-                    <select id="calc-service" class="calc-input cursor-pointer" onchange="calculatePrice()">
-                        <option value="1500">تصحيح وضع مبنى سكني</option>
-                        <option value="3000">تصحيح وضع مبنى تجاري</option>
-                        <option value="800">تقرير سلامة إنشائية</option>
-                        <option value="1200">رفع مساحي</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold mb-2 opacity-60">المساحة (متر مربع)</label>
-                    <input type="number" id="calc-area" value="100" class="calc-input" oninput="calculatePrice()">
-                </div>
-                <div class="pt-6 border-t border-white/10 flex justify-between items-center">
-                    <span class="font-bold text-lg">التكلفة التقريبية:</span>
-                    <div class="text-right">
-                        <span id="total-price" class="text-3xl font-black text-blue-500">1500</span>
-                        <span class="text-xs font-bold opacity-50 ml-1">ريال</span>
+    <!-- قسم البطولة (Hero Area) -->
+    <section class="relative bg-white pt-24 pb-32 px-6 overflow-hidden border-b">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <span class="text-blue-700 font-black text-xs uppercase tracking-[5px] mb-6 block">نحن نصنع الدقة الهندسية</span>
+                <h2 class="text-5xl md:text-6xl font-black text-slate-900 leading-[1.15] mb-8">
+                    حلول هندسية معتمدة لمستقبل <span class="text-blue-800">عقاري آمن</span>.
+                </h2>
+                <p class="text-xl text-slate-500 mb-10 leading-relaxed">
+                    مكتب استشاري مرخص يقدم خدمات تصحيح أوضاع المباني، الرفع المساحي، وإصدار التقارير الفنية المتوافقة مع الكود السعودي ومعايير منصة بلدي وإحكام.
+                </p>
+                <div class="flex gap-6">
+                    <div class="border-r-2 border-slate-200 pr-6">
+                        <p class="text-3xl font-black text-slate-900">+15</p>
+                        <p class="text-xs font-bold text-slate-400 uppercase">سنة خبرة</p>
+                    </div>
+                    <div class="border-r-2 border-slate-200 pr-6">
+                        <p class="text-3xl font-black text-slate-900">+1200</p>
+                        <p class="text-xs font-bold text-slate-400 uppercase">مشروع منجز</p>
                     </div>
                 </div>
-                <p class="text-[10px] opacity-40 text-center italic mt-4">* السعر تقديري ويخضع للمعايير الفنية بعد المعاينة.</p>
+            </div>
+            <div class="relative hidden lg:block">
+                <div class="absolute -top-10 -right-10 w-64 h-64 bg-slate-50 -z-10"></div>
+                <img src="https://f.top4top.io/p_3649v04062.jpg" alt="Blueprint" class="w-full shadow-2xl border-8 border-white">
+                <div class="absolute -bottom-6 -left-6 bg-blue-700 text-white p-8">
+                    <p class="text-sm font-bold">معتمد لدى وزارة الشؤون البلدية والقروية والإسكان</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Map & Contact -->
-    <section class="max-w-6xl mx-auto px-6 mb-32 grid md:grid-cols-2 gap-8">
-        <div class="glass-card overflow-hidden h-80 shadow-2xl" data-aos="fade-left">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3623.167230491848!2d46.6749!3d24.7136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDQyJzQ5LjAiTiA0NsKwNDAnMjkuNiJF!5e0!3m2!1sen!2ssa!4v1625000000000!5m2!1sen!2ssa" width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9);" allowfullscreen="" loading="lazy"></iframe>
+    <!-- شريط الاعتمادات الحكومية -->
+    <div class="accreditation-bar py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-between items-center gap-10">
+            <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">المكتب معتمد لدى:</p>
+            <img src="https://baladi.gov.sa/themes/custom/baladi/logo.svg" class="gov-logo" alt="بلدي">
+            <img src="https://ehkaam.sa/assets/images/logo.png" class="gov-logo" alt="إحكام">
+            <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/0/03/Logo_of_the_Ministry_of_Municipal_and_Rural_Affairs_and_Housing_%28Saudi_Arabia%29.svg/1200px-Logo_of_the_Ministry_of_Municipal_and_Rural_Affairs_and_Housing_%28Saudi_Arabia%29.svg.png" class="gov-logo" alt="وزارة الإسكان">
+            <img src="https://998.gov.sa/PublishingImages/logo.png" class="gov-logo" alt="الدفاع المدني">
         </div>
-        <div class="flex flex-col justify-center gap-6" data-aos="fade-right">
-            <h2 class="text-3xl font-black">تفضل بزيارتنا</h2>
-            <p class="opacity-60 text-sm leading-relaxed">المقر الرئيسي: الرياض، حي المروج، طريق الملك فهد. نسعد باستقبالكم من الأحد للخميس (8 صباحاً - 5 مساءً).</p>
-            <div class="flex gap-4">
-                <a href="tel:0569982526" class="p-4 glass-card flex-1 flex flex-col items-center gap-2 hover:bg-blue-600 transition-all">
-                    <i class="fa-solid fa-phone text-xl"></i>
-                    <span class="text-[10px] font-bold">اتصال هاتفـي</span>
-                </a>
-                <a href="mailto:info@huqail.com" class="p-4 glass-card flex-1 flex flex-col items-center gap-2 hover:bg-blue-600 transition-all">
-                    <i class="fa-solid fa-envelope text-xl"></i>
-                    <span class="text-[10px] font-bold">بريد إلكتروني</span>
-                </a>
+    </div>
+
+    <!-- الخدمات الهندسية -->
+    <section id="services" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-20">
+                <div>
+                    <h3 class="text-xs font-black text-blue-700 uppercase tracking-[4px] mb-4">اختصاصاتنا المهنية</h3>
+                    <h2 class="text-4xl font-black text-slate-900">الخدمات الاستشارية</h2>
+                </div>
+                <div class="hidden md:block w-1/3 text-left">
+                    <p class="text-sm text-slate-500">نلتزم بالمعايير الفنية الدقيقة لضمان سلامة المنشآت ومطابقتها للأنظمة التشريعية في المملكة.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-0">
+                <div class="service-grid-card">
+                    <i class="fa-solid fa-ruler-combined text-3xl text-blue-700 mb-6 block"></i>
+                    <h4 class="text-xl font-bold mb-4 text-slate-900">الرفع المساحي الرقمي</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed mb-6">استخدام أجهزة GPS ومحطات الرصد المتكاملة لتحديد إحداثيات المواقع بدقة مليمترية.</p>
+                    <ul class="text-[11px] font-bold text-slate-400 space-y-2 uppercase">
+                        <li>- فرز الوحدات العقارية</li>
+                        <li>- تحديث الصكوك</li>
+                    </ul>
+                </div>
+                <div class="service-grid-card bg-slate-50">
+                    <i class="fa-solid fa-file-contract text-3xl text-blue-700 mb-6 block"></i>
+                    <h4 class="text-xl font-bold mb-4 text-slate-900">تصحيح وضع المباني</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed mb-6">دراسة وتحليل مخالفات البناء وتقديم الحلول الهندسية لمعالجتها وإصدار رخص الإشغال.</p>
+                    <ul class="text-[11px] font-bold text-slate-400 space-y-2 uppercase">
+                        <li>- شهادة امتثال المباني</li>
+                        <li>- تقارير الكشف الفني</li>
+                    </ul>
+                </div>
+                <div class="service-grid-card">
+                    <i class="fa-solid fa-building-shield text-3xl text-blue-700 mb-6 block"></i>
+                    <h4 class="text-xl font-bold mb-4 text-slate-900">تراخيص الدفاع المدني</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed mb-6">اعتماد المخططات الوقائية وأنظمة السلامة ومكافحة الحريق للمنشآت التجارية والصناعية.</p>
+                    <ul class="text-[11px] font-bold text-slate-400 space-y-2 uppercase">
+                        <li>- رخص سلامة</li>
+                        <li>- مخططات أنظمة الإطفاء</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Dock -->
-    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-sm z-[1000]">
-        <div class="glass-card p-3 flex justify-between items-center shadow-2xl border-white/20">
-            <a href="tel:0569982526" class="w-14 h-14 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-xl shadow-lg active:scale-90 transition-all">
-                <i class="fa-solid fa-phone"></i>
-            </a>
-            <a href="https://wa.me/966569982526" class="w-14 h-14 bg-green-500 text-white rounded-2xl flex items-center justify-center text-2xl shadow-lg active:scale-90 transition-all">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
-            <button onclick="toggleQR()" class="w-14 h-14 bg-slate-100 text-black rounded-2xl flex items-center justify-center text-xl shadow-lg active:scale-90 transition-all">
-                <i class="fa-solid fa-qrcode"></i>
-            </button>
-            <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="w-14 h-14 glass-card flex items-center justify-center text-xl active:scale-90 transition-all">
-                <i class="fa-solid fa-arrow-up"></i>
-            </button>
+    <!-- منهجية العمل (The Process) -->
+    <section class="py-32 bg-slate-900 text-white px-6">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-black mb-20 text-center uppercase tracking-widest">منهجية التنفيذ الهندسي</h2>
+            <div class="grid md:grid-cols-4 gap-12">
+                <div class="relative">
+                    <span class="step-number">01</span>
+                    <h5 class="text-lg font-bold mt-4 mb-3">الدراسة والتحليل</h5>
+                    <p class="text-xs text-slate-400 leading-relaxed">تحليل المستندات القانونية والمخططات الأولية للمشروع وتحديد النطاق الهندسي.</p>
+                </div>
+                <div class="relative">
+                    <span class="step-number">02</span>
+                    <h5 class="text-lg font-bold mt-4 mb-3">المعاينة الميدانية</h5>
+                    <p class="text-xs text-slate-400 leading-relaxed">زيارة الموقع بأجهزة المسح الجيوديسي لجمع البيانات الفنية على الطبيعة.</p>
+                </div>
+                <div class="relative">
+                    <span class="step-number">03</span>
+                    <h5 class="text-lg font-bold mt-4 mb-3">التصميم والرفع</h5>
+                    <p class="text-xs text-slate-400 leading-relaxed">إعداد المخططات النهائية ورفعها عبر المنصات الحكومية المعتمدة.</p>
+                </div>
+                <div class="relative">
+                    <span class="step-number">04</span>
+                    <h5 class="text-lg font-bold mt-4 mb-3">الاعتماد الرسمي</h5>
+                    <p class="text-xs text-slate-400 leading-relaxed">متابعة المعاملة حتى صدور التراخيص أو الشهادات النهائية وتسليمها للعميل.</p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- QR Modal -->
-    <div id="qr-modal" onclick="toggleQR()" class="hidden fixed inset-0 z-[5000] bg-black/95 backdrop-blur-xl items-center justify-center p-6">
-        <div class="glass-card p-10 text-center max-w-sm w-full" onclick="event.stopPropagation()">
-            <h3 class="font-black text-xl mb-6">الكرت الرقمي</h3>
-            <div id="qrcode" class="bg-white p-4 rounded-3xl mx-auto inline-block border-8 border-white/5"></div>
-            <p class="mt-6 text-xs opacity-50">امسح الكود للحصول على كافة وسائل التواصل</p>
-            <button onclick="toggleQR()" class="mt-8 w-full py-4 bg-blue-600 rounded-2xl font-black text-sm text-white">إغلاق</button>
+    <!-- الفوتر الرسمي -->
+    <footer class="footer-dark pt-24 pb-12 px-6 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-16">
+            <div class="md:col-span-1">
+                <div class="bg-white p-3 inline-block mb-6">
+                    <img src="https://c.top4top.io/p_3649d0h3o0.jpg" class="w-16" alt="Logo">
+                </div>
+                <p class="text-sm leading-relaxed mb-6">مكتب بدر الحقيل للاستشارات الهندسية: كيان مهني متخصص في تقديم الحلول الفنية والتقنية للقطاع العقاري والإنشائي بالمملكة.</p>
+                <div class="flex gap-4">
+                    <a href="https://wa.me/966569982526" class="w-10 h-10 border border-slate-700 flex items-center justify-center hover:bg-blue-700 transition"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://maps.app.goo.gl/R61NfEcdJApitWE59" class="w-10 h-10 border border-slate-700 flex items-center justify-center hover:bg-blue-700 transition"><i class="fa-solid fa-map-location"></i></a>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="footer-title">الخدمات الرئيسية</h4>
+                <ul class="space-y-4 text-xs font-bold uppercase tracking-widest">
+                    <li><a href="#" class="hover:text-white transition">تصحيح وضع المباني</a></li>
+                    <li><a href="#" class="hover:text-white transition">الرفع المساحي الرقمي</a></li>
+                    <li><a href="#" class="hover:text-white transition">تراخيص الدفاع المدني</a></li>
+                    <li><a href="#" class="hover:text-white transition">كروكي تنظيمي</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">بيانات التواصل</h4>
+                <ul class="space-y-4 text-sm">
+                    <li>المقر الرئيسي: المملكة العربية السعودية</li>
+                    <li>هاتف: 0569982526</li>
+                    <li>البريد: info@huqail-eng.com</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">النشرة البريدية</h4>
+                <p class="text-xs mb-4 text-slate-500">اشترك ليصلك تحديثات الكود السعودي والأنظمة العقارية.</p>
+                <div class="flex">
+                    <input type="email" placeholder="البريد الإلكتروني" class="bg-slate-800 border-none p-3 w-full text-xs outline-none">
+                    <button class="bg-blue-700 p-3 text-white"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
         </div>
-    </div>
+        
+        <div class="max-w-7xl mx-auto mt-24 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-black uppercase tracking-[2px]">
+            <p>© 2026 مكتب بدر الحقيل للاستشارات الهندسية - ترخيص رقم: 12345678</p>
+            <div class="flex gap-8">
+                <a href="#">سياسة الخصوصية</a>
+                <a href="#">الشروط والأحكام</a>
+            </div>
+        </div>
+    </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
-
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
-            }, 1200);
-        });
-
-        // حاسبة الأسعار
-        function calculatePrice() {
-            const basePrice = parseFloat(document.getElementById('calc-service').value);
-            const area = parseFloat(document.getElementById('calc-area').value) || 0;
-            let total = basePrice;
-            
-            if(area > 200) {
-                total += (area - 200) * 2; // إضافة 2 ريال لكل متر إضافي فوق الـ 200
-            }
-            
-            document.getElementById('total-price').innerText = Math.round(total);
-        }
-
-        // اللغة والسمات (كما في النسخ السابقة مع تحسينات)
-        let currentLang = 'ar';
-        function toggleLang() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            document.getElementById('lang-btn').innerText = currentLang === 'ar' ? 'EN' : 'عربي';
-            // تحديث النصوص (يتطلب إضافة data-i18n لكل العناصر)
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const icon = document.getElementById('theme-icon');
-            icon.className = document.body.classList.contains('light-mode') ? 'fa-solid fa-sun text-amber-500' : 'fa-solid fa-moon text-blue-400';
-        }
-
-        function toggleQR() {
-            const m = document.getElementById('qr-modal');
-            const isHidden = m.classList.contains('hidden');
-            if(isHidden) {
-                m.classList.replace('hidden', 'flex');
-                if(!window.qrDone) {
-                    new QRCode(document.getElementById("qrcode"), { text: window.location.href, width: 220, height: 220 });
-                    window.qrDone = true;
+        // إيقاف أي تفاعلات غير رسمية
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        
+        // التحقق من ظهور العناصر عند السكرول (للإثارة الرسمية فقط)
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
                 }
-            } else { m.classList.replace('flex', 'hidden'); }
-        }
+            });
+        }, observerOptions);
 
-        // تأثير تغيير النافبار عند السكرول
-        window.onscroll = function() {
-            const nav = document.getElementById('main-nav');
-            if (window.pageYOffset > 50) {
-                nav.classList.add('glass-card', 'm-4', 'rounded-2xl');
-            } else {
-                nav.classList.remove('glass-card', 'm-4', 'rounded-2xl');
-            }
-        };
+        document.querySelectorAll('.service-grid-card').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(20px)";
+            el.style.transition = "all 0.6s ease-out";
+            observer.observe(el);
+        });
     </script>
 </body>
 </html>
