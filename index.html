@@ -3,241 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مكتب بدر الحقيل | للعقارات والهندسة</title>
+    <title>مكتب بدر الحقيل | للاستشارات الهندسية</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        :root {
+            --primary-navy: #0f172a;
+            --accent-gold: #94a3b8; /* ذهبي معدني رصين */
+            --bg-clean: #fcfcfc;
+        }
+
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
+            background-color: var(--bg-light);
+            background-image: radial-gradient(#e5e7eb 0.5px, transparent 0.5px);
+            background-size: 30px 30px; /* خلفية هندسية منقطة خفيفة */
+            color: var(--primary-navy);
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* ترويسة الهوية */
-        .brand-header {
+        /* تحسين منطقة الشعار - الهوية الرسمية */
+        .identity-header {
             background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 3px solid var(--primary-navy);
+            position: relative;
         }
-
-        /* تبديل المسارات */
-        .path-switch {
-            background: #f1f5f9;
-            padding: 4px;
-            border-radius: 12px;
-            display: inline-flex;
-            width: 100%;
-        }
-        .path-btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            transition: 0.3s;
-        }
-        .path-btn.active {
-            background: #1e3a8a;
-            color: white;
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
-        }
-
-        /* بطاقة الخطوات */
-        .step-card {
+        .logo-frame {
+            width: 110px;
+            height: 110px;
             background: white;
             border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 12px;
+            padding: 8px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
         }
-        .step-number {
-            width: 32px;
-            height: 32px;
-            background: #eff6ff;
-            color: #1e3a8a;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.8rem;
-            flex-shrink: 0;
+        .logo-frame::before {
+            content: '';
+            position: absolute;
+            top: -4px; right: -4px; bottom: -4px; left: -4px;
+            border: 1px solid var(--primary-navy);
+            z-index: -1;
+            opacity: 0.2;
         }
 
-        /* أزرار الاتصال الثابتة */
-        .action-dock {
-            position: fixed;
+        /* تبويب المسارات */
+        .path-selector {
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+        }
+        .path-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 800;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+        .path-btn.active {
+            background: var(--primary-navy);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.2);
+        }
+
+        /* بطاقة الخطوات الاحترافية */
+        .step-item {
+            position: relative;
+            background: white;
+            border: 1px solid #f1f5f9;
+            border-right: 4px solid #e2e8f0;
+            transition: 0.3s;
+        }
+        .step-item.active-border {
+            border-right-color: var(--primary-navy);
+        }
+        
+        /* الخط الواصل بين الخطوات */
+        .steps-wrapper {
+            position: relative;
+        }
+        .steps-wrapper::before {
+            content: '';
+            position: absolute;
+            right: 28px;
+            top: 20px;
             bottom: 20px;
+            width: 1px;
+            background: #e5e7eb;
+            z-index: 0;
+        }
+
+        /* الدوك السفلي الرسمي */
+        .dock-container {
+            position: fixed;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
-            max-width: 400px;
-            background: #1e293b;
+            max-width: 420px;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 12px;
+            padding: 14px;
             display: flex;
-            justify-content: space-between;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            justify-content: space-around;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
             z-index: 1000;
         }
-        .dock-btn {
-            flex: 1;
+        .dock-link {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: white;
+            color: #94a3b8;
             font-size: 0.7rem;
-            font-weight: 600;
-            gap: 4px;
+            font-weight: 700;
+            gap: 6px;
         }
-        .dock-btn i { font-size: 1.2rem; }
-        .wa-color { color: #22c55e; }
-
-        /* معرض الصور المنظم */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-        .gallery-img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-        }
+        .dock-link.active-link { color: #ffffff; }
+        .dock-link i { font-size: 1.3rem; }
+        .icon-wa { color: #22c55e; }
     </style>
 </head>
 <body class="pb-32">
 
-    <!-- Header -->
-    <header class="brand-header py-6 px-4 mb-6">
-        <div class="max-w-xl mx-auto flex flex-col items-center text-center">
-            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo" class="w-20 h-20 rounded-2xl shadow-sm border mb-4">
-            <h1 class="text-2xl font-black text-slate-900 leading-none">مكتب بدر الحقيل</h1>
-            <p class="text-blue-700 font-bold text-sm mt-2">للعقارات والهندسة</p>
-            <div class="h-1 w-12 bg-slate-200 rounded-full mt-4"></div>
+    <!-- Header الرسمي -->
+    <header class="identity-header pt-10 pb-8 px-6 mb-10 text-center flex flex-col items-center">
+        <div class="logo-frame mb-6">
+            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo" class="w-full h-full object-contain">
+        </div>
+        <div>
+            <h1 class="text-3xl font-black text-slate-900 tracking-tighter">بدر الحقيل</h1>
+            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-[4px] mt-1">للعقارات والهندسة</p>
+        </div>
+        <div class="mt-6 flex items-center gap-2">
+            <span class="h-[1px] w-8 bg-slate-200"></span>
+            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Official Portal</span>
+            <span class="h-[1px] w-8 bg-slate-200"></span>
         </div>
     </header>
 
-    <main class="max-w-xl mx-auto px-4">
+    <main class="max-w-xl mx-auto px-6">
         
-        <!-- نص العنوان -->
-        <div class="mb-6 text-center">
-            <h2 class="text-lg font-extrabold text-slate-800">دليل خطوات تصحيح وضع المباني</h2>
+        <!-- نص العنوان المؤسسي -->
+        <div class="mb-8 border-r-4 border-slate-900 pr-4">
+            <h2 class="text-xl font-black text-slate-800 leading-none">دليل خطوات الإجراءات</h2>
+            <p class="text-xs text-slate-400 font-bold mt-2">تصحيح وضع المباني القائمة</p>
         </div>
 
-        <!-- تبديل المسارات -->
-        <div class="path-switch mb-8">
-            <button onclick="setPath('res')" id="btn-res" class="path-btn active">المسار السكني</button>
-            <button onclick="setPath('com')" id="btn-com" class="path-btn text-slate-500">المسار التجاري</button>
+        <!-- أزرار تبديل المسار -->
+        <div class="path-selector flex mb-10">
+            <button onclick="updatePath('res')" id="res-tab" class="path-btn flex-1 py-3 rounded-xl active">المسار السكني</button>
+            <button onclick="updatePath('com')" id="com-tab" class="path-btn flex-1 py-3 rounded-xl text-slate-400">المسار التجاري</button>
         </div>
 
-        <!-- قائمة الخطوات -->
-        <div id="steps-container">
-            <!-- سيتم تعبئتها بواسطة JS -->
-        </div>
-
-        <!-- نماذج الأعمال -->
-        <div class="mt-12 mb-6">
-            <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest mb-4"><i class="fa-solid fa-images ml-2"></i> نماذج من أعمالنا</h3>
-            <div class="gallery-grid" id="gallery">
-                <!-- الصور تظهر هنا -->
-            </div>
+        <!-- قائمة الإجراءات -->
+        <div id="path-content" class="steps-wrapper space-y-6">
+            <!-- سيتم بناؤها ديناميكياً -->
         </div>
 
     </main>
 
-    <!-- Dock الاتصال -->
-    <div class="action-dock">
-        <a href="tel:0569982526" class="dock-btn border-l border-slate-700">
-            <i class="fa-solid fa-phone"></i>
+    <!-- الفوتر التفاعلي (الدوك) -->
+    <div class="dock-container">
+        <a href="tel:0569982526" class="dock-link">
+            <i class="fa-solid fa-phone-volume"></i>
             <span>اتصال</span>
         </a>
-        <a href="https://wa.me/966569982526" target="_blank" class="dock-btn border-l border-slate-700">
-            <i class="fa-brands fa-whatsapp wa-color"></i>
+        <a href="https://wa.me/966569982526" target="_blank" class="dock-link active-link">
+            <i class="fa-brands fa-whatsapp icon-wa"></i>
             <span>واتساب</span>
         </a>
-        <a href="https://maps.app.goo.gl/R61NfEcdJApitWE59" target="_blank" class="dock-btn">
-            <i class="fa-solid fa-location-dot"></i>
+        <a href="https://maps.app.goo.gl/R61NfEcdJApitWE59" target="_blank" class="dock-link">
+            <i class="fa-solid fa-map-location-dot"></i>
             <span>الموقع</span>
         </a>
     </div>
 
+    <!-- تذييل الصفحة -->
+    <footer class="mt-20 text-center">
+        <p class="text-[9px] font-black text-slate-300 uppercase tracking-[2px]">جميع الحقوق محفوظة © مكتب بدر الحقيل</p>
+    </footer>
+
     <script>
-        // البيانات المقدمة فقط
-        const data = {
+        // البيانات الرسمية فقط
+        const content = {
             res: [
-                { t: "رفع المقاسات", d: "زيارة ميدانية لرفع المقاسات على الطبيعة" },
-                { t: "مخطط الوضع القائم", d: "رسم مخطط هندسي يوضح الوضع الحالي" },
-                { t: "إنشاء مخطط مقترح", d: "عمل التصاميم والتعديلات المطلوبة" },
-                { t: "إعداد تقرير فني", d: "تقرير سلامة إنشائية معتمد" },
-                { t: "إرسال للبلدية", d: "رفع المعاملة ومتابعتها حتى الاعتماد" }
+                { title: "رفع المقاسات", desc: "زيارة ميدانية لرفع المقاسات على الطبيعة" },
+                { title: "مخطط الوضع القائم", desc: "رسم مخطط هندسي يوضح الوضع الحالي" },
+                { title: "إنشاء مخطط مقترح", desc: "عمل التصاميم والتعديلات المطلوبة" },
+                { title: "إعداد تقرير فني", desc: "تقرير سلامة إنشائية معتمد" },
+                { title: "إرسال للبلدية", desc: "رفع المعاملة ومتابعتها حتى الاعتماد" }
             ],
             com: [
-                { t: "رفع المقاسات", d: "مطابقة دقيقة للمساحات على الواقع" },
-                { t: "مخطط الوضع القائم", d: "رسم تفصيلي لكامل المبنى التجاري" },
-                { t: "مخطط مقترح", d: "تعديلات معمارية للمحلات والمكاتب" },
-                { t: "تقرير فني", d: "إثبات السلامة الإنشائية للمبنى" },
-                { t: "واجهة 3D", d: "تصميم واجهة عصرية حسب الاشتراطات" },
-                { t: "إرسال للأمانة", d: "متابعة المعاملة بالكامل" }
+                { title: "رفع المقاسات", desc: "مطابقة دقيقة للمساحات على الواقع" },
+                { title: "مخطط الوضع القائم", desc: "رسم تفصيلي لكامل المبنى التجاري" },
+                { title: "مخطط مقترح", desc: "تعديلات معمارية للمحلات والمكاتب" },
+                { title: "تقرير فني", desc: "إثبات السلامة الإنشائية للمبنى" },
+                { title: "واجهة 3D", desc: "تصميم واجهة عصرية حسب الاشتراطات" },
+                { title: "إرسال للأمانة", desc: "متابعة المعاملة بالكامل" }
             ]
         };
 
-        const galleryImages = [
-            "https://d.top4top.io/p_3649ok3630.jpg",
-            "https://e.top4top.io/p_36497uwu41.jpg",
-            "https://f.top4top.io/p_3649v04062.jpg",
-            "https://b.top4top.io/p_364945ycg0.jpg"
-        ];
+        function updatePath(type) {
+            const container = document.getElementById('path-content');
+            const resBtn = document.getElementById('res-tab');
+            const comBtn = document.getElementById('com-tab');
 
-        function setPath(type) {
-            const container = document.getElementById('steps-container');
-            const resBtn = document.getElementById('btn-res');
-            const comBtn = document.getElementById('btn-com');
-
-            // تحديث الأزرار
+            // تحديث حالة الأزرار
             if(type === 'res') {
-                resBtn.className = "path-btn active";
-                comBtn.className = "path-btn text-slate-500";
+                resBtn.classList.add('active', 'text-white');
+                resBtn.classList.remove('text-slate-400');
+                comBtn.classList.remove('active', 'text-white');
+                comBtn.classList.add('text-slate-400');
             } else {
-                comBtn.className = "path-btn active";
-                resBtn.className = "path-btn text-slate-500";
+                comBtn.classList.add('active', 'text-white');
+                comBtn.classList.remove('text-slate-400');
+                resBtn.classList.remove('active', 'text-white');
+                resBtn.classList.add('text-slate-400');
             }
 
-            // بناء الخطوات
+            // بناء المحتوى
             container.innerHTML = '';
-            data[type].forEach((item, index) => {
-                container.innerHTML += `
-                    <div class="step-card">
-                        <div class="step-number">${index + 1}</div>
-                        <div>
-                            <h4 class="font-bold text-sm text-slate-900">${item.t}</h4>
-                            <p class="text-xs text-slate-500 mt-1">${item.d}</p>
-                        </div>
+            content[type].forEach((item, index) => {
+                const step = document.createElement('div');
+                step.className = 'step-item p-5 rounded-2xl active-border flex items-start gap-5 relative z-10';
+                step.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+                step.style.opacity = '0';
+                
+                step.innerHTML = `
+                    <div class="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px] font-black flex-shrink-0 shadow-lg">
+                        ${String(index + 1).padStart(2, '0')}
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-black text-slate-800">${item.title}</h3>
+                        <p class="text-[11px] text-slate-400 font-bold mt-1 leading-relaxed">${item.desc}</p>
                     </div>
                 `;
+                container.appendChild(step);
             });
         }
 
-        function initGallery() {
-            const gallery = document.getElementById('gallery');
-            galleryImages.forEach(src => {
-                gallery.innerHTML += `<img src="${src}" class="gallery-img" alt="Work Example">`;
-            });
-        }
+        // تحريك العناصر عند التحميل
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }`;
+        document.head.appendChild(style);
 
-        // تشغيل أولي
-        setPath('res');
-        initGallery();
+        // البدء بالمسار السكني
+        updatePath('res');
 
-        // منع القائمة المنبثقة لزيادة الرسمية
+        // منع القوائم المنبثقة لزيادة الطابع الرسمي والتطبيقي
         document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
