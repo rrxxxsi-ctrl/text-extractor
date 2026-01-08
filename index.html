@@ -11,18 +11,41 @@
     
     <style>
         :root {
-            --bg-black: #050505;
+            /* الوضع الليلي - افتراضي */
+            --bg-body: #050505;
+            --text-main: #ffffff;
+            --text-sub: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --dock-bg: rgba(15, 15, 15, 0.9);
             --accent-blue: #3b82f6;
             --soft-blue: #93c5fd;
+            --gold: #ffcc00;
+            --gold-glow: rgba(255, 204, 0, 0.3);
+            --logo-blend: screen;
+            --logo-filter: url(#white-remover) contrast(1.2);
+        }
+
+        .light-mode {
+            /* الوضع النهاري - خلفية بيضاء صريحة لاندماج اللوجو */
+            --bg-body: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --card-bg: #f8fafc;
+            --card-border: #e2e8f0;
+            --dock-bg: rgba(255, 255, 255, 0.95);
+            --logo-blend: multiply;
+            --logo-filter: contrast(1.3) brightness(1.0);
+            --gold-glow: rgba(255, 204, 0, 0.1);
         }
 
         body {
-            background-color: var(--bg-black);
-            color: #ffffff;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             margin: 0; padding: 0;
             overflow-x: hidden;
             user-select: none;
-            transition: opacity 0.4s ease;
+            transition: background 0.5s ease, color 0.5s ease;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -31,174 +54,224 @@
 
         .bg-pattern {
             position: fixed; inset: 0; z-index: -1;
-            background-image: linear-gradient(rgba(59, 130, 246, 0.04) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
         }
 
-        /* زر اللغة المثبت - ثابت في مكانه دائماً */
-        #lang-toggle-btn {
-            position: fixed; top: 25px; left: 25px; z-index: 9999;
-            width: 50px; height: 50px; background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-            transition: 0.3s;
+        /* التحكم العلوي الثابت بذكاء */
+        .controls-layer {
+            position: fixed; top: 20px; left: 0; right: 0; z-index: 9999;
+            padding: 0 20px; display: flex; justify-content: space-between;
+            max-width: 1440px; margin: 0 auto; pointer-events: none;
         }
-        #lang-toggle-btn span { font-weight: 900; font-size: 0.8rem; color: var(--soft-blue); }
-
-        /* الهيدر واللوجو */
-        .logo-filter { filter: url(#white-remover) contrast(1.2); mix-blend-mode: screen; width: 100%; height: 100%; object-fit: contain; }
-        .header-area { padding: 60px 0 40px; display: flex; flex-direction: column; align-items: center; position: relative; }
-        .logo-box { width: clamp(100px, 15vw, 150px); height: clamp(100px, 15vw, 150px); z-index: 10; position: relative; margin-bottom: 25px; }
-        
-        /* جماليات الاسم (الإطار واللمعان) */
-        .brand-frame { position: relative; padding: 15px 40px; display: inline-block; }
-        .brand-frame::before, .brand-frame::after {
-            content: ''; position: absolute; width: 25px; height: 25px; border: 3px solid var(--accent-blue); transition: 0.5s;
+        .btn-action {
+            width: 50px; height: 50px; background: var(--dock-bg);
+            backdrop-filter: blur(15px); border: 1px solid var(--card-border);
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; pointer-events: auto; color: var(--accent-blue);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); transition: 0.3s;
         }
-        [dir="rtl"] .brand-frame::before { top: 0; right: 0; border-bottom: 0; border-left: 0; }
-        [dir="rtl"] .brand-frame::after { bottom: 0; left: 0; border-top: 0; border-right: 0; }
-        [dir="ltr"] .brand-frame::before { top: 0; left: 0; border-bottom: 0; border-right: 0; }
-        [dir="ltr"] .brand-frame::after { bottom: 0; right: 0; border-top: 0; border-left: 0; }
+        .btn-action:active { transform: scale(0.9); }
 
-        .brand-name {
-            font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 900; line-height: 1.2;
-            background: linear-gradient(90deg, #fff 0%, var(--soft-blue) 50%, #fff 100%);
+        /* =========================================
+           تطوير خانة اللوجو ( Orb )
+           ========================================= */
+        .logo-header {
+            display: flex; flex-direction: column; align-items: center; 
+            padding: 80px 0 40px;
+        }
+
+        .orb-master {
+            position: relative; 
+            width: clamp(180px, 20vw, 240px); 
+            height: clamp(180px, 20vw, 240px);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* توهج الطاقة الداخلي */
+        .orb-pulse {
+            position: absolute; width: 65%; height: 65%;
+            background: var(--gold-glow); border-radius: 50%;
+            filter: blur(35px); animation: energyPulse 3s infinite alternate;
+        }
+
+        /* الكرة الزجاجية الفخمة */
+        .orb-glass-shell {
+            position: absolute; inset: 0; border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 60%);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5), 0 15px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(4px); z-index: 3;
+            animation: orbFloat 5s infinite ease-in-out;
+        }
+
+        /* الإطارات الهندسية (المحصورة حول اللوجو) */
+        .orb-geo-layer {
+            position: absolute; inset: 8%; border: 1.5px solid var(--gold);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            opacity: 0.5; z-index: 4; animation: rotateCW 15s linear infinite;
+        }
+        .orb-geo-inner {
+            position: absolute; inset: 15%; border: 1px solid var(--soft-blue);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            opacity: 0.3; z-index: 4; animation: rotateCCW 10s linear infinite;
+        }
+
+        /* ذرات الذهب (Particles) */
+        .orb-dust {
+            position: absolute; inset: -5%; border-radius: 50%;
+            background-image: radial-gradient(circle, var(--gold) 1px, transparent 1px);
+            background-size: 20px 20px; opacity: 0.3;
+            animation: rotateCW 25s linear infinite; z-index: 2;
+        }
+
+        .logo-img {
+            width: 52%; height: 52%; z-index: 5;
+            mix-blend-mode: var(--logo-blend); filter: var(--logo-filter);
+            transition: 0.6s transform cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes energyPulse { from { transform: scale(0.9); opacity: 0.3; } to { transform: scale(1.1); opacity: 0.6; } }
+        @keyframes orbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes rotateCW { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes rotateCCW { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+        /* ========================================= */
+
+        /* الاسم الملكي */
+        .brand-name-h1 {
+            font-size: clamp(1.6rem, 4vw, 3rem); font-weight: 900; line-height: 1.2; text-align: center;
+            background: linear-gradient(90deg, var(--text-main) 0%, var(--gold) 50%, var(--text-main) 100%);
             background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shine 4s linear infinite;
+            animation: textShine 5s linear infinite; margin-top: 15px;
         }
-        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes textShine { to { background-position: 200% center; } }
 
-        .brand-sub {
-            font-size: clamp(0.6rem, 1.5vw, 0.85rem); color: var(--accent-blue); font-weight: 800;
-            text-transform: uppercase; letter-spacing: 5px; margin-top: 10px; opacity: 0.9; text-align: center;
+        .brand-sub-p {
+            font-size: clamp(0.65rem, 1.2vw, 0.85rem); color: var(--accent-blue); font-weight: 800;
+            text-transform: uppercase; letter-spacing: 5px; margin-top: 10px; text-align: center;
         }
 
-        /* التبويبات */
-        .nav-tabs {
-            display: flex; gap: 10px; margin: 0 auto 40px; background: rgba(255,255,255,0.05);
-            padding: 6px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);
+        /* التبويبات المتجاوبة */
+        .nav-tabs-wrapper {
+            display: flex; gap: 10px; margin: 40px auto; background: var(--card-bg);
+            padding: 6px; border-radius: 20px; border: 1px solid var(--card-border);
             max-width: 500px;
         }
-        .tab-btn {
-            flex: 1; padding: 14px; border-radius: 16px; font-weight: 800; font-size: 0.9rem;
-            color: #64748b; transition: 0.4s;
+        .tab-item {
+            flex: 1; padding: 15px; border-radius: 16px; font-weight: 900; font-size: 0.9rem;
+            color: var(--text-sub); transition: 0.4s;
         }
-        .tab-btn.active { background: var(--accent-blue); color: #fff; box-shadow: 0 10px 20px rgba(59,130,246,0.3); }
+        .tab-item.active { background: var(--accent-blue); color: #fff; box-shadow: 0 10px 20px rgba(59,130,246,0.3); }
 
-        /* البطاقات وتنسيق الـ Grid */
-        #steps-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 0 20px;
+        /* الشبكة المرنة (الكمبيوتر واللاب توب) */
+        .grid-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px; padding: 0 25px; max-width: 1400px; margin: 0 auto;
         }
 
         .step-card {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
-            padding: 25px; border-radius: 24px;
-            display: flex; align-items: flex-start; gap: 20px;
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            padding: 30px; border-radius: 28px; display: flex; align-items: flex-start; gap: 20px;
             cursor: pointer; position: relative; overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0; transform: translateY(20px);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0; transform: translateY(30px);
         }
-        .step-card.show { opacity: 1; transform: translateY(0); }
+        .step-card.reveal { opacity: 1; transform: translateY(0); }
+        .step-card:active { transform: scale(0.96); border-color: var(--accent-blue); }
 
-        /* تأثير النبض عند الضغط */
-        .step-card::after {
-            content: ""; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
-            background: rgba(59, 130, 246, 0.2); border-radius: 50%;
-            transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s;
-        }
-        .step-card:active::after { width: 400px; height: 400px; opacity: 0; }
-
-        .step-card:active { transform: scale(0.97); background: rgba(59, 130, 246, 0.1); border-color: var(--accent-blue); }
-
-        .step-num {
-            width: 45px; height: 45px; background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            font-weight: 900; flex-shrink: 0; font-size: 1.1rem; color: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        .step-num-box {
+            width: 48px; height: 48px; background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; flex-shrink: 0; font-size: 1.2rem; color: white;
+            box-shadow: 0 5px 15px rgba(59,130,246,0.2);
         }
 
-        /* شريط التواصل السفلي */
-        .dock {
+        /* شريط التواصل */
+        .dock-bar {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 500px; background: rgba(10,10,10,0.85);
-            backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1);
+            width: 90%; max-width: 500px; background: var(--dock-bg);
+            backdrop-filter: blur(20px); border: 1px solid var(--card-border);
             border-radius: 30px; padding: 15px; display: flex; justify-content: space-around; z-index: 1000;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
-        .dock-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: #475569; font-size: 0.8rem; font-weight: 700; text-decoration: none; }
-        .dock-item.active { color: #fff; }
-        .dock-item i { font-size: 1.5rem; }
+        .dock-action { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-sub); font-size: 0.85rem; font-weight: 700; text-decoration: none; }
+        .dock-action.active { color: var(--accent-blue); }
+        .dock-action i { font-size: 1.6rem; }
 
-        /* تحسينات للشاشات الكبيرة */
+        /* تحسينات الشاشات الكبيرة */
         @media (min-width: 1024px) {
-            .header-area { padding: 100px 0 60px; }
-            #steps-container { grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 0 50px; }
-            .nav-tabs { max-width: 600px; margin-bottom: 60px; }
+            .grid-container { grid-template-columns: repeat(3, 1fr); padding: 0 100px; }
+            .logo-header { padding: 120px 0 60px; }
         }
     </style>
 </head>
-<body>
+<body class="dark-theme">
 
-    <!-- زر اللغة المثبت -->
-    <div id="lang-toggle-btn" onclick="toggleLanguage()">
-        <span id="lang-label">EN</span>
-    </div>
-
-    <!-- الفلاتر -->
     <svg width="0" height="0" style="position: absolute;">
       <filter id="white-remover">
         <feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 -1.5 -1.5 -1.5 4.5 0" />
       </filter>
     </svg>
 
+    <div class="controls-layer">
+        <div class="btn-action" onclick="toggleLanguage()">
+            <span id="lang-tag" class="font-black text-xs">EN</span>
+        </div>
+        <div class="btn-action" onclick="toggleTheme()">
+            <i id="theme-icon" class="fa-solid fa-moon"></i>
+        </div>
+    </div>
+
     <div class="bg-pattern"></div>
 
-    <header class="header-area">
-        <div class="logo-box">
-            <img src="https://d.top4top.io/p_3660ar88q0.jpg" class="logo-filter" alt="Logo">
+    <header class="logo-header">
+        <!-- الأورب المطور المحصور -->
+        <div class="orb-master">
+            <div class="orb-dust"></div>
+            <div class="orb-pulse"></div>
+            <div class="orb-glass-shell"></div>
+            <div class="orb-geo-layer"></div>
+            <div class="orb-geo-inner"></div>
+            <img src="https://d.top4top.io/p_3660ar88q0.jpg" class="logo-img" alt="Bader Al-Hogail">
         </div>
-        <div class="brand-frame">
-            <h1 class="brand-name" id="ui-title">مكتب بدر الحقيل للعقارات</h1>
-            <p class="brand-sub" id="ui-subtitle">استشارات هندسية معتمدة</p>
+        
+        <div class="brand-section">
+            <h1 class="brand-name-h1" id="ui-title">مكتب بدر الحقيل للعقارات</h1>
+            <p class="brand-sub-p" id="ui-subtitle">استشارات هندسية معتمدة</p>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto pb-48">
-        <div class="nav-tabs">
-            <button onclick="switchTrack('res')" id="res-btn" class="tab-btn active">المسار السكني</button>
-            <button onclick="switchTrack('com')" id="com-btn" class="tab-btn">المسار التجاري</button>
+    <main class="max-w-7xl mx-auto pb-60">
+        <div class="nav-tabs-wrapper">
+            <button onclick="switchTrack('res')" id="res-btn" class="tab-item active">المسار السكني</button>
+            <button onclick="switchTrack('com')" id="com-btn" class="tab-item">المسار التجاري</button>
         </div>
 
-        <!-- الخطوات (الآن تدعم الـ Grid التلقائي) -->
-        <div id="steps-container"></div>
+        <div id="steps-container" class="grid-container"></div>
 
-        <!-- زر الطلب السفلي -->
-        <div class="mt-20 px-5 max-w-3xl mx-auto">
-            <div class="bg-blue-600/10 border border-blue-500/20 rounded-[40px] p-10 text-center backdrop-blur-sm">
-                <p class="text-gray-400 text-lg mb-6 font-medium" id="ui-cta-text">أنا معك خطوة بخطوة للإشراف على معاملتك الهندسية وضمان قبولها نظاماً</p>
-                <a href="tel:0569982526" id="ui-cta-btn" class="inline-block bg-blue-600 text-white px-14 py-4 rounded-2xl font-bold text-lg active:scale-95 transition-all hover:bg-blue-500 shadow-xl shadow-blue-900/20">
+        <div class="mt-24 px-6 max-w-3xl mx-auto text-center">
+            <div class="bg-blue-600/10 border border-blue-500/20 rounded-[40px] p-12 backdrop-blur-sm">
+                <p class="text-gray-400 text-lg mb-8 font-medium leading-relaxed" id="ui-cta-text">أنا معك خطوة بخطوة للإشراف على معاملتك الهندسية وضمان قبولها نظاماً</p>
+                <a href="tel:0569982526" id="ui-cta-btn" class="inline-block bg-blue-600 text-white px-16 py-4 rounded-2xl font-black text-lg active:scale-95 transition-all shadow-xl shadow-blue-500/30">
                     ابدأ معاملتك الآن
                 </a>
             </div>
         </div>
     </main>
 
-    <!-- شريط المهام السفلي -->
-    <nav class="dock">
-        <a href="tel:0569982526" class="dock-item"><i class="fa-solid fa-phone-volume text-blue-500"></i><span id="ui-dock-call">اتصال</span></a>
-        <a href="https://wa.me/966569982526" target="_blank" class="dock-item active"><i class="fa-brands fa-whatsapp text-green-500"></i><span id="ui-dock-wa">واتساب</span></a>
-        <a href="https://maps.app.goo.gl/R61NfEcdJApitWE59" target="_blank" class="dock-item"><i class="fa-solid fa-location-dot text-gray-400"></i><span id="ui-dock-loc">الموقع</span></a>
+    <nav class="dock-bar">
+        <a href="tel:0569982526" class="dock-action"><i class="fa-solid fa-phone-volume"></i><span id="ui-call">اتصال</span></a>
+        <a href="https://wa.me/966569982526" target="_blank" class="dock-action active"><i class="fa-brands fa-whatsapp text-green-500"></i><span id="ui-wa">واتساب</span></a>
+        <a href="https://maps.app.goo.gl/R61NfEcdJApitWE59" target="_blank" class="dock-action"><i class="fa-solid fa-location-dot"></i><span id="ui-loc">الموقع</span></a>
     </nav>
 
     <script>
         const dictionary = {
             ar: {
                 langLabel: "EN", title: "مكتب بدر الحقيل للعقارات", subtitle: "استشارات هندسية معتمدة",
-                ctaText: "أنا معك خطوة بخطوة للإشراف على معاملتك الهندسية وضمان قبولها نظاماً",
+                ctaText: "أنا معك خطوة بخطوة للإشراف على معاملتك الهندسية وضمان قبولها نظاماً بأعلى معايير الجودة.",
                 ctaBtn: "ابدأ معاملتك الآن", resTab: "المسار السكني", comTab: "المسار التجاري",
                 call: "اتصال", wa: "واتساب", loc: "الموقع",
                 data: {
@@ -211,17 +284,17 @@
                     ],
                     com: [
                         { t: "فحص المواقع التجارية", d: "أقوم بمعاينة الموقع ومطابقة المساحات مع الأنشطة واشتراطات الدفاع المدني لضمان القبول." },
-                        { t: "مخططات الوضع القائم", d: "توثيق شامل لمنشأتك التجارية بشكل هندسي يسهل عليك عملية التخطيط والتطوير مستقبلاً." },
+                        { t: "مخططات الوضع القائم", d: "توثيق شامل لمنشأتك التجارية بشكل هندسي يسهل عليك عملية التخطيط والتطوير." },
                         { t: "التخطيط الهندسي", d: "أصمم لك توزيعاً هندسياً يحقق أقصى استفادة من المساحة التجارية بما يخدم نشاطك." },
                         { t: "شهادات السلامة", d: "أشرف على إعداد التقارير الفنية التي تثبت مطابقة منشأتك للمعايير الإنشائية الحديثة." },
-                        { t: "تصميم الواجهات 3D", d: "أمنحك تصوراً عصرياً لواجهات نشاطك التجاري مع الالتزام التام بالهوية البصرية للأمانة." },
+                        { t: "تصميم الواجهات 3D", d: "أمنحك تصوراً عصرياً لواجهات نشاطك التجاري مع الالتزام التام بالهوية البصرية." },
                         { t: "إصدار الرخص التجارية", d: "أدير ملفك التقني لدى البلدية بصفة شخصية لضمان صدور الرخصة في وقت قياسي." }
                     ]
                 }
             },
             en: {
                 langLabel: "AR", title: "Bader Al-Hogail Real Estate", subtitle: "Certified Engineering Consultancy",
-                ctaText: "I personally supervise your engineering transactions to ensure official approval.",
+                ctaText: "I personally supervise your engineering transactions to ensure official approval and quality.",
                 ctaBtn: "Start Process Now", resTab: "Residential", comTab: "Commercial",
                 call: "Call", wa: "WhatsApp", loc: "Location",
                 data: {
@@ -233,58 +306,63 @@
                         { t: "Licensing Follow-up", d: "I personally manage your 'Balady' platform file until the final license is issued." }
                     ],
                     com: [
-                        { t: "Commercial Site Audit", d: "Inspecting sites to match activities with safety and legal requirements." },
-                        { t: "Commercial Status Documentation", d: "Full engineering documentation for your facility to aid future planning and development." },
+                        { t: "Commercial Site Audit", d: "Inspecting commercial sites to match activities with safety and legal requirements." },
+                        { t: "Commercial Status Documentation", d: "Full engineering records for your facility to aid future planning and development." },
                         { t: "Spatial Engineering Layout", d: "Designing layouts that maximize commercial efficiency to serve your business goals." },
                         { t: "Safety Code Compliance", d: "Supervising technical reports to ensure your facility meets modern building standards." },
                         { t: "3D Facade Visuals", d: "Providing modern visual concepts for your business facade following legal identity." },
-                        { t: "Commercial Licensing", d: "I manage your file personally with authorities for the fastest license issuance." }
+                        { t: "Commercial Licensing", d: "I manage your file personally with authorities for the fastest possible license issuance." }
                     ]
                 }
             }
         };
 
-        let currentLang = 'ar';
-        let currentTrack = 'res';
+        let lang = 'ar';
+        let track = 'res';
+        let isDark = true;
 
-        function toggleLanguage() {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                currentLang = currentLang === 'ar' ? 'en' : 'ar';
-                document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-                const t = dictionary[currentLang];
-                document.getElementById('lang-label').innerText = t.langLabel;
-                document.getElementById('ui-title').innerText = t.title;
-                document.getElementById('ui-subtitle').innerText = t.subtitle;
-                document.getElementById('ui-cta-text').innerText = t.ctaText;
-                document.getElementById('ui-cta-btn').innerText = t.ctaBtn;
-                document.getElementById('res-btn').innerText = t.resTab;
-                document.getElementById('com-btn').innerText = t.comTab;
-                document.getElementById('ui-dock-call').innerText = t.call;
-                document.getElementById('ui-dock-wa').innerText = t.wa;
-                document.getElementById('ui-dock-loc').innerText = t.loc;
-                renderContent();
-                document.body.style.opacity = '1';
-            }, 300);
+        function toggleTheme() {
+            isDark = !isDark;
+            document.body.classList.toggle('light-mode');
+            document.getElementById('theme-icon').className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+            document.documentElement.style.setProperty('--logo-blend', isDark ? 'screen' : 'multiply');
+            document.documentElement.style.setProperty('--logo-filter', isDark ? 'url(#white-remover) contrast(1.2)' : 'contrast(1.3) brightness(1.0)');
         }
 
-        function switchTrack(track) {
-            currentTrack = track;
-            document.getElementById('res-btn').classList.toggle('active', track === 'res');
-            document.getElementById('com-btn').classList.toggle('active', track === 'com');
+        function toggleLanguage() {
+            lang = lang === 'ar' ? 'en' : 'ar';
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            const t = dictionary[lang];
+            document.getElementById('lang-tag').innerText = t.langLabel;
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-subtitle').innerText = t.subtitle;
+            document.getElementById('ui-cta-text').innerText = t.ctaText;
+            document.getElementById('ui-cta-btn').innerText = t.ctaBtn;
+            document.getElementById('res-btn').innerText = t.resTab;
+            document.getElementById('com-btn').innerText = t.comTab;
+            document.getElementById('ui-call').innerText = t.call;
+            document.getElementById('ui-wa').innerText = t.wa;
+            document.getElementById('ui-loc').innerText = t.loc;
+            renderContent();
+        }
+
+        function switchTrack(t) {
+            track = t;
+            document.getElementById('res-btn').classList.toggle('active', t === 'res');
+            document.getElementById('com-btn').classList.toggle('active', t === 'com');
             renderContent();
         }
 
         function renderContent() {
             const container = document.getElementById('steps-container');
             container.innerHTML = '';
-            const steps = dictionary[currentLang].data[currentTrack];
+            const steps = dictionary[lang].data[track];
             steps.forEach((step, index) => {
                 const card = document.createElement('div');
                 card.className = 'step-card';
-                card.innerHTML = `<div class="step-num">${index + 1}</div><div class="flex-1"><h3 class="text-lg font-bold text-white mb-2">${step.t}</h3><p class="text-sm text-gray-400 font-medium leading-relaxed">${step.d}</p></div>`;
+                card.innerHTML = `<div class="step-num-box">${index + 1}</div><div class="flex-1"><h3 class="text-xl font-bold mb-2">${step.t}</h3><p class="text-sm text-gray-400 font-medium leading-relaxed">${step.d}</p></div>`;
                 container.appendChild(card);
-                setTimeout(() => card.classList.add('show'), index * 100);
+                setTimeout(() => card.classList.add('reveal'), index * 100);
             });
         }
 
