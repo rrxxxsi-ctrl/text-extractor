@@ -22,11 +22,10 @@
             margin: 0; padding: 0;
             overflow-x: hidden;
             user-select: none;
-            transition: background 0.5s ease;
+            transition: opacity 0.4s ease;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* خطوط مخصصة */
         [dir="rtl"] body { font-family: 'Cairo', sans-serif; }
         [dir="ltr"] body { font-family: 'Montserrat', sans-serif; }
 
@@ -37,70 +36,91 @@
             background-size: 40px 40px;
         }
 
-        /* زر اللغة المثبت - ثابت في مكانه دائماً */
+        /* زر اللغة المثبت دائماً */
         #lang-toggle-btn {
-            position: fixed;
-            top: 25px;
-            left: 20px; /* ثابت في اليسار دائماً لتجنب القفز */
-            z-index: 9999;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed; top: 25px; left: 20px; z-index: 9999;
+            width: 48px; height: 48px; background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transition: 0.3s;
         }
-        #lang-toggle-btn:active { transform: scale(0.9); }
-        #lang-toggle-btn span { font-weight: 900; font-size: 0.8rem; color: var(--soft-blue); pointer-events: none; }
+        #lang-toggle-btn span { font-weight: 900; font-size: 0.75rem; color: var(--soft-blue); }
 
         /* الهيدر واللوجو */
         .logo-filter { filter: url(#white-remover) contrast(1.2); mix-blend-mode: screen; width: 100%; height: 100%; object-fit: contain; }
-        .header-area { padding: 45px 0 25px; display: flex; flex-direction: column; align-items: center; position: relative; }
-        .logo-box { width: 120px; height: 120px; z-index: 10; position: relative; }
-        .laser { position: absolute; width: 100%; height: 2px; background: var(--accent-blue); box-shadow: 0 0 15px var(--accent-blue); top: 0; opacity: 0; animation: scan 3s infinite linear; }
-        @keyframes scan { 0% { top: 0%; opacity: 0; } 50% { top: 50%; opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        .header-area { padding: 40px 0 30px; display: flex; flex-direction: column; align-items: center; position: relative; }
+        .logo-box { width: 100px; height: 100px; z-index: 10; position: relative; margin-bottom: 20px; }
+        
+        /* --- استعادة جماليات الاسم (الإطار واللمعان) --- */
+        .brand-frame {
+            position: relative; padding: 12px 30px; display: inline-block;
+        }
+        .brand-frame::before, .brand-frame::after {
+            content: ''; position: absolute; width: 20px; height: 20px; border: 2px solid var(--accent-blue); transition: 0.5s;
+        }
+        [dir="rtl"] .brand-frame::before { top: 0; right: 0; border-bottom: 0; border-left: 0; }
+        [dir="rtl"] .brand-frame::after { bottom: 0; left: 0; border-top: 0; border-right: 0; }
+        [dir="ltr"] .brand-frame::before { top: 0; left: 0; border-bottom: 0; border-right: 0; }
+        [dir="ltr"] .brand-frame::after { bottom: 0; right: 0; border-top: 0; border-left: 0; }
 
         .brand-name {
-            font-size: clamp(1.3rem, 5vw, 2rem); font-weight: 900;
-            background: linear-gradient(to bottom, #ffffff 40%, var(--soft-blue) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 10px rgba(59, 130, 246, 0.3));
+            font-size: clamp(1.2rem, 5.5vw, 1.9rem); font-weight: 900; line-height: 1.2;
+            background: linear-gradient(90deg, #fff 0%, var(--soft-blue) 50%, #fff 100%);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .brand-sub {
+            font-size: 0.6rem; color: var(--accent-blue); font-weight: 800;
+            text-transform: uppercase; letter-spacing: 4px; margin-top: 8px; opacity: 0.8;
+            text-align: center;
         }
 
         /* التبويبات */
         .nav-tabs {
-            display: flex; gap: 8px; margin: 25px 20px; background: rgba(255,255,255,0.05);
-            padding: 5px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);
+            display: flex; gap: 8px; margin: 20px; background: rgba(255,255,255,0.05);
+            padding: 5px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05);
         }
         .tab-btn {
-            flex: 1; padding: 12px; border-radius: 16px; font-weight: 800; font-size: 0.85rem;
+            flex: 1; padding: 12px; border-radius: 14px; font-weight: 800; font-size: 0.8rem;
             color: #64748b; transition: 0.4s;
         }
         .tab-btn.active { background: var(--accent-blue); color: #fff; box-shadow: 0 10px 20px rgba(59,130,246,0.3); }
 
-        /* البطاقات وأنيميشن الانتقال */
-        #steps-container { transition: opacity 0.3s ease; }
+        /* --- تأثيرات البطاقات عند الضغط --- */
         .step-card {
             background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
-            margin: 0 20px 15px; padding: 20px; border-radius: 24px;
+            margin: 0 20px 12px; padding: 18px; border-radius: 20px;
             display: flex; align-items: flex-start; gap: 15px;
+            cursor: pointer; position: relative; overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0; transform: translateY(20px);
-            transition: 0.5s ease forwards;
         }
         .step-card.show { opacity: 1; transform: translateY(0); }
-        .step-card:active { transform: scale(0.97); background: rgba(59, 130, 246, 0.1); }
+
+        /* تأثير النبض الضوئي عند الضغط */
+        .step-card::after {
+            content: ""; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
+            background: rgba(59, 130, 246, 0.2); border-radius: 50%;
+            transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s;
+        }
+        .step-card:active::after { width: 300px; height: 300px; opacity: 0; }
+
+        .step-card:active {
+            transform: scale(0.96) translateY(2px);
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-blue);
+        }
 
         .step-num {
-            width: 32px; height: 32px; background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            width: 35px; height: 35px; background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             border-radius: 10px; display: flex; align-items: center; justify-content: center;
-            font-weight: 900; flex-shrink: 0; font-size: 0.75rem;
+            font-weight: 900; flex-shrink: 0; font-size: 0.85rem; color: white;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .step-card:active .step-num { transform: rotate(15deg) scale(1.1); box-shadow: 0 0 15px var(--accent-blue); }
 
         /* شريط التواصل */
         .dock {
@@ -111,19 +131,14 @@
         }
         .dock-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #475569; font-size: 0.7rem; font-weight: 700; text-decoration: none; }
         .dock-item.active { color: #fff; }
-
-        /* تأثيرات الإخفاء للتبديل */
-        .fade-content { opacity: 0; }
     </style>
 </head>
 <body>
 
-    <!-- زر اللغة المطور والمثبت -->
     <div id="lang-toggle-btn" onclick="toggleLanguage()">
         <span id="lang-label">EN</span>
     </div>
 
-    <!-- فلاتر اللوجو -->
     <svg width="0" height="0" style="position: absolute;">
       <filter id="white-remover">
         <feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 -1.5 -1.5 -1.5 4.5 0" />
@@ -134,13 +149,11 @@
 
     <header class="header-area">
         <div class="logo-box">
-            <div class="laser"></div>
             <img src="https://d.top4top.io/p_3660ar88q0.jpg" class="logo-filter" alt="Logo">
         </div>
-        
-        <div class="text-center mt-6 px-4">
+        <div class="brand-frame">
             <h1 class="brand-name" id="ui-title">مكتب بدر الحقيل للعقارات</h1>
-            <p class="text-[0.6rem] tracking-[4px] text-blue-400 font-bold uppercase mt-2" id="ui-subtitle">استشارات هندسية معتمدة</p>
+            <p class="brand-sub" id="ui-subtitle">استشارات هندسية معتمدة</p>
         </div>
     </header>
 
@@ -150,55 +163,38 @@
             <button onclick="switchTrack('com')" id="com-btn" class="tab-btn">المسار التجاري</button>
         </div>
 
-        <!-- الخطوات -->
         <div id="steps-container"></div>
 
-        <!-- زر الطلب -->
         <div class="mt-8 px-5">
             <div class="bg-blue-600/10 border border-blue-500/20 rounded-3xl p-6 text-center">
                 <p class="text-gray-400 text-sm mb-4" id="ui-cta-text">أنا معك خطوة بخطوة للإشراف على معاملتك الهندسية وضمان قبولها نظاماً</p>
-                <a href="tel:0569982526" id="ui-cta-btn" class="inline-block bg-blue-600 text-white px-10 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-blue-900/20 active:scale-95 transition-all">
+                <a href="tel:0569982526" id="ui-cta-btn" class="inline-block bg-blue-600 text-white px-10 py-3 rounded-2xl font-bold text-sm active:scale-95 transition-all">
                     ابدأ معاملتك الآن
                 </a>
             </div>
         </div>
     </main>
 
-    <!-- شريط المهام السفلي -->
     <nav class="dock">
-        <a href="tel:0569982526" class="dock-item">
-            <i class="fa-solid fa-phone text-blue-500 text-xl"></i>
-            <span id="ui-dock-call">اتصال</span>
-        </a>
-        <a href="https://wa.me/966569982526" target="_blank" class="dock-item active">
-            <i class="fa-brands fa-whatsapp text-green-500 text-2xl"></i>
-            <span id="ui-dock-wa">واتساب</span>
-        </a>
-        <a href="https://maps.app.goo.gl/R61NfEcdJApitWE59" target="_blank" class="dock-item">
-            <i class="fa-solid fa-location-dot text-gray-400 text-xl"></i>
-            <span id="ui-dock-loc">الموقع</span>
-        </a>
+        <a href="tel:0569982526" class="dock-item"><i class="fa-solid fa-phone text-blue-500 text-xl"></i><span id="ui-dock-call">اتصال</span></a>
+        <a href="https://wa.me/966569982526" target="_blank" class="dock-item active"><i class="fa-brands fa-whatsapp text-green-500 text-2xl"></i><span id="ui-dock-wa">واتساب</span></a>
+        <a href="https://maps.app.goo.gl/R61NfEcdJApitWE59" target="_blank" class="dock-item"><i class="fa-solid fa-location-dot text-gray-400 text-xl"></i><span id="ui-dock-loc">الموقع</span></a>
     </nav>
 
     <script>
-        // قاعدة البيانات الشاملة
         const dictionary = {
             ar: {
-                langLabel: "EN",
-                title: "مكتب بدر الحقيل للعقارات",
-                subtitle: "استشارات هندسية معتمدة",
+                langLabel: "EN", title: "مكتب بدر الحقيل للعقارات", subtitle: "استشارات هندسية معتمدة",
                 ctaText: "أنا معك خطوة بخطوة للإشراف على معاملتك الهندسية وضمان قبولها نظاماً",
-                ctaBtn: "ابدأ معاملتك الآن",
-                resTab: "المسار السكني",
-                comTab: "المسار التجاري",
+                ctaBtn: "ابدأ معاملتك الآن", resTab: "المسار السكني", comTab: "المسار التجاري",
                 call: "اتصال", wa: "واتساب", loc: "الموقع",
                 data: {
                     res: [
-                        { t: "رفع المقاسات الميداني", d: "أقوم بزيارة موقعك شخصياً وفحصه بدقة عالية باستخدام أجهزة الليزر لضمان مطابقة المخططات للواقع الفعلي." },
-                        { t: "مخطط الوضع القائم", d: "أعمل على إعداد رسومات هندسية دقيقة توضح الحالة الراهنة لمبناك لتكون مستنداً نظامياً معتمداً." },
+                        { t: "رفع المقاسات الميداني", d: "أقوم بزيارة موقعك شخصياً وفحصه بدقة عالية باستخدام أجهزة الليزر لضمان مطابقة المخططات للواقع." },
+                        { t: "مخطط الوضع القائم", d: "أعمل على إعداد رسومات هندسية دقيقة توضح الحالة الراهنة لمبناك لتكون مستنداً نظامياً." },
                         { t: "تصميم المخطط المقترح", d: "أقدم لك حلولاً هندسية مبتكرة تخدم احتياجاتك مع الالتزام التام بكود البناء السعودي." },
                         { t: "التقرير الفني المعتمد", d: "أصدر لك تقارير السلامة الإنشائية تحت إشرافي الشخصي بعد التأكد من كفاءة البناء." },
-                        { t: "متابعة الاعتماد", d: "أتولى بنفسي رفع المعاملة عبر منصة بلدي ومتابعتها حتى صدور الرخصة النهائية." }
+                        { t: "متابعة الاعتماد والترخيص", d: "أتولى بنفسي رفع المعاملة عبر منصة بلدي ومتابعتها حتى صدور الرخصة النهائية." }
                     ],
                     com: [
                         { t: "فحص المواقع التجارية", d: "أقوم بمعاينة الموقع ومطابقة المساحات مع الأنشطة واشتراطات الدفاع المدني لضمان القبول." },
@@ -206,34 +202,30 @@
                         { t: "التخطيط الهندسي", d: "أصمم لك توزيعاً هندسياً يحقق أقصى استفادة من المساحة التجارية بما يخدم نشاطك." },
                         { t: "شهادات السلامة", d: "أشرف على إعداد التقارير الفنية التي تثبت مطابقة منشأتك للمعايير الإنشائية الحديثة." },
                         { t: "تصميم الواجهات 3D", d: "أمنحك تصوراً عصرياً لواجهات نشاطك التجاري مع الالتزام التام بالهوية البصرية للأمانة." },
-                        { t: "إصدار الرخص", d: "أدير ملفك التقني لدى البلدية بصفة شخصية لضمان صدور الرخصة في وقت قياسي." }
+                        { t: "إصدار الرخص التجارية", d: "أدير ملفك التقني لدى البلدية بصفة شخصية لضمان صدور الرخصة في وقت قياسي." }
                     ]
                 }
             },
             en: {
-                langLabel: "AR",
-                title: "Bader Al-Hogail Real Estate",
-                subtitle: "Certified Engineering Consultancy",
-                ctaText: "I am with you step-by-step to supervise your transaction and ensure legal approval.",
-                ctaBtn: "Start Process Now",
-                resTab: "Residential Track",
-                comTab: "Commercial Track",
+                langLabel: "AR", title: "Bader Al-Hogail Real Estate", subtitle: "Certified Engineering Consultancy",
+                ctaText: "I personally supervise your engineering transactions to ensure official approval.",
+                ctaBtn: "Start Process Now", resTab: "Residential", comTab: "Commercial",
                 call: "Call", wa: "WhatsApp", loc: "Location",
                 data: {
                     res: [
-                        { t: "Field Measurements", d: "I personally visit the site using laser tools to ensure plans perfectly match reality." },
-                        { t: "Existing Status Plan", d: "Preparing accurate drawings of the current building state as an approved legal document." },
-                        { t: "Proposed Design", d: "Providing innovative engineering solutions that meet your needs and comply with Saudi Code." },
-                        { t: "Technical Report", d: "Issuing certified structural safety reports under my personal professional supervision." },
-                        { t: "Approval Follow-up", d: "I personally manage the 'Balady' platform submission until your license is issued." }
+                        { t: "Laser Site Survey", d: "I visit your site personally to take laser-accurate measurements ensuring plan reality." },
+                        { t: "Existing Status Plan", d: "Preparing precise engineering drawings that reflect the current state of your building." },
+                        { t: "Proposed Design", d: "Providing innovative solutions tailored to your needs and compliant with Saudi Building Code." },
+                        { t: "Certified Safety Report", d: "Issuing structural safety reports under my personal supervision for maximum quality." },
+                        { t: "Licensing Follow-up", d: "I personally manage your 'Balady' platform file until the final license is issued." }
                     ],
                     com: [
-                        { t: "Commercial Audit", d: "Inspecting the site to match areas with designated activities and safety requirements." },
-                        { t: "Status Documentation", d: "Comprehensive engineering records for your facility to aid future planning and development." },
-                        { t: "Spatial Planning", d: "Designing a layout that maximizes commercial space efficiency for your business." },
-                        { t: "Safety Certification", d: "Supervising technical reports to ensure your facility meets modern building standards." },
-                        { t: "3D Facade Design", d: "Providing modern visual concepts for your business facade following Municipality identity." },
-                        { t: "License Issuance", d: "I personally manage your Municipality file to ensure rapid license issuance." }
+                        { t: "Commercial Site Audit", d: "Inspecting commercial sites to match activities with safety and legal requirements." },
+                        { t: "Status Documentation", d: "Full engineering documentation for your facility to aid future planning and development." },
+                        { t: "Spatial Layout Design", d: "Designing layouts that maximize commercial efficiency to serve your business goals." },
+                        { t: "Safety Code Compliance", d: "Supervising technical reports to ensure your facility meets modern building standards." },
+                        { t: "3D Facade Visuals", d: "Providing modern visual concepts for your business facade following legal identity." },
+                        { t: "Commercial Licensing", d: "I personally manage your Municipality file for the fastest possible license issuance." }
                     ]
                 }
             }
@@ -242,17 +234,11 @@
         let currentLang = 'ar';
         let currentTrack = 'res';
 
-        // وظيفة تبديل اللغة
         function toggleLanguage() {
-            // تأثير التلاشي
             document.body.style.opacity = '0';
-            
             setTimeout(() => {
                 currentLang = currentLang === 'ar' ? 'en' : 'ar';
                 document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-                document.documentElement.lang = currentLang;
-
-                // تحديث النصوص
                 const t = dictionary[currentLang];
                 document.getElementById('lang-label').innerText = t.langLabel;
                 document.getElementById('ui-title').innerText = t.title;
@@ -264,13 +250,11 @@
                 document.getElementById('ui-dock-call').innerText = t.call;
                 document.getElementById('ui-dock-wa').innerText = t.wa;
                 document.getElementById('ui-dock-loc').innerText = t.loc;
-
                 renderContent();
                 document.body.style.opacity = '1';
             }, 300);
         }
 
-        // وظيفة تبديل المسار (سكني/تجاري)
         function switchTrack(track) {
             currentTrack = track;
             document.getElementById('res-btn').classList.toggle('active', track === 'res');
@@ -278,31 +262,19 @@
             renderContent();
         }
 
-        // بناء المحتوى
         function renderContent() {
             const container = document.getElementById('steps-container');
             container.innerHTML = '';
-            
             const steps = dictionary[currentLang].data[currentTrack];
-            
             steps.forEach((step, index) => {
                 const card = document.createElement('div');
                 card.className = 'step-card';
-                card.innerHTML = `
-                    <div class="step-num">${index + 1}</div>
-                    <div>
-                        <h3 class="text-sm font-bold text-white mb-1">${step.t}</h3>
-                        <p class="text-[11px] text-gray-400 font-medium leading-relaxed">${step.d}</p>
-                    </div>
-                `;
+                card.innerHTML = `<div class="step-num">${index + 1}</div><div class="flex-1"><h3 class="text-sm font-bold text-white mb-1">${step.t}</h3><p class="text-[11px] text-gray-400 font-medium leading-relaxed">${step.d}</p></div>`;
                 container.appendChild(card);
-                
-                // أنيميشن الظهور المتتابع
                 setTimeout(() => card.classList.add('show'), index * 100);
             });
         }
 
-        // التشغيل الأول
         window.onload = renderContent;
     </script>
 </body>
