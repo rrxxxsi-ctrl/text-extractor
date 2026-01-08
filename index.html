@@ -11,168 +11,195 @@
     
     <style>
         :root {
-            --bg-black: #020617; /* أسود داكن جداً */
-            --card-bg: rgba(30, 41, 59, 0.5); /* زجاجي داكن */
-            --primary-blue: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.3);
+            --bg-pure: #000000;
+            --accent-blue: #3b82f6;
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-black);
-            color: #f1f5f9;
+            background-color: var(--bg-pure);
+            color: #ffffff;
             margin: 0;
-            user-select: none;
             overflow-x: hidden;
+            user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* تأثير الخلفية المتوهجة */
-        .glow-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% -10%, #1e3a8a 0%, transparent 50%);
-            z-index: -1; opacity: 0.5;
+        /* تأثير الخلفية الفاخرة المتحركة */
+        .background-effect {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: var(--bg-pure);
+            overflow: hidden;
         }
 
-        /* تحسين منطقة الشعار - تصميم ملكي */
-        .logo-section {
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: move 20s infinite alternate;
+        }
+        .blob-1 { top: -10%; left: -10%; animation-delay: 0s; }
+        .blob-2 { bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(30, 58, 138, 0.2) 0%, transparent 70%); animation-delay: -5s; }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(100px, 50px) scale(1.2); }
+        }
+
+        /* ترويسة الهوية */
+        .header-section {
+            padding: 50px 20px;
             text-align: center;
         }
-        .logo-frame {
+        .logo-box {
             width: 120px;
             height: 120px;
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 10px;
+            background: white;
+            border-radius: 28px;
+            padding: 12px;
+            display: inline-block;
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.2);
             position: relative;
-            box-shadow: 0 0 30px var(--accent-glow);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .logo-frame img { width: 100%; height: 100%; object-fit: contain; }
+        /* لمعة على اللوجو */
+        .logo-box::after {
+            content: '';
+            position: absolute; inset: -2px;
+            border-radius: 30px;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
-        /* تبديل المسارات - تصميم نيون */
-        .tab-wrapper {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* أزرار التبديل - تصميم زجاجي */
+        .tab-nav {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 6px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
-        .tab-btn {
+        .tab-item {
             flex: 1;
             padding: 14px;
-            border-radius: 16px;
+            border-radius: 15px;
             font-weight: 800;
-            font-size: 0.9rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #64748b;
+            font-size: 0.85rem;
+            transition: 0.4s;
+            color: #94a3b8;
         }
-        .tab-btn.active {
-            background: var(--primary-blue);
-            color: #ffffff;
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+        .tab-item.active {
+            background: var(--accent-blue);
+            color: white;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
         }
 
-        /* بطاقات الخطوات الزجاجية */
-        .step-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        /* بطاقات المسار الهندسية */
+        .step-glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 20px;
+            padding: 22px;
             display: flex;
             align-items: center;
             gap: 20px;
-            position: relative;
             transition: 0.3s;
         }
-        .step-card:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.08); }
-        
-        .step-badge {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            border-radius: 15px;
+        .step-glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .step-indicator {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 900;
-            color: white;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+            font-size: 0.9rem;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
             flex-shrink: 0;
         }
 
-        /* الدوك السفلي العائم */
-        .dock-bar {
+        /* شريط التواصل السفلي */
+        .bottom-dock {
             position: fixed;
-            bottom: 30px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
             max-width: 400px;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 12px;
+            border-radius: 25px;
+            padding: 15px;
             display: flex;
             justify-content: space-around;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            z-index: 1000;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+            z-index: 2000;
         }
-        .dock-item {
+        .dock-action {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
-            color: #94a3b8;
-            font-size: 0.75rem;
+            gap: 6px;
+            color: #64748b;
+            font-size: 0.7rem;
             font-weight: 700;
         }
-        .dock-item.active { color: #ffffff; }
-        .dock-item i { font-size: 1.4rem; }
-        .wa-icon { color: #22c55e; }
+        .dock-action.active { color: white; }
+        .dock-action i { font-size: 1.4rem; }
+        .wa-green { color: #22c55e; }
 
     </style>
 </head>
-<body>
+<body class="pb-40">
 
-    <div class="glow-bg"></div>
+    <!-- تأثير الخلفية المميز -->
+    <div class="background-effect">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
 
     <!-- Header -->
-    <header class="logo-section">
-        <div class="logo-frame mb-6">
-            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Bader Logo">
+    <header class="header-section">
+        <div class="logo-box mb-6">
+            <img src="https://c.top4top.io/p_3649d0h3o0.jpg" alt="Logo">
         </div>
-        <h1 class="text-4xl font-black tracking-tighter text-white">بدر الحقيل</h1>
-        <p class="text-blue-500 font-bold text-xs uppercase tracking-[5px] mt-2">للعقارات والهندسة</p>
-        <div class="mt-8 flex items-center gap-3">
-            <span class="h-[1px] w-12 bg-gray-800"></span>
-            <span class="text-[10px] text-gray-500 font-black uppercase tracking-widest">Official Portal</span>
-            <span class="h-[1px] w-12 bg-gray-800"></span>
-        </div>
+        <h1 class="text-4xl font-black text-white tracking-tighter">بدر الحقيل</h1>
+        <p class="text-blue-500 font-black text-xs uppercase tracking-[6px] mt-2">للعقارات والهندسة</p>
     </header>
 
-    <main class="max-w-xl mx-auto px-6 pb-40">
+    <main class="max-w-xl mx-auto px-6">
         
-        <!-- نص العنوان -->
-        <div class="mb-8">
-            <h2 class="text-2xl font-black text-white border-r-4 border-blue-600 pr-4">دليل الإجراءات</h2>
-            <p class="text-gray-500 font-bold text-xs pr-4 mt-2 uppercase">تصحيح وضع المباني القائمة</p>
+        <!-- عنوان القسم -->
+        <div class="mb-10 text-center">
+            <h2 class="text-xl font-extrabold text-white opacity-90 inline-block relative">
+                دليل خطوات الإجراءات الرسمية
+                <span class="absolute -bottom-2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent"></span>
+            </h2>
         </div>
 
-        <!-- التبديل -->
-        <div class="tab-wrapper mb-10">
-            <button onclick="changePath('res')" id="res-tab" class="tab-btn active">المسار السكني</button>
-            <button onclick="changePath('com')" id="com-tab" class="tab-btn">المسار التجاري</button>
+        <!-- تبديل المسار -->
+        <div class="tab-nav mb-8">
+            <button onclick="togglePath('res')" id="res-tab" class="tab-item active">المسار السكني</button>
+            <button onclick="togglePath('com')" id="com-tab" class="tab-item">المسار التجاري</button>
         </div>
 
-        <!-- الخطوات -->
+        <!-- قائمة الخطوات -->
         <div id="steps-list" class="space-y-4">
             <!-- يتم تعبئتها بواسطة JS -->
         </div>
@@ -180,17 +207,17 @@
     </main>
 
     <!-- الدوك السفلي (التواصل) -->
-    <div class="dock-bar">
-        <a href="tel:0569982526" class="dock-item">
+    <div class="bottom-dock">
+        <a href="tel:0569982526" class="dock-action">
             <i class="fa-solid fa-phone-volume"></i>
             <span>اتصال</span>
         </a>
-        <a href="https://wa.me/966569982526" target="_blank" class="dock-item active">
-            <i class="fa-brands fa-whatsapp wa-icon"></i>
+        <a href="https://wa.me/966569982526" target="_blank" class="dock-action active">
+            <i class="fa-brands fa-whatsapp wa-green"></i>
             <span>واتساب</span>
         </a>
-        <a href="https://maps.app.goo.gl/R61NfEcdJApitWE59" target="_blank" class="dock-item">
-            <i class="fa-solid fa-map-location-dot"></i>
+        <a href="https://maps.app.goo.gl/R61NfEcdJApitWE59" target="_blank" class="dock-action">
+            <i class="fa-solid fa-location-dot"></i>
             <span>الموقع</span>
         </a>
     </div>
@@ -214,13 +241,13 @@
             ]
         };
 
-        function changePath(path) {
+        function togglePath(type) {
             const list = document.getElementById('steps-list');
             const resBtn = document.getElementById('res-tab');
             const comBtn = document.getElementById('com-tab');
 
             // تحديث الأزرار
-            if(path === 'res') {
+            if(type === 'res') {
                 resBtn.classList.add('active');
                 comBtn.classList.remove('active');
             } else {
@@ -228,38 +255,34 @@
                 resBtn.classList.remove('active');
             }
 
-            // تحديث المحتوى مع تأثير ظهور
+            // رسم الخطوات
             list.innerHTML = '';
-            content[path].forEach((step, idx) => {
-                const div = document.createElement('div');
-                div.className = 'step-card';
-                div.style.animation = `slideUp 0.5s ease forwards ${idx * 0.1}s`;
-                div.style.opacity = '0';
-                div.innerHTML = `
-                    <div class="step-badge">${idx + 1}</div>
+            content[type].forEach((step, idx) => {
+                const card = document.createElement('div');
+                card.className = 'step-glass-card';
+                card.style.animation = `fadeSlide 0.5s ease forwards ${idx * 0.1}s`;
+                card.style.opacity = '0';
+                
+                card.innerHTML = `
+                    <div class="step-indicator">${idx + 1}</div>
                     <div>
-                        <h3 class="text-sm font-black text-white">${step.t}</h3>
-                        <p class="text-[11px] text-gray-500 font-bold mt-1 leading-relaxed">${step.d}</p>
+                        <h4 class="text-sm font-black text-white">${step.t}</h4>
+                        <p class="text-[11px] text-gray-400 font-bold mt-1">${step.d}</p>
                     </div>
                 `;
-                list.appendChild(div);
+                list.appendChild(card);
             });
         }
 
         // تحريك العناصر
         const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes slideUp {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        `;
+        style.innerHTML = `@keyframes fadeSlide { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }`;
         document.head.appendChild(style);
 
-        // البدء
-        changePath('res');
+        // البدء بالمسار السكني
+        togglePath('res');
 
-        // منع القوائم
+        // تعطيل قائمة السياق (رسمية)
         document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
