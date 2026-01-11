@@ -55,7 +55,6 @@
             background-size: 50px 50px; opacity: 0.2;
         }
 
-        /* التحكم العلوي */
         .controls {
             position: fixed; top: 20px; left: 0; right: 0; z-index: 9999;
             padding: 0 20px; display: flex; justify-content: space-between;
@@ -69,7 +68,6 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.1); transition: 0.3s;
         }
 
-        /* --- منطقة اللوجو (Orb Effect) --- */
         .logo-area { display: flex; flex-direction: column; align-items: center; padding: 80px 0 30px; }
         .orb-master {
             position: relative; width: clamp(180px, 25vw, 220px); height: clamp(180px, 25vw, 220px);
@@ -95,18 +93,15 @@
         .logo-img-actual {
             width: 55%; height: 55%; z-index: 5;
             mix-blend-mode: var(--logo-blend); filter: var(--logo-filter);
-            /* إزالة الـ transition من هنا لجعل التبديل فوري */
         }
 
         @keyframes orbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
         @keyframes orbRotateCW { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* --- تأثيرات الاسم المميزة --- */
         .brand-section { 
             position: relative; margin-top: 15px; text-align: center;
             padding: 10px 40px; display: inline-block;
         }
-        /* الأركان الهندسية حول الاسم */
         .brand-section::before, .brand-section::after {
             content: ''; position: absolute; width: 20px; height: 20px;
             border: 3.5px solid var(--accent-blue); transition: 0.5s;
@@ -125,7 +120,6 @@
         }
         @keyframes textShine { to { background-position: 200% center; } }
 
-        /* المسارات والبطاقات */
         .nav-tabs {
             display: flex; gap: 8px; margin: 30px auto; background: var(--card-bg);
             padding: 5px; border-radius: 20px; border: 1px solid var(--card-border);
@@ -155,7 +149,6 @@
             font-weight: 900; flex-shrink: 0; font-size: 1rem; color: white;
         }
 
-        /* شريط التواصل */
         .dock {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             width: 92%; max-width: 450px; background: var(--dock-bg);
@@ -172,9 +165,6 @@
     </style>
 </head>
 <body class="dark-theme">
-
-    <!-- كود التحميل المسبق للوجو النهاري لضمان السرعة -->
-    <link rel="preload" as="image" href="https://d.top4top.io/p_3660ltd8v0.jpg">
 
     <svg width="0" height="0" style="position: absolute;">
       <filter id="white-remover">
@@ -203,7 +193,7 @@
         
         <div class="brand-section">
             <h1 class="brand-title-text" id="ui-title">مكتب بدر الحقيل للعقارات</h1>
-            <p class="text-[0.65rem] tracking-[4px] text-blue-400 font-bold uppercase mt-3 text-center" id="ui-subtitle">استشارات هندسية معتمدة</p>
+            <p class="text-[0.65rem] tracking-[4px] text-blue-400 font-bold uppercase mt-3 text-center" id="ui-subtitle">الدليل الشامل لتصحيح وضع المباني</p>
         </div>
     </header>
 
@@ -217,7 +207,7 @@
 
         <div class="mt-16 px-5 max-w-2xl mx-auto">
             <div class="bg-blue-600/10 border border-blue-500/20 rounded-[35px] p-8 backdrop-blur-sm">
-                <p class="text-gray-400 text-md mb-6" id="ui-cta-text">أنا معك خطوة بخطوة للإشراف على معاملتك الهندسية وضمان قبولها نظاماً</p>
+                <p class="text-gray-400 text-md mb-6" id="ui-cta-text">هل أنت جاهز لتصحيح وضع عقارك؟ أنا معك خطوة بخطوة لضمان القبول النظامي.</p>
                 <a href="tel:0569982526" id="ui-cta-btn" class="inline-block bg-blue-600 text-white px-12 py-3.5 rounded-2xl font-bold text-md active:scale-95 transition-all">
                     ابدأ معاملتك الآن
                 </a>
@@ -234,48 +224,54 @@
     <script>
         const dictionary = {
             ar: {
-                langLabel: "EN", title: "مكتب بدر الحقيل للعقارات", subtitle: "استشارات هندسية معتمدة",
-                ctaText: "أنا معك خطوة بخطوة للإشراف على معاملتك الهندسية وضمان قبولها نظاماً",
+                langLabel: "EN", title: "مكتب بدر الحقيل للعقارات", subtitle: "الدليل الشامل لتصحيح وضع المباني",
+                ctaText: "هل أنت جاهز لتصحيح وضع عقارك؟ أنا معك خطوة بخطوة لضمان القبول النظامي.",
                 ctaBtn: "ابدأ معاملتك الآن", resTab: "المسار السكني", comTab: "المسار التجاري",
                 call: "اتصال", wa: "واتساب", loc: "الموقع",
                 data: {
+                    common: [
+                        { t: "1. تقديم الطلب", d: "بدء المعاملة وتجهيز ملف ورقي وإلكتروني كامل للمبنى القائم." },
+                        { t: "2. التعريف", d: "تحديد الموقع، المساحة، ونوع النشاط بدقة قبل بدء العمل الميداني." }
+                    ],
                     res: [
-                        { t: "رفع المقاسات الميداني", d: "أقوم بزيارة موقعك شخصياً وفحصه بدقة عالية باستخدام أجهزة الليزر لضمان مطابقة المخططات للواقع." },
-                        { t: "مخطط الوضع القائم", d: "أعمل على إعداد رسومات هندسية دقيقة توضح الحالة الراهنة لمبناك لتكون مستنداً نظامياً." },
-                        { t: "تصميم المخطط المقترح", d: "أقدم لك حلولاً هندسية مبتكرة تخدم احتياجاتك مع الالتزام التام بكود البناء السعودي." },
-                        { t: "التقرير الفني المعتمد", d: "أصدر لك تقارير السلامة الإنشائية تحت إشرافي الشخصي بعد التأكد من كفاءة البناء." },
-                        { t: "متابعة الاعتماد والترخيص", d: "أتولى بنفسي رفع المعاملة عبر منصة بلدي ومتابعتها حتى صدور الرخصة النهائية." }
+                        { t: "3. رفع المقاسات", d: "زيارة الموقع ورفع الأبعاد الفعلية للمبنى القائم لضمان المطابقة." },
+                        { t: "4. مخطط الوضع القائم", d: "رسم هندسي دقيق يوثق الحالة الراهنة للمبنى والمساحات المشغولة." },
+                        { t: "5. إنشاء مخطط مقترح", d: "تجهيز الرسومات الهندسية الجديدة اللازمة لتصحيح الوضع نظامياً." },
+                        { t: "6. إنشاء تقرير فني", d: "تقرير معتمد يثبت السلامة الإنشائية للمبنى ومطابقته للأكواد." },
+                        { t: "7. الإرسال للبلدية", d: "المرحلة النهائية لإرسال المعاملة إلى البلدية الفرعية لإصدار الرخصة." }
                     ],
                     com: [
-                        { t: "فحص المواقع التجارية", d: "أقوم بمعاينة الموقع ومطابقة المساحات مع الأنشطة واشتراطات الدفاع المدني لضمان القبول." },
-                        { t: "مخططات الوضع القائم", d: "توثيق شامل لمنشأتك التجارية بشكل هندسي يسهل عليك عملية التخطيط والتطوير مستقبلاً." },
-                        { t: "التخطيط الهندسي", d: "أصمم لك توزيعاً هندسياً يحقق أقصى استفادة من المساحة التجارية بما يخدم نشاطك." },
-                        { t: "شهادات السلامة", d: "أشرف على إعداد التقارير الفنية التي تثبت مطابقة منشأتك للمعايير الإنشائية الحديثة." },
-                        { t: "تصميم الواجهات 3D", d: "أمنحك تصوراً عصرياً لواجهات نشاطك التجاري مع الالتزام التام بالهوية البصرية للأمانة." },
-                        { t: "إصدار الرخص التجارية", d: "أدير ملفك التقني لدى البلدية بصفة شخصية لضمان صدور الرخصة في وقت قياسي." }
+                        { t: "3. الرفع والتوثيق الميداني", d: "رفع مساحي دقيق للمنشأة التجارية وتحديد المساحات المستغلة." },
+                        { t: "4. الدراسة الفنية", d: "إعداد المخططات والتقارير الهندسية اللازمة للمنشآت التجارية." },
+                        { t: "5. مخطط السلامة", d: "تجهيز مخططات الأمن والسلامة المعتمدة من قبل الدفاع المدني." },
+                        { t: "6. تصميم واجهة 3D", d: "تصوير مرئي لترميز واجهات المبنى بما يتوافق مع هوية الأمانة." },
+                        { t: "7. الإرسال للأمانة", d: "رفع المعاملة مباشرة للأمانة لمراجعة المتطلبات وإصدار الرخصة." }
                     ]
                 }
             },
             en: {
-                langLabel: "AR", title: "Bader Al-Hogail Real Estate", subtitle: "Certified Engineering Consultancy",
-                ctaText: "I personally supervise your engineering transactions to ensure official approval.",
-                ctaBtn: "Start Process Now", resTab: "Residential", comTab: "Commercial",
+                langLabel: "AR", title: "Bader Al-Hogail Real Estate", subtitle: "Building Correction Comprehensive Guide",
+                ctaText: "Ready to correct your property status? I am with you step by step.",
+                ctaBtn: "Start Now", resTab: "Residential", comTab: "Commercial",
                 call: "Call", wa: "WhatsApp", loc: "Location",
                 data: {
+                    common: [
+                        { t: "1. Request Submission", d: "Starting the process and preparing full documentation for the building." },
+                        { t: "2. Definition", d: "Identifying location, area, and activity type accurately before field work." }
+                    ],
                     res: [
-                        { t: "Laser Site Survey", d: "I visit your site personally to take laser-accurate measurements ensuring plan reality." },
-                        { t: "Existing Status Plan", d: "Preparing precise engineering drawings that reflect the current state of your building." },
-                        { t: "Proposed Engineering Design", d: "Innovative solutions tailored to your needs while complying with Saudi Building Code." },
-                        { t: "Certified Safety Report", d: "Issuing structural safety reports under my personal professional supervision." },
-                        { t: "Licensing Follow-up", d: "I personally manage your 'Balady' platform file until the final license is issued." }
+                        { t: "3. Site Survey", d: "Visiting the site for actual laser measurements of the existing building." },
+                        { t: "4. As-Built Plan", d: "Engineering drawing documenting current building state and occupied areas." },
+                        { t: "5. Proposed Plan", d: "Preparing new engineering drawings required for legal correction." },
+                        { t: "6. Technical Report", d: "Certified report proving structural safety and code compliance." },
+                        { t: "7. Send to Municipality", d: "Final stage of sending the file to the sub-municipality for licensing." }
                     ],
                     com: [
-                        { t: "Commercial Site Audit", d: "Inspecting commercial sites to match activities with safety and legal requirements." },
-                        { t: "Commercial Status Documentation", d: "Full engineering documentation for your facility to aid future planning and development." },
-                        { t: "Spatial Engineering Layout", d: "Designing layouts that maximize commercial efficiency to serve your business goals." },
-                        { t: "Safety Code Compliance", d: "Supervising technical reports to ensure your facility meets modern building standards." },
-                        { t: "3D Facade Visuals", d: "Providing modern visual concepts for your business facade following legal identity." },
-                        { t: "Commercial Licensing", d: "I manage your file personally with authorities for the fastest possible license issuance." }
+                        { t: "3. Survey & Documentation", d: "Precise survey of commercial facilities and occupied space mapping." },
+                        { t: "4. Technical Study", d: "Preparing specialized engineering plans for commercial facilities." },
+                        { t: "5. Safety Plan", d: "Creating safety and fire protection plans approved by Civil Defense." },
+                        { t: "6. 3D Design", d: "Visual facade concepts matching the urban identity requirements." },
+                        { t: "7. Send to Amanah", d: "Submitting directly to the main Amanah for final approval." }
                     ]
                 }
             }
@@ -285,25 +281,13 @@
         let currentTrack = 'res';
         let isDarkMode = true;
 
-        // تحميل مسبق للصورة لضمان التبديل الفوري
-        const preloadLogo = new Image();
-        preloadLogo.src = 'https://d.top4top.io/p_3660ltd8v0.jpg';
-
         function toggleTheme() {
             isDarkMode = !isDarkMode;
             document.body.classList.toggle('light-mode');
             const icon = document.getElementById('theme-icon');
             const logo = document.getElementById('main-logo');
-            
             icon.className = isDarkMode ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-            
-            // تبديل فوري للصورة
-            logo.src = isDarkMode 
-                ? 'https://d.top4top.io/p_3660ar88q0.jpg' 
-                : 'https://d.top4top.io/p_3660ltd8v0.jpg';
-
-            document.documentElement.style.setProperty('--logo-blend', isDarkMode ? 'screen' : 'multiply');
-            document.documentElement.style.setProperty('--logo-filter', isDarkMode ? 'url(#white-remover) contrast(1.2)' : 'contrast(1.3) brightness(1.0)');
+            logo.src = isDarkMode ? 'https://d.top4top.io/p_3660ar88q0.jpg' : 'https://d.top4top.io/p_3660ltd8v0.jpg';
         }
 
         function toggleLanguage() {
@@ -331,11 +315,26 @@
         function renderContent() {
             const container = document.getElementById('steps-container');
             container.innerHTML = '';
-            const steps = dictionary[currentLang].data[currentTrack];
-            steps.forEach((step, index) => {
+            const dict = dictionary[currentLang];
+            
+            // دمج الخطوات المشتركة مع المسار المختار
+            const allSteps = [...dict.data.common, ...dict.data[currentTrack]];
+            
+            allSteps.forEach((step, index) => {
                 const card = document.createElement('div');
                 card.className = 'step-card';
-                card.innerHTML = `<div class="step-num">${index + 1}</div><div class="flex-1 text-right"><h3 class="text-md font-bold mb-1">${step.t}</h3><p class="text-xs text-gray-400 font-medium leading-relaxed">${step.d}</p></div>`;
+                const alignmentClass = currentLang === 'ar' ? 'text-right' : 'text-left';
+                
+                // استخراج الرقم والاسم من العنوان
+                const num = step.t.split('.')[0] || (index + 1);
+                const title = step.t.split('.')[1] || step.t;
+
+                card.innerHTML = `
+                    <div class="step-num">${num}</div>
+                    <div class="flex-1 ${alignmentClass}">
+                        <h3 class="text-md font-bold mb-1">${title}</h3>
+                        <p class="text-xs text-gray-400 font-medium leading-relaxed">${step.d}</p>
+                    </div>`;
                 container.appendChild(card);
                 setTimeout(() => card.classList.add('show'), index * 100);
             });
