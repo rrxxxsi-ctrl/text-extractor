@@ -1,80 +1,346 @@
-<script>
-    const dictionary = {
-        ar: {
-            langLabel: "EN", title: "مكتب بدر الحقيل للعقارات", subtitle: "استشارات هندسية معتمدة",
-            ctaText: "أنا معك خطوة بخطوة للإشراف على معاملتك الهندسية وضمان قبولها نظاماً",
-            ctaBtn: "ابدأ معاملتك الآن", resTab: "المسار السكني", comTab: "المسار التجاري",
-            call: "اتصال", wa: "واتساب", loc: "الموقع",
-            data: {
-                res: [
-                    { t: "بدء تصحيح الوضع", d: "تقديم طلب تصحيح وضع مبنى قائم للبدء في إجراءات إصدار رخصة البناء النظامية." },
-                    { t: "الرفع المساحي", d: "رفع المقاسات الفعلي من الطبيعة لضمان مطابقة المخططات للواقع بدقة متناهية." },
-                    { t: "مخطط الوضع القائم", d: "إنشاء المخططات الهندسية التي توثق حالة المبنى الراهنة بكل تفاصيله." },
-                    { t: "التخطيط المقترح", d: "إعداد المخطط الهندسي المقترح بما يتوافق مع أنظمة البلدية وكود البناء." },
-                    { t: "التقرير الفني", d: "إصدار التقرير الفني المعتمد الذي يثبت سلامة وجودة المبنى إنشائياً." },
-                    { t: "الاعتماد والبلدية", d: "إرسال المعاملة المكتملة إلى البلدية الفرعية لمراجعتها واعتماد إصدار الرخصة." }
-                ],
-                com: [
-                    { t: "تصحيح وضع تجاري", d: "بدء مسار تصحيح وضع المباني التجارية لإصدار الرخص اللازمة لمزاولة النشاط." },
-                    { t: "الرفع الميداني للموقع", d: "زيارة الموقع ورفع المقاسات الفعلية لضمان مطابقتها لاشتراطات الأمانة." },
-                    { t: "توثيق الوضع القائم", d: "إنشاء مخططات هندسية دقيقة توضح الوضع الحالي للمنشأة التجارية." },
-                    { t: "الدراسة الفنية والهندسية", d: "إعداد المخططات المقترحة والتقارير الفنية اللازمة لسلامة المنشأة." },
-                    { t: "مخططات السلامة", d: "إنشاء مخططات السلامة المعتمدة لضمان مطابقة المبنى لاشتراطات الدفاع المدني." },
-                    { t: "التصميم ثلاثي الأبعاد 3D", d: "عمل واجهة 3D احترافية للمبنى تبرز هويته وتتوافق مع اشتراطات الأمانة." },
-                    { t: "الاعتماد من الأمانة", d: "رفع المعاملة مباشرة إلى الأمانة لمتابعة الاعتماد النهائي وإصدار رخصة البناء." }
-                ]
-            }
-        },
-        en: {
-            langLabel: "AR", title: "Bader Al-Hogail Real Estate", subtitle: "Certified Engineering Consultancy",
-            ctaText: "I personally supervise your engineering transactions to ensure official approval.",
-            ctaBtn: "Start Process Now", resTab: "Residential", comTab: "Commercial",
-            call: "Call", wa: "WhatsApp", loc: "Location",
-            data: {
-                res: [
-                    { t: "Status Correction Start", d: "Starting the process of correcting existing building status for permit issuance." },
-                    { t: "Site Measurement", d: "Actual on-site laser measurements to ensure 100% accuracy with the plans." },
-                    { t: "As-Built Drawings", d: "Creating engineering drawings documenting the current state of the building." },
-                    { t: "Proposed Planning", d: "Preparing proposed engineering plans compliant with building codes." },
-                    { t: "Technical Report", d: "Issuing certified technical reports proving the building's structural integrity." },
-                    { t: "Municipal Approval", d: "Submitting the file to the sub-municipality for final license approval." }
-                ],
-                com: [
-                    { t: "Commercial Correction", d: "Starting the commercial status correction path for business licensing." },
-                    { t: "Site Survey", d: "Field measurements to ensure compliance with Amanah requirements." },
-                    { t: "Status Documentation", d: "Detailed engineering drawings of the current commercial facility." },
-                    { t: "Technical Engineering", d: "Preparing proposed designs and necessary structural safety reports." },
-                    { t: "Safety Plans", d: "Creating safety and fire protection plans according to Civil Defense standards." },
-                    { t: "3D Facade Design", d: "Professional 3D visualization for the building exterior." },
-                    { t: "Amanah Accreditation", d: "Submitting the file to the Main Amanah for final licensing and approval." }
-                ]
-            }
-        }
-    };
-
-    let currentLang = 'ar';
-    let currentTrack = 'res';
-    let isDarkMode = true;
-
-    // ... باقي الوظائف (toggleTheme, toggleLanguage, switchTrack, renderContent) تبقى كما هي في كودك الأصلي ...
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مكتب بدر الحقيل للعقارات</title>
     
-    function renderContent() {
-        const container = document.getElementById('steps-container');
-        container.innerHTML = '';
-        const steps = dictionary[currentLang].data[currentTrack];
-        steps.forEach((step, index) => {
-            const card = document.createElement('div');
-            card.className = 'step-card';
-            card.innerHTML = `
-                <div class="step-num">${index + 1}</div>
-                <div class="flex-1 ${currentLang === 'ar' ? 'text-right' : 'text-left'}">
-                    <h3 class="text-md font-bold mb-1">${step.t}</h3>
-                    <p class="text-xs text-gray-400 font-medium leading-relaxed">${step.d}</p>
-                </div>`;
-            container.appendChild(card);
-            setTimeout(() => card.classList.add('show'), index * 100);
-        });
-    }
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-body: #050505;
+            --text-main: #ffffff;
+            --text-sub: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --dock-bg: rgba(15, 15, 15, 0.9);
+            --accent-blue: #3b82f6;
+            --soft-blue: #93c5fd;
+            --gold: #ffcc00;
+            --logo-blend: screen;
+            --logo-filter: url(#white-remover) contrast(1.2);
+        }
 
-    window.onload = renderContent;
-</script>
+        .light-mode {
+            --bg-body: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --card-bg: #f8fafc;
+            --card-border: #e2e8f0;
+            --dock-bg: rgba(255, 255, 255, 0.95);
+            --logo-blend: multiply;
+            --logo-filter: contrast(1.3) brightness(1.0);
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+            user-select: none;
+            transition: background 0.4s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        [dir="rtl"] body { font-family: 'Cairo', sans-serif; }
+        [dir="ltr"] body { font-family: 'Montserrat', sans-serif; }
+
+        .bg-pattern {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: linear-gradient(var(--card-border) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--card-border) 1px, transparent 1px);
+            background-size: 50px 50px; opacity: 0.2;
+        }
+
+        .controls {
+            position: fixed; top: 20px; left: 0; right: 0; z-index: 9999;
+            padding: 0 20px; display: flex; justify-content: space-between;
+            max-width: 1400px; margin: 0 auto; pointer-events: none;
+        }
+        .btn-node {
+            width: 48px; height: 48px; background: var(--dock-bg);
+            backdrop-filter: blur(15px); border: 1px solid var(--card-border);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; pointer-events: auto; color: var(--accent-blue);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); transition: 0.3s;
+        }
+
+        .logo-area { display: flex; flex-direction: column; align-items: center; padding: 80px 0 30px; }
+        .orb-master {
+            position: relative; width: clamp(180px, 25vw, 220px); height: clamp(180px, 25vw, 220px);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .orb-particles {
+            position: absolute; inset: -15%; border-radius: 50%;
+            background-image: radial-gradient(circle, var(--gold) 1px, transparent 1px);
+            background-size: 25px 25px; opacity: 0.2; animation: orbRotateCW 20s linear infinite;
+        }
+        .orb-glass-body {
+            position: absolute; inset: 0; border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.2) 0%, transparent 60%);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: inset 0 0 45px rgba(0,0,0,0.5), 0 10px 25px rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px); z-index: 2; animation: orbFloat 4s infinite ease-in-out;
+        }
+        .orb-geo {
+            position: absolute; inset: 10%; border: 1.5px solid var(--gold);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            opacity: 0.5; z-index: 3; animation: orbRotateCW 12s linear infinite;
+        }
+        .logo-img-actual {
+            width: 55%; height: 55%; z-index: 5;
+            mix-blend-mode: var(--logo-blend); filter: var(--logo-filter);
+        }
+
+        @keyframes orbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes orbRotateCW { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .brand-section { 
+            position: relative; margin-top: 15px; text-align: center;
+            padding: 10px 40px; display: inline-block;
+        }
+        .brand-section::before, .brand-section::after {
+            content: ''; position: absolute; width: 20px; height: 20px;
+            border: 3.5px solid var(--accent-blue); transition: 0.5s;
+        }
+        [dir="rtl"] .brand-section::before { top: 0; right: 0; border-bottom: 0; border-left: 0; }
+        [dir="rtl"] .brand-section::after { bottom: 0; left: 0; border-top: 0; border-right: 0; }
+        [dir="ltr"] .brand-section::before { top: 0; left: 0; border-bottom: 0; border-right: 0; }
+        [dir="ltr"] .brand-section::after { bottom: 0; right: 0; border-top: 0; border-left: 0; }
+
+        .brand-title-text {
+            font-size: clamp(1.4rem, 4vw, 2.3rem); font-weight: 900;
+            background: linear-gradient(90deg, var(--text-main) 0%, var(--gold) 50%, var(--text-main) 100%);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: textShine 4s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.2));
+        }
+        @keyframes textShine { to { background-position: 200% center; } }
+
+        .nav-tabs {
+            display: flex; gap: 8px; margin: 30px auto; background: var(--card-bg);
+            padding: 5px; border-radius: 20px; border: 1px solid var(--card-border);
+            max-width: 480px;
+        }
+        .tab-btn {
+            flex: 1; padding: 14px; border-radius: 16px; font-weight: 900; font-size: 0.85rem;
+            color: var(--text-sub); transition: 0.4s;
+        }
+        .tab-btn.active { background: var(--accent-blue); color: #fff; box-shadow: 0 10px 20px rgba(59,130,246,0.2); }
+
+        .steps-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px; padding: 0 25px; max-width: 1400px; margin: 0 auto;
+        }
+        .step-card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            padding: 25px; border-radius: 24px; display: flex; align-items: flex-start; gap: 18px;
+            cursor: pointer; transition: 0.3s; opacity: 0; transform: translateY(20px);
+        }
+        .step-card.show { opacity: 1; transform: translateY(0); }
+        .step-card:active { transform: scale(0.96); border-color: var(--accent-blue); }
+
+        .step-num {
+            width: 42px; height: 42px; background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; flex-shrink: 0; font-size: 1rem; color: white;
+        }
+
+        .dock {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            width: 92%; max-width: 450px; background: var(--dock-bg);
+            backdrop-filter: blur(20px); border: 1px solid var(--card-border);
+            border-radius: 25px; padding: 12px; display: flex; justify-content: space-around; z-index: 1000;
+        }
+        .dock-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); font-size: 0.75rem; font-weight: 700; text-decoration: none; }
+        .dock-item.active { color: var(--accent-blue); }
+
+        @media (min-width: 1024px) {
+            .steps-grid { grid-template-columns: repeat(3, 1fr); padding: 0 80px; }
+            .logo-area { padding: 120px 0 40px; }
+        }
+    </style>
+</head>
+<body class="dark-theme">
+
+    <svg width="0" height="0" style="position: absolute;">
+      <filter id="white-remover">
+        <feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 -1.5 -1.5 -1.5 4.5 0" />
+      </filter>
+    </svg>
+
+    <div class="controls">
+        <div class="btn-node" onclick="toggleLanguage()">
+            <span id="lang-label" class="font-black text-xs">EN</span>
+        </div>
+        <div class="btn-node" onclick="toggleTheme()">
+            <i id="theme-icon" class="fa-solid fa-moon"></i>
+        </div>
+    </div>
+
+    <div class="bg-pattern"></div>
+
+    <header class="logo-area">
+        <div class="orb-master">
+            <div class="orb-particles"></div>
+            <div class="orb-glass-body"></div>
+            <div class="orb-geo"></div>
+            <img id="main-logo" src="https://d.top4top.io/p_3660ar88q0.jpg" class="logo-img-actual" alt="Logo">
+        </div>
+        
+        <div class="brand-section">
+            <h1 class="brand-title-text" id="ui-title">مكتب بدر الحقيل للعقارات</h1>
+            <p class="text-[0.65rem] tracking-[4px] text-blue-400 font-bold uppercase mt-3 text-center" id="ui-subtitle">الدليل الشامل لتصحيح وضع المباني</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto pb-48 text-center">
+        <div class="nav-tabs">
+            <button onclick="switchTrack('res')" id="res-btn" class="tab-btn active">المسار السكني</button>
+            <button onclick="switchTrack('com')" id="com-btn" class="tab-btn">المسار التجاري</button>
+        </div>
+
+        <div id="steps-container" class="steps-grid"></div>
+
+        <div class="mt-16 px-5 max-w-2xl mx-auto">
+            <div class="bg-blue-600/10 border border-blue-500/20 rounded-[35px] p-8 backdrop-blur-sm">
+                <p class="text-gray-400 text-md mb-6" id="ui-cta-text">هل أنت جاهز لتصحيح وضع عقارك؟ أنا معك خطوة بخطوة لضمان القبول النظامي.</p>
+                <a href="tel:0569982526" id="ui-cta-btn" class="inline-block bg-blue-600 text-white px-12 py-3.5 rounded-2xl font-bold text-md active:scale-95 transition-all">
+                    ابدأ معاملتك الآن
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <nav class="dock">
+        <a href="tel:0569982526" class="dock-item"><i class="fa-solid fa-phone-volume text-xl"></i><span id="ui-dock-call">اتصال</span></a>
+        <a href="https://wa.me/966569982526" target="_blank" class="dock-item active"><i class="fa-brands fa-whatsapp text-2xl text-green-500"></i><span id="ui-dock-wa">واتساب</span></a>
+        <a href="https://maps.app.goo.gl/R61NfEcdJApitWE59" target="_blank" class="dock-item"><i class="fa-solid fa-location-dot text-xl"></i><span id="ui-dock-loc">الموقع</span></a>
+    </nav>
+
+    <script>
+        const dictionary = {
+            ar: {
+                langLabel: "EN", title: "مكتب بدر الحقيل للعقارات", subtitle: "الدليل الشامل لتصحيح وضع المباني",
+                ctaText: "هل أنت جاهز لتصحيح وضع عقارك؟ أنا معك خطوة بخطوة لضمان القبول النظامي.",
+                ctaBtn: "ابدأ معاملتك الآن", resTab: "المسار السكني", comTab: "المسار التجاري",
+                call: "اتصال", wa: "واتساب", loc: "الموقع",
+                data: {
+                    common: [
+                        { t: "1. تقديم الطلب", d: "بدء المعاملة وتجهيز ملف ورقي وإلكتروني كامل للمبنى القائم." },
+                        { t: "2. التعريف", d: "تحديد الموقع، المساحة، ونوع النشاط بدقة قبل بدء العمل الميداني." }
+                    ],
+                    res: [
+                        { t: "3. رفع المقاسات", d: "زيارة الموقع ورفع الأبعاد الفعلية للمبنى القائم لضمان المطابقة." },
+                        { t: "4. مخطط الوضع القائم", d: "رسم هندسي دقيق يوثق الحالة الراهنة للمبنى والمساحات المشغولة." },
+                        { t: "5. إنشاء مخطط مقترح", d: "تجهيز الرسومات الهندسية الجديدة اللازمة لتصحيح الوضع نظامياً." },
+                        { t: "6. إنشاء تقرير فني", d: "تقرير معتمد يثبت السلامة الإنشائية للمبنى ومطابقته للأكواد." },
+                        { t: "7. الإرسال للبلدية", d: "المرحلة النهائية لإرسال المعاملة إلى البلدية الفرعية لإصدار الرخصة." }
+                    ],
+                    com: [
+                        { t: "3. الرفع والتوثيق الميداني", d: "رفع مساحي دقيق للمنشأة التجارية وتحديد المساحات المستغلة." },
+                        { t: "4. الدراسة الفنية", d: "إعداد المخططات والتقارير الهندسية اللازمة للمنشآت التجارية." },
+                        { t: "5. مخطط السلامة", d: "تجهيز مخططات الأمن والسلامة المعتمدة من قبل الدفاع المدني." },
+                        { t: "6. تصميم واجهة 3D", d: "تصوير مرئي لترميز واجهات المبنى بما يتوافق مع هوية الأمانة." },
+                        { t: "7. الإرسال للأمانة", d: "رفع المعاملة مباشرة للأمانة لمراجعة المتطلبات وإصدار الرخصة." }
+                    ]
+                }
+            },
+            en: {
+                langLabel: "AR", title: "Bader Al-Hogail Real Estate", subtitle: "Building Correction Comprehensive Guide",
+                ctaText: "Ready to correct your property status? I am with you step by step.",
+                ctaBtn: "Start Now", resTab: "Residential", comTab: "Commercial",
+                call: "Call", wa: "WhatsApp", loc: "Location",
+                data: {
+                    common: [
+                        { t: "1. Request Submission", d: "Starting the process and preparing full documentation for the building." },
+                        { t: "2. Definition", d: "Identifying location, area, and activity type accurately before field work." }
+                    ],
+                    res: [
+                        { t: "3. Site Survey", d: "Visiting the site for actual laser measurements of the existing building." },
+                        { t: "4. As-Built Plan", d: "Engineering drawing documenting current building state and occupied areas." },
+                        { t: "5. Proposed Plan", d: "Preparing new engineering drawings required for legal correction." },
+                        { t: "6. Technical Report", d: "Certified report proving structural safety and code compliance." },
+                        { t: "7. Send to Municipality", d: "Final stage of sending the file to the sub-municipality for licensing." }
+                    ],
+                    com: [
+                        { t: "3. Survey & Documentation", d: "Precise survey of commercial facilities and occupied space mapping." },
+                        { t: "4. Technical Study", d: "Preparing specialized engineering plans for commercial facilities." },
+                        { t: "5. Safety Plan", d: "Creating safety and fire protection plans approved by Civil Defense." },
+                        { t: "6. 3D Design", d: "Visual facade concepts matching the urban identity requirements." },
+                        { t: "7. Send to Amanah", d: "Submitting directly to the main Amanah for final approval." }
+                    ]
+                }
+            }
+        };
+
+        let currentLang = 'ar';
+        let currentTrack = 'res';
+        let isDarkMode = true;
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('light-mode');
+            const icon = document.getElementById('theme-icon');
+            const logo = document.getElementById('main-logo');
+            icon.className = isDarkMode ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+            logo.src = isDarkMode ? 'https://d.top4top.io/p_3660ar88q0.jpg' : 'https://d.top4top.io/p_3660ltd8v0.jpg';
+        }
+
+        function toggleLanguage() {
+            currentLang = (currentLang === 'ar') ? 'en' : 'ar';
+            document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+            const t = dictionary[currentLang];
+            document.getElementById('lang-label').innerText = t.langLabel;
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-subtitle').innerText = t.subtitle;
+            document.getElementById('ui-cta-text').innerText = t.ctaText;
+            document.getElementById('ui-cta-btn').innerText = t.ctaBtn;
+            document.getElementById('ui-dock-call').innerText = t.call;
+            document.getElementById('ui-dock-wa').innerText = t.wa;
+            document.getElementById('ui-dock-loc').innerText = t.loc;
+            renderContent();
+        }
+
+        function switchTrack(track) {
+            currentTrack = track;
+            document.getElementById('res-btn').classList.toggle('active', track === 'res');
+            document.getElementById('com-btn').classList.toggle('active', track === 'com');
+            renderContent();
+        }
+
+        function renderContent() {
+            const container = document.getElementById('steps-container');
+            container.innerHTML = '';
+            const dict = dictionary[currentLang];
+            
+            // دمج الخطوات المشتركة مع المسار المختار
+            const allSteps = [...dict.data.common, ...dict.data[currentTrack]];
+            
+            allSteps.forEach((step, index) => {
+                const card = document.createElement('div');
+                card.className = 'step-card';
+                const alignmentClass = currentLang === 'ar' ? 'text-right' : 'text-left';
+                
+                // استخراج الرقم والاسم من العنوان
+                const num = step.t.split('.')[0] || (index + 1);
+                const title = step.t.split('.')[1] || step.t;
+
+                card.innerHTML = `
+                    <div class="step-num">${num}</div>
+                    <div class="flex-1 ${alignmentClass}">
+                        <h3 class="text-md font-bold mb-1">${title}</h3>
+                        <p class="text-xs text-gray-400 font-medium leading-relaxed">${step.d}</p>
+                    </div>`;
+                container.appendChild(card);
+                setTimeout(() => card.classList.add('show'), index * 100);
+            });
+        }
+
+        window.onload = renderContent;
+    </script>
+</body>
+</html>
